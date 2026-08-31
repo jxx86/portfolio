@@ -123,8 +123,10 @@ main { padding-top: 92px; }
   transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
 .project:hover { transform: translateY(-4px); border-color: var(--line-dark); box-shadow: var(--shadow); }
-.project__meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; margin-bottom: 14px; }
-.project__role { color: var(--ink); font-weight: 650; text-transform: none; }
+.project__meta { display: flex; justify-content: space-between; align-items: flex-start; font-size: 12px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; margin-bottom: 14px; }
+.project__role { color: var(--ink); font-weight: 650; text-transform: none; display: flex; flex-direction: column; gap: 2px; }
+.project__role-line { display: block; }
+.project__period { white-space: nowrap; }
 .project__name { font-size: 1.25rem; font-weight: 750; letter-spacing: -.01em; }
 .project__summary { color: var(--muted); margin-top: 8px; font-size: 15px; }
 .project__metrics { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
@@ -178,8 +180,10 @@ main { padding-top: 92px; }
 .case-nav__item.active { color: var(--ink); background: var(--surface); box-shadow: var(--shadow-sm); }
 .case-nav__num { font-size: 12px; font-weight: 700; color: var(--muted); min-width: 18px; }
 .case-nav__item.active .case-nav__num { color: var(--ink); }
-.case__meta { display: flex; gap: 14px; font-size: 12px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 16px; }
-.case__role { color: var(--ink); font-weight: 650; text-transform: none; }
+.case__meta { display: flex; gap: 14px; align-items: flex-start; font-size: 12px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 16px; }
+.case__role { color: var(--ink); font-weight: 650; text-transform: none; display: flex; flex-direction: column; gap: 2px; }
+.case__role-line { display: block; }
+.case__period { white-space: nowrap; }
 .case__title { font-size: clamp(1.9rem, 5vw, 2.8rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.15; }
 .case__summary { color: var(--muted); font-size: 1.1rem; margin-top: 16px; max-width: 640px; }
 .case__metrics { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }

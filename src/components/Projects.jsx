@@ -12,7 +12,11 @@ export default function Projects() {
           {profile.projects.map((p) => (
             <a className="project reveal" href={`#/project/${p.id}`} key={p.id}>
               <div className="project__meta">
-                <span className="project__role">{p.role}</span>
+                <span className="project__role">
+                  {p.role.split('·').map((s, i) => (
+                    <span className="project__role-line" key={i}>{s.trim()}</span>
+                  ))}
+                </span>
                 <span className="project__period">{p.period}</span>
               </div>
               <h3 className="project__name">{p.name}</h3>

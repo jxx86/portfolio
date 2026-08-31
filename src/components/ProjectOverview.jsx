@@ -21,7 +21,11 @@ export default function ProjectOverview({ project }) {
 
         <header className="case__head">
           <div className="case__meta">
-            <span className="case__role">{project.role}</span>
+            <span className="case__role">
+              {project.role.split('·').map((s, i) => (
+                <span className="case__role-line" key={i}>{s.trim()}</span>
+              ))}
+            </span>
             <span className="case__period">{project.period}</span>
           </div>
           <h1 className="case__title">{project.name}</h1>
