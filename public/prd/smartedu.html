@@ -1,0 +1,3900 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartEdu 智能教育平台 · 产品需求规格说明书</title>
+<style>
+:root{
+  --brand:#6366F1;
+  --brand-deep:#4F46E5;
+  --brand-soft:#EEF0FF;
+  --accent:#EF4444;
+  --ink:#1A1A1A;
+  --ink-2:#4B5563;
+  --ink-3:#6B7280;
+  --ink-4:#9CA3AF;
+  --line:#E8E8EF;
+  --line-2:#F1F1F6;
+  --bg:#FFFFFF;
+  --bg-soft:#FAFAFC;
+  --ok:#10B981;
+  --warn:#F59E0B;
+  --radius:10px;
+  --sidebar-w:280px;
+}
+
+*{box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  margin:0;
+  background:var(--bg-soft);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:15px;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- 布局 ---------- */
+.layout{display:flex;min-height:100vh;}
+
+.sidebar{
+  width:var(--sidebar-w);
+  flex:0 0 var(--sidebar-w);
+  height:100vh;
+  position:sticky;
+  top:0;
+  overflow-y:auto;
+  background:#fff;
+  border-right:1px solid var(--line);
+  padding:22px 0 60px;
+}
+.sidebar::-webkit-scrollbar{width:6px;}
+.sidebar::-webkit-scrollbar-thumb{background:#DDDDE6;border-radius:3px;}
+
+.sb-brand{
+  padding:0 22px 16px;
+  border-bottom:1px solid var(--line-2);
+  margin-bottom:12px;
+}
+.sb-brand .t{
+  font-size:14px;font-weight:800;letter-spacing:.02em;
+  background:linear-gradient(135deg,#6366F1,#8B5CF6);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  line-height:1.5;
+}
+.sb-brand .s{font-size:11px;color:var(--ink-4);margin-top:4px;letter-spacing:.04em;}
+
+.sb-nav{padding:0 12px;}
+.sb-nav a{
+  display:block;
+  padding:7px 12px;
+  margin:1px 0;
+  border-radius:7px;
+  color:var(--ink-2);
+  text-decoration:none;
+  font-size:13px;
+  line-height:1.5;
+  transition:background .15s,color .15s;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.sb-nav a:hover{background:var(--brand-soft);color:var(--brand-deep);}
+.sb-nav a.lv1{font-weight:700;color:var(--ink);margin-top:10px;}
+.sb-nav a.lv2{padding-left:22px;font-size:12.5px;}
+.sb-nav a.lv3{padding-left:34px;font-size:12px;color:var(--ink-3);}
+.sb-nav a.active{background:var(--brand-soft);color:var(--brand-deep);font-weight:600;}
+
+.main{flex:1;min-width:0;padding:0 0 80px;}
+
+.doc{
+  max-width:940px;
+  margin:0 auto;
+  background:#fff;
+  padding:52px 62px 72px;
+  min-height:100vh;
+  box-shadow:0 0 0 1px var(--line);
+}
+
+/* ---------- 标题 ---------- */
+.doc h1{
+  font-size:29px;font-weight:800;line-height:1.4;
+  margin:0 0 6px;letter-spacing:-.01em;
+}
+.doc h1 + p{margin-top:0;}
+.doc h2{
+  font-size:21px;font-weight:800;margin:52px 0 18px;
+  padding-bottom:11px;border-bottom:2px solid var(--line-2);
+  scroll-margin-top:20px;
+  position:relative;
+}
+.doc h2::before{
+  content:"";position:absolute;left:-62px;top:2px;bottom:12px;width:4px;
+  background:linear-gradient(180deg,#6366F1,#8B5CF6);border-radius:0 3px 3px 0;
+}
+.doc h3{
+  font-size:17px;font-weight:700;margin:32px 0 12px;color:#24242E;
+  scroll-margin-top:20px;
+}
+.doc h3::before{
+  content:"";display:inline-block;width:5px;height:15px;
+  background:#6366F1;border-radius:2px;margin-right:8px;
+  vertical-align:-2px;
+}
+.doc h4{
+  font-size:15px;font-weight:700;margin:22px 0 10px;color:var(--ink-2);
+}
+
+/* ---------- 文本 ---------- */
+.doc p{margin:11px 0;color:var(--ink-2);}
+.doc strong{color:var(--ink);font-weight:700;}
+.doc a{color:var(--brand-deep);text-decoration:none;border-bottom:1px solid rgba(99,102,241,.3);}
+.doc a:hover{background:var(--brand-soft);}
+
+.doc ul,.doc ol{padding-left:22px;margin:11px 0;color:var(--ink-2);}
+.doc li{margin:5px 0;}
+.doc li::marker{color:var(--brand);}
+
+.doc hr{border:0;border-top:1px solid var(--line-2);margin:36px 0;}
+
+.doc blockquote{
+  margin:16px 0;padding:14px 18px;
+  background:#FFFBF0;border-left:3px solid var(--warn);
+  border-radius:0 8px 8px 0;color:#7A5A1E;
+}
+.doc blockquote p{margin:6px 0;color:#7A5A1E;}
+.doc blockquote strong{color:#5C4212;}
+
+/* ---------- 代码 ---------- */
+.doc code{
+  background:var(--brand-soft);color:var(--brand-deep);
+  padding:2px 6px;border-radius:4px;font-size:13px;
+  font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+}
+.doc pre{
+  background:#F8F8FC;border:1px solid var(--line-2);
+  border-radius:var(--radius);padding:16px 18px;overflow-x:auto;
+  margin:16px 0;line-height:1.6;
+}
+.doc pre code{
+  background:none;padding:0;color:#3A3A48;font-size:12.5px;
+  font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+}
+
+/* ---------- 表格 ---------- */
+.doc table{
+  width:100%;border-collapse:separate;border-spacing:0;
+  margin:18px 0;font-size:13.5px;
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+}
+.doc th{
+  background:linear-gradient(180deg,#F7F7FC,#F2F2F8);
+  color:var(--ink);font-weight:700;text-align:left;
+  padding:11px 14px;border-bottom:1px solid var(--line);
+  white-space:nowrap;font-size:13px;
+}
+.doc td{
+  padding:10px 14px;border-bottom:1px solid var(--line-2);
+  color:var(--ink-2);vertical-align:top;line-height:1.6;
+}
+.doc tr:last-child td{border-bottom:0;}
+.doc tbody tr:hover{background:#FCFCFE;}
+.doc td code{font-size:12px;}
+
+/* ---------- 状态标签 ---------- */
+.doc td,.doc p{font-variant-numeric:tabular-nums;}
+
+/* ---------- 顶部工具条 ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  height:46px;display:flex;align-items:center;gap:12px;
+  padding:0 24px;background:rgba(255,255,255,.92);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+}
+.topbar .tag{
+  font-size:11px;font-weight:700;letter-spacing:.06em;
+  color:var(--brand-deep);background:var(--brand-soft);
+  padding:3px 9px;border-radius:20px;
+}
+.topbar .meta{font-size:12px;color:var(--ink-4);margin-left:auto;}
+
+/* ---------- 打印 ---------- */
+@media print{
+  .sidebar,.topbar{display:none;}
+  .doc{box-shadow:none;padding:0;max-width:100%;}
+  .doc h2{page-break-after:avoid;}
+  .doc table{page-break-inside:avoid;}
+}
+@media (max-width:1080px){
+  .sidebar{display:none;}
+  .doc{padding:32px 22px;}
+}
+
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sb-brand">
+      <div class="t">SmartEdu 智能教育平台</div>
+      <div class="s">PRD / SRS · V1.0</div>
+    </div>
+    <nav class="sb-nav" id="nav">
+<a class="lv1" href="#sec-2" data-target="sec-2">产品需求规格说明书（PRD / SRS）</a>
+<a class="lv1" href="#sec-3" data-target="sec-3">1. 项目背景与问题定义</a>
+<a class="lv2" href="#sec-4" data-target="sec-4">1.1 业务背景</a>
+<a class="lv2" href="#sec-5" data-target="sec-5">1.2 问题定义（Problem Statement）</a>
+<a class="lv2" href="#sec-6" data-target="sec-6">1.3 立项目标</a>
+<a class="lv1" href="#sec-7" data-target="sec-7">2. 产品定位与目标</a>
+<a class="lv2" href="#sec-8" data-target="sec-8">2.1 产品定位</a>
+<a class="lv2" href="#sec-9" data-target="sec-9">2.2 产品边界</a>
+<a class="lv2" href="#sec-10" data-target="sec-10">2.3 核心价值主张</a>
+<a class="lv1" href="#sec-11" data-target="sec-11">3. 目标用户与角色定义</a>
+<a class="lv2" href="#sec-12" data-target="sec-12">3.1 角色清单</a>
+<a class="lv2" href="#sec-13" data-target="sec-13">3.2 用户画像</a>
+<a class="lv2" href="#sec-14" data-target="sec-14">3.3 权限矩阵（需求预期）</a>
+<a class="lv1" href="#sec-15" data-target="sec-15">4. 核心使用场景与用户故事</a>
+<a class="lv2" href="#sec-16" data-target="sec-16">4.1 场景一：从零开始学一项技能（学习闭环）</a>
+<a class="lv2" href="#sec-17" data-target="sec-17">4.2 场景二：AI 模拟面试（核心场景）</a>
+<a class="lv2" href="#sec-18" data-target="sec-18">4.3 场景三：作业提交与 AI 批改</a>
+<a class="lv2" href="#sec-19" data-target="sec-19">4.4 场景四：AI 简历生成与导出</a>
+<a class="lv2" href="#sec-20" data-target="sec-20">4.5 场景五：管理员内容运营</a>
+<a class="lv1" href="#sec-21" data-target="sec-21">5. 功能需求总览</a>
+<a class="lv2" href="#sec-22" data-target="sec-22">5.1 功能地图</a>
+<a class="lv2" href="#sec-23" data-target="sec-23">5.2 需求清单</a>
+<a class="lv2" href="#sec-24" data-target="sec-24">5.3 需求分布统计</a>
+<a class="lv1" href="#sec-25" data-target="sec-25">6. 功能需求详述</a>
+<a class="lv2" href="#sec-26" data-target="sec-26">6.1 账户与成长体系</a>
+<a class="lv2" href="#sec-27" data-target="sec-27">6.2 课程中心</a>
+<a class="lv2" href="#sec-28" data-target="sec-28">6.3 作业中心</a>
+<a class="lv2" href="#sec-29" data-target="sec-29">6.4 学习路径</a>
+<a class="lv2" href="#sec-30" data-target="sec-30">6.5 AI 模拟面试 ★ 核心模块</a>
+<a class="lv2" href="#sec-31" data-target="sec-31">6.6 AI 简历</a>
+<a class="lv2" href="#sec-32" data-target="sec-32">6.7 AI 学习助手</a>
+<a class="lv2" href="#sec-33" data-target="sec-33">6.8 后台管理系统</a>
+<a class="lv1" href="#sec-34" data-target="sec-34">7. 关键业务规则与状态机</a>
+<a class="lv2" href="#sec-35" data-target="sec-35">7.1 作业提交状态机</a>
+<a class="lv2" href="#sec-36" data-target="sec-36">7.2 学习路径状态机</a>
+<a class="lv2" href="#sec-37" data-target="sec-37">7.3 面试会话状态机</a>
+<a class="lv2" href="#sec-38" data-target="sec-38">7.4 选课状态机</a>
+<a class="lv2" href="#sec-39" data-target="sec-39">7.5 订单状态机（V2.0 启用）</a>
+<a class="lv2" href="#sec-40" data-target="sec-40">7.6 全局业务阈值汇总</a>
+<a class="lv1" href="#sec-41" data-target="sec-41">8. 非功能需求</a>
+<a class="lv2" href="#sec-42" data-target="sec-42">8.1 性能需求</a>
+<a class="lv2" href="#sec-43" data-target="sec-43">8.2 安全需求</a>
+<a class="lv2" href="#sec-44" data-target="sec-44">8.3 可靠性与可观测性</a>
+<a class="lv2" href="#sec-45" data-target="sec-45">8.4 兼容性</a>
+<a class="lv2" href="#sec-46" data-target="sec-46">8.5 可维护性</a>
+<a class="lv2" href="#sec-47" data-target="sec-47">8.6 外部依赖与降级策略</a>
+<a class="lv1" href="#sec-48" data-target="sec-48">9. 数据需求</a>
+<a class="lv2" href="#sec-49" data-target="sec-49">9.1 数据实体总览</a>
+<a class="lv2" href="#sec-50" data-target="sec-50">9.2 核心实体关系</a>
+<a class="lv2" href="#sec-51" data-target="sec-51">9.3 关键字段与枚举</a>
+<a class="lv2" href="#sec-52" data-target="sec-52">9.4 远期规划的数据表</a>
+<a class="lv2" href="#sec-53" data-target="sec-53">9.5 初始化数据要求</a>
+<a class="lv1" href="#sec-54" data-target="sec-54">10. 界面与交互需求</a>
+<a class="lv2" href="#sec-55" data-target="sec-55">10.1 页面清单</a>
+<a class="lv2" href="#sec-56" data-target="sec-56">10.2 核心用户旅程</a>
+<a class="lv2" href="#sec-57" data-target="sec-57">10.3 界面设计要点</a>
+<a class="lv1" href="#sec-58" data-target="sec-58">11. 版本规划与优先级</a>
+<a class="lv2" href="#sec-59" data-target="sec-59">V1.0 —— 可用闭环</a>
+<a class="lv2" href="#sec-60" data-target="sec-60">V1.1 —— 体验与安全补齐</a>
+<a class="lv2" href="#sec-61" data-target="sec-61">V1.2 —— 能力增强与工程化</a>
+<a class="lv2" href="#sec-62" data-target="sec-62">V2.0 —— 平台化</a>
+<a class="lv1" href="#sec-63" data-target="sec-63">12. 风险、约束与待确认项</a>
+<a class="lv2" href="#sec-64" data-target="sec-64">12.1 风险清单</a>
+<a class="lv2" href="#sec-65" data-target="sec-65">12.2 约束</a>
+<a class="lv2" href="#sec-66" data-target="sec-66">12.3 待确认项（需产品/业务方拍板）</a>
+<a class="lv1" href="#sec-67" data-target="sec-67">附录 A：接口需求清单</a>
+<a class="lv2" href="#sec-68" data-target="sec-68">A.1 系统与认证</a>
+<a class="lv2" href="#sec-69" data-target="sec-69">A.2 用户模块 /api/users</a>
+<a class="lv2" href="#sec-70" data-target="sec-70">A.3 课程模块 /api/courses</a>
+<a class="lv2" href="#sec-71" data-target="sec-71">A.4 作业模块 /api/homework</a>
+<a class="lv2" href="#sec-72" data-target="sec-72">A.5 学习路径 /api/learning-path</a>
+<a class="lv2" href="#sec-73" data-target="sec-73">A.6 AI 面试 /api/interview</a>
+<a class="lv2" href="#sec-74" data-target="sec-74">A.7 AI 助手 /api/chat</a>
+<a class="lv2" href="#sec-75" data-target="sec-75">A.8 AI 简历 /api/resume</a>
+<a class="lv2" href="#sec-76" data-target="sec-76">A.9 后台管理 /api/admin</a>
+<a class="lv2" href="#sec-77" data-target="sec-77">A.10 接口统计</a>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <span class="tag">PRD</span>
+      <span style="font-size:13px;color:var(--ink-3)">产品需求规格说明书 · V1.0 需求基线</span>
+      <span class="meta">68 条需求 · V1.0 交付 45 条</span>
+    </div>
+    <article class="doc">
+<h1 id="sec-1">SmartEdu 智能教育平台</h1>
+<h2 id="sec-2">产品需求规格说明书（PRD / SRS）</h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>产品名称</td>
+<td>SmartEdu 智能教育平台（SmartEdu）</td>
+</tr>
+<tr>
+<td>文档版本</td>
+<td>V1.0</td>
+</tr>
+<tr>
+<td>文档性质</td>
+<td>产品需求规格说明书</td>
+</tr>
+<tr>
+<td>编写日期</td>
+<td>2026-08-31</td>
+</tr>
+<tr>
+<td>目标读者</td>
+<td>产品经理、UI 设计师、前后端开发、测试、项目评审</td>
+</tr>
+<tr>
+<td>文档状态</td>
+<td>V1.0 Beta（V1.0 外形已开发，V1.1 体验与安全项待补齐）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>文档说明</strong>
+本文档定义 SmartEdu 智能教育平台 V1.0 的产品需求基线。
+文档中每条需求均标注了<strong>优先级</strong>（P0/P1/P2）与<strong>交付版本</strong>（V1.0/V1.1/V1.2/V2.0），作为研发排期与验收依据。
+标注为 V1.1 及之后版本的需求，属于 V1.0 已识别但本期不交付的范围。</p>
+</blockquote>
+<hr />
+<h2 id="sec-3">1. 项目背景与问题定义</h2>
+<h3 id="sec-4">1.1 业务背景</h3>
+<p>高校学生与初级求职者在技能成长过程中，普遍面临"<strong>学、练、评、面</strong>"四个环节彼此割裂的问题：课程平台只管看视频，刷题平台只管判对错，求职平台只管投简历，模拟面试则完全依赖学长学姐的人情帮忙。</p>
+<p>目前（系统立项前）的现实形态：</p>
+<table>
+<thead>
+<tr>
+<th>现有渠道</th>
+<th>具体问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>通用在线课程平台（慕课、B 站等）</td>
+<td>内容海量但<strong>缺乏路径规划</strong>，学习者不知道"下一步学什么"；看完视频无闭环练习</td>
+</tr>
+<tr>
+<td>编程刷题平台</td>
+<td>有判题能力，但<strong>只判代码对错</strong>，不评价表达、逻辑与项目叙述能力</td>
+</tr>
+<tr>
+<td>真人模拟面试</td>
+<td>质量最高，但<strong>依赖人脉、不可重复、无法量化</strong>，多数学生一次都用不上</td>
+</tr>
+<tr>
+<td>简历制作工具</td>
+<td>解决排版问题，不解决"<strong>写什么</strong>"的问题；内容仍需用户自己憋</td>
+</tr>
+<tr>
+<td>线下培训班</td>
+<td>成本高、时间固定，且结课后即失去练习环境</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-5">1.2 问题定义（Problem Statement）</h3>
+<blockquote>
+<p>学习者从"开始学一门技能"到"通过面试拿到机会"之间，缺少一个<strong>能把学习、练习、反馈、模拟面试串成闭环</strong>的产品：学习环节缺少个性化路径，练习环节缺少及时反馈，面试环节缺少可反复练习、可量化评估的低成本环境。</p>
+<p>本产品的机会点在于：<strong>用大模型把原本只有真人才能提供的"追问、评分、写反馈"这三件事自动化、可重复化、低成本化</strong>，从而让每个学生都能随时进行一次有质量的模拟面试。</p>
+</blockquote>
+<h3 id="sec-6">1.3 立项目标</h3>
+<table>
+<thead>
+<tr>
+<th>目标类型</th>
+<th>目标描述</th>
+<th>可衡量指标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>业务目标</td>
+<td>建立"学—练—评—面"一体化闭环，而非单点工具</td>
+<td>用户在同一账号内完成课程学习、作业练习、模拟面试三类行为</td>
+</tr>
+<tr>
+<td>差异化目标</td>
+<td>AI 模拟面试可作为独立卖点拉取新用户</td>
+<td>面试会话创建量、报告查看率</td>
+</tr>
+<tr>
+<td>留存目标</td>
+<td>通过等级、经验、成就、连续学习天数提升回访</td>
+<td>连续学习天数、等级分布</td>
+</tr>
+<tr>
+<td>效率目标</td>
+<td>用 AI 替代重复性批改与评估工作</td>
+<td>AI 批改覆盖率、教师人工批改占比</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sec-7">2. 产品定位与目标</h2>
+<h3 id="sec-8">2.1 产品定位</h3>
+<blockquote>
+<p><strong>SmartEdu 是一款面向高校学生与初级求职者的智能教育平台，以"AI 模拟面试"为核心差异化，串联课程学习、作业练习、学习路径规划与简历生成，形成学、练、评、面的一体化成长闭环。</strong></p>
+</blockquote>
+<p>一句话概括：<strong>不只让你学完，还让你练过、被评过、面过。</strong></p>
+<h3 id="sec-9">2.2 产品边界</h3>
+<p><strong>做什么（In Scope）</strong></p>
+<ul>
+<li>课程内容的组织与展示（分类 → 课程 → 章节 → 小节 → 视频）</li>
+<li>学习进度跟踪与学习数据统计</li>
+<li>作业发布、提交与批改（AI 批改 + 教师批改双轨）</li>
+<li>AI 生成个性化学习路径与节点跟进</li>
+<li><strong>AI 模拟面试（多面试官人设、多轮追问、自动评分、评估报告）</strong></li>
+<li>AI 简历生成与 DOCX 导出</li>
+<li>AI 学习助手问答</li>
+<li>用户等级、经验、成就等成长激励体系</li>
+<li>后台管理（RBAC 权限、用户/课程/学生管理、数据统计）</li>
+</ul>
+<p><strong>不做什么（Out of Scope）</strong></p>
+<table>
+<thead>
+<tr>
+<th>边界项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>支付与交易</td>
+<td><code>order</code> 表已设计，但无支付网关对接、无购物车、无结算流程</td>
+</tr>
+<tr>
+<td>内容生产</td>
+<td>不提供视频录制/剪辑/转码，课程视频依赖外部 URL 引用</td>
+</tr>
+<tr>
+<td>多租户 SaaS</td>
+<td>单租户部署；<code>tenant</code> 表为架构预留，本期不启用</td>
+</tr>
+<tr>
+<td>直播与实时课堂</td>
+<td>无 WebSocket 教室、无白板、无连麦</td>
+</tr>
+<tr>
+<td>社交与社区</td>
+<td>无论坛、无评论互动、无学习小组（课程评价仅为单向展示）</td>
+</tr>
+<tr>
+<td>移动端原生应用</td>
+<td>仅响应式 Web，无 iOS / Android 原生壳</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-10">2.3 核心价值主张</h3>
+<table>
+<thead>
+<tr>
+<th>价值点</th>
+<th>面向用户</th>
+<th>实现支撑</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>随时随地的模拟面试</strong></td>
+<td>求职者</td>
+<td>多面试官人设 + 大模型多轮追问 + 五维评分报告</td>
+</tr>
+<tr>
+<td><strong>AI 代替重复批改</strong></td>
+<td>学习者、教师</td>
+<td>作业 AI 批改（按评分标准自动打分与反馈）</td>
+</tr>
+<tr>
+<td><strong>知道自己该学什么</strong></td>
+<td>初学者</td>
+<td>AI 按目标技能生成学习路径，拆解为节点并跟进</td>
+</tr>
+<tr>
+<td><strong>成长看得见</strong></td>
+<td>全体用户</td>
+<td>等级、经验、成就、连续天数、学习仪表盘</td>
+</tr>
+<tr>
+<td><strong>简历不用憋</strong></td>
+<td>求职者</td>
+<td>一句话提示词生成结构化简历，支持 DOCX 导出</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sec-11">3. 目标用户与角色定义</h2>
+<h3 id="sec-12">3.1 角色清单</h3>
+<p>系统实际定义了<strong>两套完全隔离的账号体系</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>账号表</th>
+<th>认证方式</th>
+<th>入口</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>学生 / 学习者</td>
+<td><code>user</code>（<code>role=user</code>）</td>
+<td>JWT（<code>/api/auth/login</code>）</td>
+<td><code>/login</code></td>
+<td>平台 C 端主用户</td>
+</tr>
+<tr>
+<td>教师</td>
+<td><code>user</code>（<code>role=teacher</code>）</td>
+<td>JWT（同上）</td>
+<td><code>/login</code></td>
+<td>模型层已定义，业务上暂无专属功能入口</td>
+</tr>
+<tr>
+<td>平台管理员</td>
+<td><code>admin_user</code></td>
+<td>JWT（<code>/api/admin/login</code>，token 带 <code>type=admin</code>）</td>
+<td><code>/admin/login</code></td>
+<td>后台管理，独立于 C 端账号</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>设计说明</strong>：后台管理员（<code>admin_user</code>）与 C 端用户（<code>user</code>）<strong>分表存储、独立登录、独立 Token 签发</strong>，二者不共用账号数据。管理员登录后的 Token 中带 <code>type: "admin"</code> 声明用于区分。</p>
+</blockquote>
+<h3 id="sec-13">3.2 用户画像</h3>
+<p><strong>画像一：在校生 · 小林（主要用户）</strong>
+- 大三计算机专业，自学前端，目标是暑期实习
+- 痛点：课看了不少，但说不清自己会什么；投简历前没人帮着模拟面试
+- 使用路径：注册 → 浏览课程 → 按学习路径推进 → 做作业 → AI 模拟面试 → 生成简历
+- 关注点：路径是否清晰、反馈是否及时、面试报告是否具体</p>
+<p><strong>画像二：求职者 · 阿杰（核心用户）</strong>
+- 应届生，技术尚可但表达紧张，面试一问深就卡壳
+- 痛点：找不到真人模拟面试，自己练没有反馈
+- 使用路径：直接进入 AI 面试 → 选择面试官 → 多轮答题 → 看报告 → 针对性重练
+- 关注点：追问是否真实、评分维度是否全面、报告能否指出具体问题</p>
+<p><strong>画像三：平台运营 · 管理员</strong>
+- 负责课程上架、学生账号管理、查看平台数据
+- 使用路径：后台登录 → 课程管理 → 学生管理 → 首页看统计
+- 关注点：操作效率、数据准确性、权限是否可控</p>
+<h3 id="sec-14">3.3 权限矩阵（需求预期）</h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th style="text-align: center;">游客</th>
+<th style="text-align: center;">学生</th>
+<th style="text-align: center;">管理员</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>浏览首页 / 课程列表 / 课程详情</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>注册 / 登录</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>选课、学习、更新进度</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr>
+<td>作业提交与查看批改</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr>
+<td>学习路径生成与跟进</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr>
+<td>AI 模拟面试 / 简历 / AI 助手</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr>
+<td>学习仪表盘、个人中心</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr>
+<td>后台：管理员/角色/菜单管理</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>后台：课程/学生管理、数据统计</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>权限实现要求（强制）</strong>：C 端所有涉及用户数据的接口必须校验登录态，且 <code>user_id</code> 一律<strong>从已认证的 Token 中解析</strong>，严禁从 URL、查询参数或请求体中获取，防止越权访问他人数据。</p>
+</blockquote>
+<hr />
+<h2 id="sec-15">4. 核心使用场景与用户故事</h2>
+<h3 id="sec-16">4.1 场景一：从零开始学一项技能（学习闭环）</h3>
+<p><strong>用户故事</strong></p>
+<blockquote>
+<p>作为一个自学前端的学生，我希望输入想学的技能后系统能帮我规划出一条路径，这样我就不用自己纠结先看什么。</p>
+</blockquote>
+<p><strong>流程</strong>
+1. 注册/登录 → 进入"学习路径"页
+2. 输入目标技能、当前水平、每日可投入时间
+3. 系统调用 AI 生成路径，拆解为若干节点（课程 / 练习 / 项目 / 测评）
+4. 用户按"今日任务"逐节点推进，可标记完成或跳过
+5. 节点完成后自动更新路径整体状态与进度</p>
+<p><strong>验收要点</strong>
+- 路径生成失败时用户应<strong>明确感知</strong>，而不是拿到一条看起来正常的模板路径
+- 节点与站内课程应建立可点击的跳转关联</p>
+<h3 id="sec-17">4.2 场景二：AI 模拟面试（核心场景）</h3>
+<p><strong>用户故事</strong></p>
+<blockquote>
+<p>作为一个即将面试的求职者，我希望和 AI 面试官进行多轮真实追问，并在结束后拿到一份能指出具体问题的评估报告，这样我能知道该练什么。</p>
+</blockquote>
+<p><strong>流程</strong>
+1. 进入"AI 面试" → 从面试官列表中选择一位（不同人设对应不同岗位/难度/风格）
+2. 选择岗位、面试类型、难度 → 创建会话
+3. 进入面试页：AI 提出开场问题 → 用户作答（文字输入 / 语音输入）
+4. AI 基于上下文追问（系统保留最近 20 条对话作为上下文窗口）
+5. 每轮作答实时落库为一条问答记录，并按五维打分
+6. 用户点击"结束面试" → 系统汇总生成面试报告
+7. 报告页展示综合评分、五维雷达、优点/不足/建议、逐轮对话回放</p>
+<p><strong>验收要点</strong>
+- AI 追问应基于用户上一轮回答内容，而非固定话术
+- 面试中断/刷新后应能恢复会话与历史对话
+- 报告中的评分应来自 AI 真实评估，失败时须明确标注"评估失败"而非给默认值</p>
+<h3 id="sec-18">4.3 场景三：作业提交与 AI 批改</h3>
+<p><strong>用户故事</strong></p>
+<blockquote>
+<p>作为一个学完课程的学生，我希望提交作业后能立刻拿到分数和反馈，而不是等老师批改。</p>
+</blockquote>
+<p><strong>流程</strong>
+1. 进入"作业中心" → 查看作业列表（区分课程、截止时间）
+2. 进入作业详情 → 查看题目要求与评分标准
+3. 提交答案（文本 / 附件）
+4. 系统触发 AI 批改：按评分标准打分并生成反馈，<code>status</code> 置为"AI 已批改"
+5. 教师可查看并人工复核，给出最终分数（<code>status</code> 置为"教师已批改"）
+6. 教师可发起"重新批改"</p>
+<p><strong>验收要点</strong>
+- AI 批改失败时必须<strong>明确提示失败</strong>并引导重试，不得给出任何近似分数或默认分数</p>
+<h3 id="sec-19">4.4 场景四：AI 简历生成与导出</h3>
+<p><strong>用户故事</strong></p>
+<blockquote>
+<p>作为一个要投简历的学生，我希望用一句话描述自己的背景，就能生成一份结构化的简历并导出 Word 继续编辑。</p>
+</blockquote>
+<p><strong>流程</strong>
+1. 进入"AI 简历" → 输入提示词（目标岗位、经历描述）
+2. 系统生成结构化简历 JSON（基本信息/技能/经历/项目/教育/证书）
+3. 页面内可编辑各字段
+4. 点击导出 → 生成 DOCX 文件下载</p>
+<p><strong>验收要点</strong>
+- AI 生成内容必须是<strong>基于用户输入的提炼</strong>，而非模型编造（当前 Prompt 允许模型"推断合理细节"，存在简历造假风险）</p>
+<h3 id="sec-20">4.5 场景五：管理员内容运营</h3>
+<p><strong>用户故事</strong></p>
+<blockquote>
+<p>作为平台运营，我希望能在后台完成课程上架、学生账号管理与数据查看，且不同管理员权限可控。</p>
+</blockquote>
+<p><strong>流程</strong>
+1. 后台登录 → 首页查看平台统计（用户数、课程数、作业数等）与最近登录记录
+2. 课程管理：新增/编辑/上下架课程
+3. 学生管理：查看列表、编辑资料、重置密码
+4. 系统管理：管理员账号 CRUD、角色配置、菜单配置</p>
+<p><strong>验收要点</strong>
+- 角色与菜单权限配置应真实生效于接口层（当前仅作用于后台菜单展示，接口层未消费）</p>
+<hr />
+<h2 id="sec-21">5. 功能需求总览</h2>
+<h3 id="sec-22">5.1 功能地图</h3>
+<pre><code>SmartEdu 智能教育平台
+│
+├── 1 账户与成长体系
+│   ├── 1.1 注册/登录（JWT）
+│   ├── 1.2 个人资料（基础资料 + 扩展档案）
+│   ├── 1.3 等级与经验
+│   ├── 1.4 成就系统
+│   ├── 1.5 学习统计
+│   ├── 1.6 学习报告（周/月/年）
+│   └── 1.7 学习仪表盘
+│
+├── 2 课程中心
+│   ├── 2.1 课程分类
+│   ├── 2.2 课程列表（筛选/搜索/排序）
+│   ├── 2.3 课程详情（信息/目录/试看）
+│   ├── 2.4 选课报名
+│   ├── 2.5 小节学习与进度上报
+│   ├── 2.6 已选课程
+│   ├── 2.7 课程评价（模型已设计）
+│   └── 2.8 个性化推荐
+│
+├── 3 作业中心
+│   ├── 3.1 作业列表/详情
+│   ├── 3.2 作业提交（文本/附件）
+│   ├── 3.3 AI 自动批改
+│   ├── 3.4 教师人工批改
+│   ├── 3.5 重新批改
+│   └── 3.6 我的提交记录
+│
+├── 4 学习路径
+│   ├── 4.1 AI 生成路径
+│   ├── 4.2 路径详情与节点列表
+│   ├── 4.3 今日任务
+│   ├── 4.4 节点完成/跳过
+│   └── 4.5 节点关联课程跳转
+│
+├── 5 AI 模拟面试 ★核心
+│   ├── 5.1 面试官人设库
+│   ├── 5.2 创建面试会话（岗位/类型/难度）
+│   ├── 5.3 多轮对话与追问
+│   ├── 5.4 单题实时评分
+│   ├── 5.5 综合评估（五维）
+│   ├── 5.6 面试报告
+│   ├── 5.7 面试记录列表
+│   └── 5.8 语音交互（ASR/TTS）
+│
+├── 6 AI 简历
+│   ├── 6.1 提示词生成简历
+│   ├── 6.2 在线编辑
+│   └── 6.3 DOCX 导出
+│
+├── 7 AI 学习助手
+│   ├── 7.1 多会话问答
+│   └── 7.2 历史消息留存
+│
+└── 8 后台管理系统
+    ├── 8.1 管理员登录
+    ├── 8.2 数据统计首页
+    ├── 8.3 管理员管理
+    ├── 8.4 角色管理（含权限分配）
+    ├── 8.5 菜单管理
+    ├── 8.6 课程管理
+    ├── 8.7 学生管理
+    └── 8.8 权限与日志（模型已设计）
+</code></pre>
+<h3 id="sec-23">5.2 需求清单</h3>
+<p>优先级：<strong>P0</strong> 核心必须 / <strong>P1</strong> 重要 / <strong>P2</strong> 增强
+交付版本：<strong>V1.0</strong> 本期交付 / <strong>V1.1</strong> 完善迭代 / <strong>V1.2</strong> 能力增强 / <strong>V2.0</strong> 远期规划</p>
+<h4>模块一：账户与成长体系</h4>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+<th style="text-align: center;">优先级</th>
+<th style="text-align: center;">交付版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-101</td>
+<td>用户注册（用户名唯一、邮箱格式、密码强度校验）</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-102</td>
+<td>用户登录并返回 JWT</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-103</td>
+<td>获取当前登录用户信息</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-104</td>
+<td>查看/更新用户基础资料</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-105</td>
+<td>查看/更新用户扩展档案（真实姓名、学校、公司等）</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-106</td>
+<td>等级与经验值体系（经验累积、升级）</td>
+<td style="text-align: center;">P2</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-107</td>
+<td>成就系统（解锁条件与进度展示）</td>
+<td style="text-align: center;">P2</td>
+<td style="text-align: center;">V1.1</td>
+</tr>
+<tr>
+<td>FR-108</td>
+<td>学习统计（总时长、积分、连续天数）</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-109</td>
+<td>学习报告（周/月/年 维度）</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-110</td>
+<td>学习仪表盘（概览卡片 + 图表 + 待办）</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.1</td>
+</tr>
+<tr>
+<td>FR-111</td>
+<td>Token 刷新机制</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.1</td>
+</tr>
+<tr>
+<td>FR-112</td>
+<td>密码找回 / 邮箱验证</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.1</td>
+</tr>
+</tbody>
+</table>
+<h4>模块二：课程中心</h4>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+<th style="text-align: center;">优先级</th>
+<th style="text-align: center;">交付版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-201</td>
+<td>课程分类列表</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-202</td>
+<td>课程列表（分页、分类筛选、关键词搜索、排序）</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-203</td>
+<td>课程详情（基本信息、评分、报名数）</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-204</td>
+<td>课程章节/小节目录</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-205</td>
+<td>小节详情与视频播放</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-206</td>
+<td>免费小节试看（未报名可看部分）</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-207</td>
+<td>选课报名（免费/付费类型）</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-208</td>
+<td>学习进度上报与计算</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-209</td>
+<td>我的已选课程</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-210</td>
+<td>课程创建/编辑/删除</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-211</td>
+<td>课程评价（评分 + 图片 + 标签）</td>
+<td style="text-align: center;">P2</td>
+<td style="text-align: center;">V2.0</td>
+</tr>
+<tr>
+<td>FR-212</td>
+<td>个性化课程推荐</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.2</td>
+</tr>
+<tr>
+<td>FR-213</td>
+<td>课程统计数据（评分分布等）</td>
+<td style="text-align: center;">P2</td>
+<td style="text-align: center;">V1.1</td>
+</tr>
+</tbody>
+</table>
+<h4>模块三：作业中心</h4>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+<th style="text-align: center;">优先级</th>
+<th style="text-align: center;">交付版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-301</td>
+<td>作业列表（按课程、截止时间）</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-302</td>
+<td>作业详情（题目要求 + 评分标准）</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-303</td>
+<td>作业创建（含题型、分值、AI 批改开关）</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-304</td>
+<td>作业提交（文本 + 附件）</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-305</td>
+<td>AI 自动批改（按评分标准打分与反馈）</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.1</td>
+</tr>
+<tr>
+<td>FR-306</td>
+<td>教师人工批改（含教师端入口）</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.2</td>
+</tr>
+<tr>
+<td>FR-307</td>
+<td>重新批改</td>
+<td style="text-align: center;">P2</td>
+<td style="text-align: center;">V1.2</td>
+</tr>
+<tr>
+<td>FR-308</td>
+<td>我的提交记录与成绩</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+</tbody>
+</table>
+<h4>模块四：学习路径</h4>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+<th style="text-align: center;">优先级</th>
+<th style="text-align: center;">交付版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-401</td>
+<td>AI 生成学习路径（目标技能 + 当前水平）</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.1</td>
+</tr>
+<tr>
+<td>FR-402</td>
+<td>路径详情与节点列表</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-403</td>
+<td>今日任务（取待办节点）</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-404</td>
+<td>节点完成/跳过</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-405</td>
+<td>路径状态自动流转（进行中/已完成/暂停）</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-406</td>
+<td>节点与站内课程关联跳转</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.2</td>
+</tr>
+</tbody>
+</table>
+<h4>模块五：AI 模拟面试 ★</h4>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+<th style="text-align: center;">优先级</th>
+<th style="text-align: center;">交付版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-501</td>
+<td>面试官人设列表（岗位、公司、难度、风格）</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-502</td>
+<td>创建面试会话（岗位/类型/难度）</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-503</td>
+<td>多轮对话与上下文追问</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-504</td>
+<td>单题实时 AI 评分与反馈</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.1</td>
+</tr>
+<tr>
+<td>FR-505</td>
+<td>综合评估（五维评分 + 优缺点 + 建议）</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.1</td>
+</tr>
+<tr>
+<td>FR-506</td>
+<td>面试报告生成与查看</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-507</td>
+<td>完整面试记录回放</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-508</td>
+<td>我的面试记录列表</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-509</td>
+<td>语音作答（ASR）</td>
+<td style="text-align: center;">P2</td>
+<td style="text-align: center;">V1.2</td>
+</tr>
+<tr>
+<td>FR-510</td>
+<td>语音播报（TTS）</td>
+<td style="text-align: center;">P2</td>
+<td style="text-align: center;">V1.2</td>
+</tr>
+<tr>
+<td>FR-511</td>
+<td>面试题库管理</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-512</td>
+<td>摄像头模拟（面试临场感）</td>
+<td style="text-align: center;">P2</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+</tbody>
+</table>
+<h4>模块六：AI 简历</h4>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+<th style="text-align: center;">优先级</th>
+<th style="text-align: center;">交付版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-601</td>
+<td>提示词生成结构化简历</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.1</td>
+</tr>
+<tr>
+<td>FR-602</td>
+<td>简历在线编辑</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-603</td>
+<td>DOCX 导出</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+</tbody>
+</table>
+<h4>模块七：AI 学习助手</h4>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+<th style="text-align: center;">优先级</th>
+<th style="text-align: center;">交付版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-701</td>
+<td>多会话问答</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.1</td>
+</tr>
+<tr>
+<td>FR-702</td>
+<td>历史消息留存与回放</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-703</td>
+<td>会话重命名/删除</td>
+<td style="text-align: center;">P2</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+</tbody>
+</table>
+<h4>模块八：后台管理</h4>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+<th style="text-align: center;">优先级</th>
+<th style="text-align: center;">交付版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-801</td>
+<td>管理员登录（独立账号体系）</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-802</td>
+<td>数据统计首页</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-803</td>
+<td>最近登录记录</td>
+<td style="text-align: center;">P2</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-804</td>
+<td>管理员账号 CRUD + 密码重置</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-805</td>
+<td>角色管理 + 权限分配（接口级生效）</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.2</td>
+</tr>
+<tr>
+<td>FR-806</td>
+<td>菜单管理（两级菜单 + 子菜单）</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.2</td>
+</tr>
+<tr>
+<td>FR-807</td>
+<td>权限点管理（method + path）</td>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">V1.2</td>
+</tr>
+<tr>
+<td>FR-808</td>
+<td>课程管理（CRUD + 上下架）</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-809</td>
+<td>学生管理（列表/编辑/重置密码）</td>
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>FR-810</td>
+<td>操作日志审计</td>
+<td style="text-align: center;">P2</td>
+<td style="text-align: center;">V1.2</td>
+</tr>
+<tr>
+<td>FR-811</td>
+<td>登录日志审计</td>
+<td style="text-align: center;">P2</td>
+<td style="text-align: center;">V1.2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-24">5.3 需求分布统计</h3>
+<table>
+<thead>
+<tr>
+<th>交付版本</th>
+<th style="text-align: center;">需求数</th>
+<th style="text-align: center;">占比</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V1.0</td>
+<td style="text-align: center;">45</td>
+<td style="text-align: center;">66%</td>
+<td>本期交付，构成"学—练—评—面"完整闭环</td>
+</tr>
+<tr>
+<td>V1.1</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">16%</td>
+<td>完善迭代：AI 能力落地、安全与体验补齐</td>
+</tr>
+<tr>
+<td>V1.2</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">16%</td>
+<td>能力增强：权限落地、语音、教师端</td>
+</tr>
+<tr>
+<td>V2.0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2%</td>
+<td>远期规划：课程评价体系</td>
+</tr>
+<tr>
+<td><strong>合计</strong></td>
+<td style="text-align: center;"><strong>68</strong></td>
+<td style="text-align: center;"><strong>100%</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>按模块的 V1.0 交付分布</strong></p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th style="text-align: center;">V1.0</th>
+<th style="text-align: center;">后续版本</th>
+<th style="text-align: center;">小计</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一、账户与成长体系</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">12</td>
+</tr>
+<tr>
+<td>二、课程中心</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">13</td>
+</tr>
+<tr>
+<td>三、作业中心</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">8</td>
+</tr>
+<tr>
+<td>四、学习路径</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr>
+<td>五、AI 模拟面试</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">12</td>
+</tr>
+<tr>
+<td>六、AI 简历</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr>
+<td>七、AI 学习助手</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr>
+<td>八、后台管理</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">11</td>
+</tr>
+<tr>
+<td><strong>合计</strong></td>
+<td style="text-align: center;"><strong>45</strong></td>
+<td style="text-align: center;"><strong>23</strong></td>
+<td style="text-align: center;"><strong>68</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sec-25">6. 功能需求详述</h2>
+<h3 id="sec-26">6.1 账户与成长体系</h3>
+<h4>6.1.1 注册与登录</h4>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用户名</td>
+<td>必填，全平台唯一，格式校验</td>
+</tr>
+<tr>
+<td>邮箱</td>
+<td>必填，格式校验，全平台唯一</td>
+</tr>
+<tr>
+<td>密码</td>
+<td><strong>至少 8 位，须同时包含大写字母、小写字母、数字</strong></td>
+</tr>
+<tr>
+<td>密码存储</td>
+<td>bcrypt 加盐哈希</td>
+</tr>
+<tr>
+<td>登录失败提示</td>
+<td>不区分"用户不存在"与"密码错误"，统一返回 401</td>
+</tr>
+<tr>
+<td>注册限流</td>
+<td>同一 IP 3 次 / 300 秒</td>
+</tr>
+<tr>
+<td>登录限流</td>
+<td>同一 IP 5 次 / 分钟</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Token 规则</strong>
+- 访问令牌（Access Token）有效期：<strong>30 分钟</strong>
+- 刷新令牌（Refresh Token）：有效期 7 天，配套提供刷新接口（FR-111）
+- 管理员 Token 额外携带 <code>type: "admin"</code> 声明</p>
+<h4>6.1.2 等级与经验体系</h4>
+<table>
+<thead>
+<tr>
+<th>规则</th>
+<th>计算公式 / 取值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>升级所需经验</td>
+<td><code>required_exp = 当前等级 × 1000</code></td>
+</tr>
+<tr>
+<td>升级后处理</td>
+<td>扣除所需经验，<strong>保留溢出余额</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>例：Lv3 用户升 Lv4 需 3000 经验；若此时有 3500 经验，升级后为 Lv4 且剩余 500 经验。</p>
+</blockquote>
+<h4>6.1.3 成就系统</h4>
+<p>系统预置 4 个成就，解锁条件如下：</p>
+<table>
+<thead>
+<tr>
+<th>成就</th>
+<th>解锁条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>学习达人</td>
+<td>累计学习时长 ≥ 100 小时</td>
+</tr>
+<tr>
+<td>课程完成者</td>
+<td>完成课程数 ≥ 10 门</td>
+</tr>
+<tr>
+<td>坚持者</td>
+<td>连续学习天数 ≥ 30 天</td>
+</tr>
+<tr>
+<td>面试老手</td>
+<td>累计面试次数 ≥ 20 次</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>需求缺口</strong>：仅返回"已解锁"列表，<strong>不展示未解锁成就的当前进度</strong>（如"连续学习 12/30 天"），激励效果打折。</p>
+</blockquote>
+<h4>6.1.4 学习统计与报告</h4>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>统计口径</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>周报</td>
+<td>近 7 天</td>
+</tr>
+<tr>
+<td>月报</td>
+<td>近 30 天</td>
+</tr>
+<tr>
+<td>年报</td>
+<td>近 365 天</td>
+</tr>
+</tbody>
+</table>
+<p>统计项包含：学习时长、完成小节数、作业完成情况、面试次数、积分、连续学习天数。</p>
+<h4>6.1.5 学习仪表盘（需求预期）</h4>
+<p>页面应包含四部分：
+1. <strong>概览卡片</strong>：已学课程数、完成作业数、学习小时数、平均分数 —— 均来自真实统计接口
+2. <strong>学习进度图</strong>：近 7 日学习时长折线
+3. <strong>成绩分布图</strong>：优秀/良好/及格/不及格占比饼图
+4. <strong>最近活动</strong>：真实行为时间轴</p>
+<blockquote>
+<p><strong>数据来源要求（强制）</strong>：仪表盘所有数字、图表与活动时间轴<strong>必须来自后端统计接口</strong>（<code>GET /api/users/{id}/dashboard</code>），前端不得内置任何静态展示数据。</p>
+</blockquote>
+<hr />
+<h3 id="sec-27">6.2 课程中心</h3>
+<h4>6.2.1 课程信息结构</h4>
+<pre><code>课程分类（course_category）
+   └── 课程（course）
+         ├── 基本信息：标题、副标题、描述、封面、难度、价格、讲师
+         ├── 状态：1 已发布 / 0 草稿
+         └── 章节（course_chapter）
+               └── 小节（course_section）
+                     ├── 视频 URL、时长、排序
+                     └── 是否免费试看（is_free）
+</code></pre>
+<h4>6.2.2 关键规则</h4>
+<table>
+<thead>
+<tr>
+<th>规则</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>难度分级</td>
+<td><code>beginner</code> / <code>intermediate</code> / <code>advanced</code></td>
+</tr>
+<tr>
+<td>课程价格</td>
+<td>支持免费与付费（Numeric(10,2)），付费课程无实际支付链路</td>
+</tr>
+<tr>
+<td>试看</td>
+<td>未报名用户可观看 <code>is_free=1</code> 的小节</td>
+</tr>
+<tr>
+<td>报名类型</td>
+<td><code>free</code> / <code>paid</code></td>
+</tr>
+<tr>
+<td>报名状态</td>
+<td><code>active</code> / <code>expired</code> / <code>cancelled</code>，支持有效期（<code>expire_date</code>）</td>
+</tr>
+<tr>
+<td>学习进度</td>
+<td><code>已完成小节数 ÷ 总小节数 × 100%</code></td>
+</tr>
+<tr>
+<td>小节完成判定</td>
+<td><code>learning_progress.is_completed = 1</code></td>
+</tr>
+<tr>
+<td>学习时长</td>
+<td>按小节累计，单位秒</td>
+</tr>
+<tr>
+<td>搜索</td>
+<td>对标题/副标题/描述做 <code>LIKE %keyword%</code> 模糊匹配</td>
+</tr>
+</tbody>
+</table>
+<h4>6.2.3 个性化推荐</h4>
+<ul>
+<li><strong>推荐策略</strong>：基于用户学习记录的分类偏好匹配</li>
+<li>老用户（有学习记录）：取其已学课程所属分类，返回同分类下按评分与报名数排序的课程</li>
+<li>新用户（无学习记录）：返回全站报名数降序的热门课程</li>
+<li><strong>V1.2 演进方向</strong>：引入 <code>user_behavior_log</code> 埋点，升级为协同过滤推荐</li>
+</ul>
+<hr />
+<h3 id="sec-28">6.3 作业中心</h3>
+<h4>6.3.1 作业定义</h4>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>题型</td>
+<td><code>essay</code>（问答）/ <code>code</code>（编程）/ <code>choice</code>（选择）/ <code>fill_blank</code>（填空）</td>
+</tr>
+<tr>
+<td>分值</td>
+<td><code>total_score</code></td>
+</tr>
+<tr>
+<td>评分标准</td>
+<td><code>grading_criteria</code>，供 AI 批改时参考</td>
+</tr>
+<tr>
+<td>AI 批改开关</td>
+<td><code>ai_grading_enabled</code>，默认开启</td>
+</tr>
+<tr>
+<td>截止时间</td>
+<td><code>deadline</code></td>
+</tr>
+</tbody>
+</table>
+<h4>6.3.2 批改流程</h4>
+<pre><code>学生提交（status: 0 待批改）
+      │
+      ├── AI 批改开启 → 调用大模型按评分标准打分
+      │         ├── 成功 → 写 ai_score / ai_feedback，status = 1（AI 已批改）
+      │         └── 失败 → 标记&quot;AI 批改失败&quot;，status 保持 0，提示用户重试
+      │
+      └── 教师复核 → 写 teacher_score / teacher_feedback，status = 2（教师已批改）
+</code></pre>
+<blockquote>
+<p><strong>规则约束（强制）</strong>：AI 批改失败时，<code>status</code> 必须保持为 0（待批改）并提示用户重试，<strong>严禁写入任何近似分数或默认分数</strong>。</p>
+</blockquote>
+<h4>6.3.3 成绩取值优先级</h4>
+<p><code>最终成绩 = teacher_score ?? ai_score ?? 0</code>（教师分优先于 AI 分）</p>
+<hr />
+<h3 id="sec-29">6.4 学习路径</h3>
+<h4>6.4.1 路径与节点</h4>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>路径（learning_path）</td>
+<td>对某个目标技能的整体规划，含目标技能、当前水平、AI 建议</td>
+</tr>
+<tr>
+<td>节点（learning_path_node）</td>
+<td>路径下的具体任务，类型：<code>course</code> / <code>practice</code> / <code>project</code> / <code>assessment</code></td>
+</tr>
+</tbody>
+</table>
+<h4>6.4.2 关键规则</h4>
+<table>
+<thead>
+<tr>
+<th>规则</th>
+<th>取值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>路径状态</td>
+<td><code>0</code> 进行中 / <code>1</code> 已完成 / <code>2</code> 已暂停</td>
+</tr>
+<tr>
+<td>节点完成态</td>
+<td><code>0</code> 未完成 / <code>1</code> 已完成 / <code>-1</code> 已跳过</td>
+</tr>
+<tr>
+<td>路径完成判定</td>
+<td>全部节点处于完成态（<code>1</code> 或 <code>-1</code>）→ 路径状态置 <code>1</code></td>
+</tr>
+<tr>
+<td>今日任务</td>
+<td>取前 <strong>3</strong> 个未完成任务</td>
+</tr>
+<tr>
+<td>节点关联课程</td>
+<td>对课程标题/副标题/描述/难度做<strong>关键词命中计数</strong>排序取最优</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>注</strong>：节点与课程的关联采用关键词匹配策略（对课程标题、副标题、描述、难度做命中计数排序）。V1.2 可升级为语义匹配。</p>
+</blockquote>
+<h4>6.4.3 AI 生成规则</h4>
+<ul>
+<li><strong>输入</strong>：目标技能、当前水平、每日可投入时间、目标岗位（可选）</li>
+<li><strong>输出</strong>：个性化节点序列，每个节点含标题、描述、类型、预估天数、推荐资源</li>
+<li><strong>失败处理（强制）</strong>：生成失败时必须明确提示用户重试，<strong>严禁静默返回模板路径</strong></li>
+<li><strong>兜底入口</strong>：AI 服务不可用时，提供"手动创建路径"入口，由用户自行添加节点</li>
+</ul>
+<hr />
+<h3 id="sec-30">6.5 AI 模拟面试 ★ 核心模块</h3>
+<h4>6.5.1 面试官人设</h4>
+<p>每位面试官包含：姓名、头像、岗位、公司、专长、难度等级、面试风格、性格特征，并可独立配置 AI 服务参数（API Key、Base URL），支持不同面试官接入不同的模型服务。</p>
+<p>面试官在页面上的形象、标题与开场白由人设展示配置控制，与面试官基础数据分离维护，便于运营调整而不影响会话数据。</p>
+<h4>6.5.2 会话与对话</h4>
+<table>
+<thead>
+<tr>
+<th>规则</th>
+<th>取值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>会话状态</td>
+<td><code>ongoing</code> / <code>completed</code> / <code>abandoned</code></td>
+</tr>
+<tr>
+<td>面试类型</td>
+<td>技术面 / 行为面 / 系统设计 等</td>
+</tr>
+<tr>
+<td>难度</td>
+<td><code>easy</code> / <code>medium</code> / <code>hard</code></td>
+</tr>
+<tr>
+<td>上下文窗口</td>
+<td>保留最近 <strong>20 条</strong>对话作为上下文</td>
+</tr>
+<tr>
+<td>对话存储</td>
+<td>逐条落 <code>interview_dialogue</code>，按 <code>sequence</code> 排序</td>
+</tr>
+<tr>
+<td>单题记录</td>
+<td>每条问答落 <code>interview_qa_record</code>，含答题耗时</td>
+</tr>
+</tbody>
+</table>
+<h4>6.5.3 评分体系</h4>
+<p><strong>单题评分</strong>（每轮作答后立即执行）</p>
+<p>返回字段：<code>score</code>（0-100）、<code>feedback</code>、<code>technical_accuracy</code>、<code>logic_clarity</code>、<code>expression_completeness</code></p>
+<p><strong>综合评估</strong>（面试结束时执行）</p>
+<p>五个维度：<code>overall</code>（综合）、<code>technical</code>（技术能力）、<code>communication</code>（沟通表达）、<code>logic</code>（逻辑思维）、<code>problem_solving</code>（问题解决）</p>
+<p>同时返回 <code>strengths</code>（优点）、<code>weaknesses</code>（不足）、<code>suggestions</code>（改进建议）</p>
+<p><strong>报告生成规则</strong></p>
+<pre><code>综合得分 = 所有单题 AI 得分的算术平均（整除）
+评级阈值：≥ 80 记为&quot;表现优秀&quot;；&lt; 60 记为&quot;存在薄弱环节&quot;
+</code></pre>
+<blockquote>
+<p><strong>评分规则约束（强制）</strong>：五个维度必须由 AI <strong>独立评估</strong>，不得复用同一平均分（否则雷达图将失去区分度）；评估失败时须明确提示，严禁返回任何默认分数。</p>
+</blockquote>
+<h4>6.5.4 AI 服务降级策略</h4>
+<table>
+<thead>
+<tr>
+<th>环节</th>
+<th>AI 服务失败时的处理要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>追问生成</td>
+<td>提示"AI 服务暂时不可用，请稍后重试"，中断本轮作答</td>
+</tr>
+<tr>
+<td>单题评分</td>
+<td>标记该题"评分失败"，该轮不纳入报告统计，提示用户可重答</td>
+</tr>
+<tr>
+<td>综合评估</td>
+<td>明确提示"评估失败"，不生成报告，提供重试入口</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>设计原则</strong>：AI 能力可以降级，但<strong>降级必须对用户可见</strong>。静默降级会让用户对系统给出的评价产生错误信任，在教育类产品中是原则性问题。</p>
+</blockquote>
+<hr />
+<h3 id="sec-31">6.6 AI 简历</h3>
+<h4>6.6.1 生成流程</h4>
+<ol>
+<li>用户输入提示词（目标岗位、个人背景描述）</li>
+<li>大模型以 JSON 模式返回结构化简历：基本信息、技能、工作经历、项目经历、教育经历、证书</li>
+<li>前端渲染为可编辑表单</li>
+<li>导出 DOCX（后端手工拼装 OOXML 并打包为 ZIP）</li>
+</ol>
+<h4>6.6.2 关键约束</h4>
+<blockquote>
+<p>⚠️ <strong>内容真实性约束（强制）</strong>：简历生成必须<strong>严格基于用户输入</strong>，模型不得编造任何经历、技能或数据。缺失项应留空并提示用户补充。
+生成结果须附带提示："请核对内容真实性，AI 生成内容仅供参考"。</p>
+<p>该约束须写入模型提示词并作为验收项——编造经历会给用户带来实际求职风险。</p>
+</blockquote>
+<hr />
+<h3 id="sec-32">6.7 AI 学习助手</h3>
+<ul>
+<li>支持多会话并行，会话可重命名、删除</li>
+<li>历史消息持久化（<code>chat_message</code>）</li>
+<li>支持阻塞与流式两种响应模式</li>
+</ul>
+<hr />
+<h3 id="sec-33">6.8 后台管理系统</h3>
+<h4>6.8.1 权限模型</h4>
+<pre><code>管理员（admin_user）──多对多──&gt; 角色（admin_role）──多对多──&gt; 权限（admin_permission）
+                                      │
+                                      └──&gt; 菜单（admin_menu / admin_sub_menu）
+</code></pre>
+<ul>
+<li>权限点定义到接口级：<code>method + path</code>（如 <code>GET /api/admin/users</code>）</li>
+<li>角色分配权限，管理员分配角色</li>
+<li>预置角色：<code>super_admin</code>（超级管理员，全权限）、<code>admin</code>（普通管理员）</li>
+<li>预置菜单：系统管理、课程管理、用户管理、作业管理、数据统计（共 5 个一级、13 个二级）</li>
+</ul>
+<blockquote>
+<p><strong>权限生效要求（强制）</strong>：角色与权限必须在<strong>接口层强制校验</strong>。后台接口除校验"是否为管理员"外，还须校验该管理员的角色是否拥有当前接口权限（<code>method + path</code>）。前端菜单仅作展示，<strong>不作为权限依据</strong>。</p>
+</blockquote>
+<h4>6.8.2 功能模块</h4>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据统计</td>
+<td>平台用户数、课程数、作业数等概览；最近登录记录</td>
+</tr>
+<tr>
+<td>管理员管理</td>
+<td>列表、新增、编辑、删除、重置密码、修改自己密码</td>
+</tr>
+<tr>
+<td>角色管理</td>
+<td>列表、新增、编辑、删除、分配权限</td>
+</tr>
+<tr>
+<td>菜单管理</td>
+<td>两级菜单与子菜单的增删改查</td>
+</tr>
+<tr>
+<td>课程管理</td>
+<td>列表、新增、编辑、删除、上下架（改状态）</td>
+</tr>
+<tr>
+<td>学生管理</td>
+<td>列表、编辑资料、重置密码</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sec-34">7. 关键业务规则与状态机</h2>
+<h3 id="sec-35">7.1 作业提交状态机</h3>
+<pre><code>        ┌─────────────┐
+        │  0 待批改    │
+        └──────┬──────┘
+               │ AI 批改
+               ▼
+        ┌─────────────┐
+        │ 1 AI 已批改  │◄──── 重新批改（回到 AI 批改）
+        └──────┬──────┘
+               │ 教师复核
+               ▼
+        ┌─────────────┐
+        │ 2 教师已批改  │（终态）
+        └─────────────┘
+</code></pre>
+<blockquote>
+<p><strong>需求修订点</strong>：应增加"AI 批改失败"分支，失败时停留在状态 0 并提示，不得进入状态 1。</p>
+</blockquote>
+<h3 id="sec-36">7.2 学习路径状态机</h3>
+<pre><code>   创建 ──&gt; 0 进行中 ──&gt; 全部节点完成 ──&gt; 1 已完成
+                │
+                └──&gt; 手动暂停 ──&gt; 2 已暂停 ──&gt; 恢复 ──&gt; 0 进行中
+</code></pre>
+<p>节点态：<code>0 未完成</code> → <code>1 已完成</code> 或 <code>-1 已跳过</code></p>
+<blockquote>
+<p><strong>需求待确认</strong>：<code>status=2</code> 在模型注释中为"已暂停"，在 SQL 脚本注释中为"已放弃"，语义冲突，需产品明确。</p>
+</blockquote>
+<h3 id="sec-37">7.3 面试会话状态机</h3>
+<pre><code>   创建会话 ──&gt; ongoing ──&gt; 结束面试 ──&gt; completed
+                   │
+                   └──&gt; 用户中途退出 ──&gt; abandoned
+</code></pre>
+<p>会话完成时触发：生成评估报告 → 生成面试报告。</p>
+<h3 id="sec-38">7.4 选课状态机</h3>
+<pre><code>   报名 ──&gt; active ──&gt; 超过有效期 ──&gt; expired
+                │
+                └──&gt; 用户取消 ──&gt; cancelled
+</code></pre>
+<h3 id="sec-39">7.5 订单状态机（V2.0 启用）</h3>
+<pre><code>   pending（待支付）──&gt; paid（已支付）──&gt; refunded（已退款）
+          │                  │
+          └──&gt; cancelled（已取消）
+</code></pre>
+<h3 id="sec-40">7.6 全局业务阈值汇总</h3>
+<table>
+<thead>
+<tr>
+<th>阈值</th>
+<th>取值</th>
+<th>所在模块</th>
+<th style="text-align: center;">是否可配置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>密码最小长度</td>
+<td>8 位（含大小写+数字）</td>
+<td>注册</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td>注册限流</td>
+<td>3 次 / 300 秒</td>
+<td>注册</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td>登录限流</td>
+<td>5 次/分钟</td>
+<td>登录</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td>Access Token 有效期</td>
+<td>30 分钟</td>
+<td>认证</td>
+<td style="text-align: center;">是</td>
+</tr>
+<tr>
+<td>Refresh Token 有效期</td>
+<td>7 天</td>
+<td>认证</td>
+<td style="text-align: center;">是</td>
+</tr>
+<tr>
+<td>升级所需经验</td>
+<td>等级 × 1000</td>
+<td>成长</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td>成就：学习时长</td>
+<td>100 小时</td>
+<td>成长</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td>成就：完成课程</td>
+<td>10 门</td>
+<td>成长</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td>成就：连续学习</td>
+<td>30 天</td>
+<td>成长</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td>成就：面试次数</td>
+<td>20 次</td>
+<td>成长</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td>面试上下文窗口</td>
+<td>20 条</td>
+<td>面试</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td>面试优秀线</td>
+<td>≥ 80 分</td>
+<td>面试报告</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td>面试薄弱线</td>
+<td>&lt; 60 分</td>
+<td>面试报告</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td>今日任务数量</td>
+<td>3 个</td>
+<td>学习路径</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td>仪表盘待办作业数</td>
+<td>5 条</td>
+<td>仪表盘</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td>课程最大上传</td>
+<td>100 MB</td>
+<td>系统配置</td>
+<td style="text-align: center;">是</td>
+</tr>
+<tr>
+<td>会话超时</td>
+<td>7200 秒</td>
+<td>系统配置</td>
+<td style="text-align: center;">是</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>配置化建议</strong>：上述阈值建议统一提取为系统配置项（由 <code>system_config</code> 表承载），避免硬编码，便于运营期调整。</p>
+<p><strong>注意</strong>：AI 相关能力<strong>不设兜底分数</strong>——失败即提示，详见 6.3.2、6.5.4。</p>
+</blockquote>
+<hr />
+<h2 id="sec-41">8. 非功能需求</h2>
+<h3 id="sec-42">8.1 性能需求</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>目标值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>常规查询接口响应</td>
+<td>P95 &lt; 500 ms</td>
+<td>课程、作业、用户等查询类接口</td>
+</tr>
+<tr>
+<td>AI 类接口响应</td>
+<td>P95 &lt; 15 s</td>
+<td>面试对话、作业批改、简历生成、路径生成</td>
+</tr>
+<tr>
+<td>首屏加载</td>
+<td>&lt; 3 s</td>
+<td>前端资源压缩 + 路由懒加载</td>
+</tr>
+<tr>
+<td>并发能力</td>
+<td>支持 500 并发用户</td>
+<td>以压测结果为准，随用户量增长水平扩容</td>
+</tr>
+<tr>
+<td>课程搜索</td>
+<td>数据量 &lt; 10 万条可用数据库模糊匹配；超出后引入全文检索</td>
+<td>V1.2 演进项</td>
+</tr>
+<tr>
+<td>缓存策略</td>
+<td>热门课程列表、分类字典、系统配置使用 Redis 缓存</td>
+<td>V1.2 引入</td>
+</tr>
+<tr>
+<td>异步任务</td>
+<td>AI 批改、简历生成、报告生成改为后台任务队列，前端轮询结果</td>
+<td>V1.2 引入</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-43">8.2 安全需求</h3>
+<table>
+<thead>
+<tr>
+<th>需求</th>
+<th>要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>密码存储</td>
+<td>bcrypt 加盐哈希，禁止明文或可逆加密</td>
+</tr>
+<tr>
+<td>密码强度</td>
+<td>至少 8 位，须含大写字母、小写字母、数字</td>
+</tr>
+<tr>
+<td>登录失败提示</td>
+<td>不区分"用户不存在"与"密码错误"，统一返回 401</td>
+</tr>
+<tr>
+<td>令牌签名</td>
+<td>JWT HS256；密钥通过环境变量注入，禁止写入代码库或数据库</td>
+</tr>
+<tr>
+<td>令牌有效期</td>
+<td>Access Token 30 分钟；Refresh Token 7 天，配套提供刷新接口</td>
+</tr>
+<tr>
+<td>接口鉴权</td>
+<td>所有涉及用户数据的接口必须校验登录态，<strong>用户身份一律从 Token 解析</strong>，禁止信任客户端传入的 <code>user_id</code></td>
+</tr>
+<tr>
+<td>防暴力破解</td>
+<td>注册 3 次/300 秒、登录 5 次/分钟（按 IP 限流）</td>
+</tr>
+<tr>
+<td>限流实现</td>
+<td>基于 Redis 的分布式限流，避免多实例部署失效</td>
+</tr>
+<tr>
+<td>管理员鉴权</td>
+<td>后台接口须校验角色权限（<code>method + path</code>），前端菜单不作为权限依据</td>
+</tr>
+<tr>
+<td>敏感配置</td>
+<td><code>DEBUG</code>、数据库口令、第三方密钥一律通过环境变量或密钥管理服务注入</td>
+</tr>
+<tr>
+<td>CORS</td>
+<td>白名单配置，禁止通配</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-44">8.3 可靠性与可观测性</h3>
+<table>
+<thead>
+<tr>
+<th>需求</th>
+<th>要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>健康检查</td>
+<td><code>/health</code> 须检测数据库与缓存连通性，异常时返回非 200</td>
+</tr>
+<tr>
+<td>异常处理</td>
+<td>统一异常处理器，返回结构化错误码，禁止未捕获异常直接返回 500</td>
+</tr>
+<tr>
+<td>日志记录</td>
+<td>所有 AI 调用（含成功与失败）须记录请求与响应摘要；降级路径必须打日志</td>
+</tr>
+<tr>
+<td>监控告警</td>
+<td>关键接口可用率、AI 服务成功率、错误率纳入监控</td>
+</tr>
+<tr>
+<td>数据备份</td>
+<td>数据库每日全量备份，保留 30 天</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-45">8.4 兼容性</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>后端</td>
+<td>Python 3.9+</td>
+</tr>
+<tr>
+<td>前端</td>
+<td>Node.js 18+；支持 Chrome / Edge / Firefox / Safari 近两年版本</td>
+</tr>
+<tr>
+<td>数据库</td>
+<td>MySQL 8.0+</td>
+</tr>
+<tr>
+<td>缓存</td>
+<td>Redis 7+（V1.2 启用）</td>
+</tr>
+<tr>
+<td>服务端口</td>
+<td>后端 8000，前端 3000（端口占用时自动探测可用端口）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-46">8.5 可维护性</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API 文档</td>
+<td>后端自动生成 OpenAPI 文档（<code>/docs</code>）</td>
+</tr>
+<tr>
+<td>数据库迁移</td>
+<td>使用 Alembic 管理版本迁移，禁止依赖自动建表</td>
+</tr>
+<tr>
+<td>部署</td>
+<td>Docker + docker-compose 一键部署</td>
+</tr>
+<tr>
+<td>前端类型</td>
+<td>TypeScript 全量类型约束</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-47">8.6 外部依赖与降级策略</h3>
+<table>
+<thead>
+<tr>
+<th>依赖</th>
+<th>用途</th>
+<th>降级策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>大模型服务</td>
+<td>面试对话与评分、作业批改、学习路径、简历生成、AI 助手</td>
+<td>服务不可用时<strong>明确提示用户重试</strong>，禁止返回模板或默认分数（详见 6.5.4）</td>
+</tr>
+<tr>
+<td>云语音合成（TTS）</td>
+<td>面试语音播报</td>
+<td>降级为浏览器内置语音合成</td>
+</tr>
+<tr>
+<td>浏览器 Web Speech API</td>
+<td>语音作答（ASR）</td>
+<td>浏览器不支持时隐藏语音入口，降级为文字输入</td>
+</tr>
+<tr>
+<td>MySQL</td>
+<td>主存储</td>
+<td>无降级，需保证高可用</td>
+</tr>
+<tr>
+<td>Redis</td>
+<td>缓存与限流</td>
+<td>V1.2 启用；不可用时降级为进程内实现（仅单实例场景）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>供应商选型要求</strong>：AI 能力宜<strong>收敛至同一家供应商</strong>，降低密钥管理复杂度与故障面。若采用多家供应商，须在配置层做统一抽象，支持按功能维度切换。</p>
+</blockquote>
+<hr />
+<h2 id="sec-48">9. 数据需求</h2>
+<h3 id="sec-49">9.1 数据实体总览</h3>
+<p>系统规划 <strong>40 张数据表</strong>（含 2 张多对多关联表），按业务域划分如下：</p>
+<table>
+<thead>
+<tr>
+<th>业务域</th>
+<th>数据表</th>
+<th style="text-align: center;">数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用户域</td>
+<td><code>user</code>、<code>user_profile</code>、<code>user_learning_stats</code></td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr>
+<td>课程域</td>
+<td><code>course_category</code>、<code>course</code>、<code>course_chapter</code>、<code>course_section</code>、<code>course_enrollment</code>、<code>learning_progress</code>、<code>course_review</code></td>
+<td style="text-align: center;">7</td>
+</tr>
+<tr>
+<td>作业域</td>
+<td><code>homework</code>、<code>homework_submission</code></td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr>
+<td>面试域</td>
+<td><code>interview_question</code>、<code>ai_interviewer</code>、<code>interview_session</code>、<code>interview_qa_record</code>、<code>interview_dialogue</code>、<code>interview_evaluation</code>、<code>interview_report</code></td>
+<td style="text-align: center;">7</td>
+</tr>
+<tr>
+<td>学习路径域</td>
+<td><code>learning_path</code>、<code>learning_path_node</code></td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr>
+<td>AI 域</td>
+<td><code>ai_avatar</code>、<code>chat_session</code>、<code>chat_message</code></td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr>
+<td>后台管理域</td>
+<td><code>admin_user</code>、<code>admin_role</code>、<code>admin_menu</code>、<code>admin_sub_menu</code>、<code>admin_permission</code>、<code>admin_login_log</code>、<code>admin_operation_log</code>、<code>admin_user_role</code>、<code>admin_role_permission</code></td>
+<td style="text-align: center;">9</td>
+</tr>
+<tr>
+<td>平台运营域</td>
+<td><code>tenant</code>、<code>user_behavior_log</code>、<code>recommendation_record</code>、<code>notification</code>、<code>order</code>、<code>system_config</code>、<code>operation_log</code></td>
+<td style="text-align: center;">7</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-50">9.2 核心实体关系</h3>
+<pre><code>user ──1:1──&gt; user_profile
+user ──1:1──&gt; user_learning_stats
+user ──1:N──&gt; course_enrollment ──N:1──&gt; course
+user ──1:N──&gt; learning_progress ──N:1──&gt; course_section
+course_category ──1:N──&gt; course ──1:N──&gt; course_chapter ──1:N──&gt; course_section
+course ──1:N──&gt; homework ──1:N──&gt; homework_submission ──N:1──&gt; user
+user ──1:N──&gt; learning_path ──1:N──&gt; learning_path_node ──N:1──&gt; course
+user ──1:N──&gt; interview_session ──N:1──&gt; ai_interviewer
+interview_session ──1:N──&gt; { interview_qa_record, interview_dialogue, interview_evaluation, interview_report }
+user ──1:N──&gt; chat_session ──N:1──&gt; ai_avatar
+admin_user ──M:N──&gt; admin_role ──M:N──&gt; admin_permission
+admin_role ──1:N──&gt; admin_menu ──1:N──&gt; admin_sub_menu
+</code></pre>
+<h3 id="sec-51">9.3 关键字段与枚举</h3>
+<table>
+<thead>
+<tr>
+<th>实体.字段</th>
+<th>枚举取值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>user.role</code></td>
+<td><code>user</code> / <code>teacher</code> / <code>admin</code></td>
+<td>用户角色</td>
+</tr>
+<tr>
+<td><code>user.status</code></td>
+<td><code>1</code> / <code>0</code></td>
+<td>正常 / 禁用</td>
+</tr>
+<tr>
+<td><code>course.difficulty</code></td>
+<td><code>beginner</code> / <code>intermediate</code> / <code>advanced</code></td>
+<td>难度</td>
+</tr>
+<tr>
+<td><code>course.status</code></td>
+<td><code>1</code> / <code>0</code></td>
+<td>已发布 / 草稿</td>
+</tr>
+<tr>
+<td><code>course_section.is_free</code></td>
+<td><code>1</code> / <code>0</code></td>
+<td>免费试看</td>
+</tr>
+<tr>
+<td><code>course_enrollment.enroll_type</code></td>
+<td><code>free</code> / <code>paid</code></td>
+<td>报名类型</td>
+</tr>
+<tr>
+<td><code>course_enrollment.status</code></td>
+<td><code>active</code> / <code>expired</code> / <code>cancelled</code></td>
+<td>报名状态</td>
+</tr>
+<tr>
+<td><code>homework.homework_type</code></td>
+<td><code>essay</code> / <code>code</code> / <code>choice</code> / <code>fill_blank</code></td>
+<td>作业题型</td>
+</tr>
+<tr>
+<td><code>homework_submission.status</code></td>
+<td><code>0</code> / <code>1</code> / <code>2</code></td>
+<td>待批改 / AI 已批改 / 教师已批改</td>
+</tr>
+<tr>
+<td><code>learning_path.status</code></td>
+<td><code>0</code> / <code>1</code> / <code>2</code></td>
+<td>进行中 / 已完成 / 已暂停（或已放弃，待确认）</td>
+</tr>
+<tr>
+<td><code>learning_path_node.node_type</code></td>
+<td><code>course</code> / <code>practice</code> / <code>project</code> / <code>assessment</code></td>
+<td>节点类型</td>
+</tr>
+<tr>
+<td><code>learning_path_node.is_completed</code></td>
+<td><code>0</code> / <code>1</code> / <code>-1</code></td>
+<td>未完成 / 已完成 / 已跳过</td>
+</tr>
+<tr>
+<td><code>interview_session.status</code></td>
+<td><code>ongoing</code> / <code>completed</code> / <code>abandoned</code></td>
+<td>会话状态</td>
+</tr>
+<tr>
+<td><code>interview_evaluation.*_score</code></td>
+<td><code>overall</code> / <code>technical</code> / <code>communication</code> / <code>logic</code> / <code>problem_solving</code></td>
+<td>五维评分</td>
+</tr>
+<tr>
+<td><code>admin_user.status</code></td>
+<td><code>1</code> / <code>0</code></td>
+<td>启用 / 禁用</td>
+</tr>
+<tr>
+<td><code>order.payment_status</code></td>
+<td><code>pending</code> / <code>paid</code> / <code>refunded</code> / <code>cancelled</code></td>
+<td>支付状态</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>规范建议</strong>：同名状态字段在不同表中类型应保持一致（如 <code>course_enrollment.status</code> 与 <code>interview_session.status</code> 用字符串，<code>user.status</code> 与 <code>course.status</code> 用整数）。建议在需求层面统一规范：<strong>对外 API 用字符串枚举，数据库用 TINYINT + 注释</strong>。</p>
+</blockquote>
+<h3 id="sec-52">9.4 远期规划的数据表</h3>
+<p>以下数据表为<strong>架构预留</strong>，在 V1.0 中不承载业务，随对应功能在后续版本启用：</p>
+<table>
+<thead>
+<tr>
+<th>表</th>
+<th>用途</th>
+<th>启用版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>system_config</code></td>
+<td>系统配置项（承载 7.6 业务阈值）</td>
+<td>V1.1</td>
+</tr>
+<tr>
+<td><code>user_behavior_log</code></td>
+<td>用户行为埋点</td>
+<td>V1.2</td>
+</tr>
+<tr>
+<td><code>recommendation_record</code></td>
+<td>推荐效果追踪</td>
+<td>V1.2</td>
+</tr>
+<tr>
+<td><code>operation_log</code></td>
+<td>前台操作日志</td>
+<td>V1.2</td>
+</tr>
+<tr>
+<td><code>admin_operation_log</code></td>
+<td>后台操作审计</td>
+<td>V1.2</td>
+</tr>
+<tr>
+<td><code>admin_login_log</code></td>
+<td>后台登录审计</td>
+<td>V1.2</td>
+</tr>
+<tr>
+<td><code>order</code></td>
+<td>订单与支付</td>
+<td>V2.0（视商业化决策）</td>
+</tr>
+<tr>
+<td><code>notification</code></td>
+<td>站内通知</td>
+<td>V2.0</td>
+</tr>
+<tr>
+<td><code>course_review</code></td>
+<td>课程评价</td>
+<td>V2.0</td>
+</tr>
+<tr>
+<td><code>tenant</code></td>
+<td>多租户</td>
+<td>暂不启用</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-53">9.5 初始化数据要求</h3>
+<p>系统首次部署时需初始化以下数据：</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>后台角色</td>
+<td><code>super_admin</code>（超级管理员，全权限）、<code>admin</code>（普通管理员）</td>
+</tr>
+<tr>
+<td>后台账号</td>
+<td>默认管理员账号，<strong>首次登录须强制修改密码</strong></td>
+</tr>
+<tr>
+<td>后台菜单</td>
+<td>5 个一级菜单、13 个二级菜单（系统管理 / 课程管理 / 用户管理 / 作业管理 / 数据统计）</td>
+</tr>
+<tr>
+<td>权限点</td>
+<td>12 条，命名规范 <code>资源:动作</code>（如 <code>admin:user:view</code>、<code>course:create</code>）</td>
+</tr>
+<tr>
+<td>系统配置</td>
+<td>站点名称、AI 开关、上传大小上限、会话超时时长</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>初始化方式</strong>：通过 Alembic 迁移建表，再由初始化脚本写入种子数据。禁止以手工执行 SQL 脚本的方式初始化环境。</p>
+</blockquote>
+<hr />
+<h2 id="sec-54">10. 界面与交互需求</h2>
+<h3 id="sec-55">10.1 页面清单</h3>
+<h4>C 端（MainLayout）</h4>
+<table>
+<thead>
+<tr>
+<th>路由</th>
+<th>页面</th>
+<th style="text-align: center;">需登录</th>
+<th>核心功能</th>
+<th>主要接口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/home</code></td>
+<td>首页</td>
+<td style="text-align: center;">否</td>
+<td>产品价值展示、核心功能介绍、路径示意、热门课程展示、后台入口</td>
+<td><code>GET /api/courses/</code>（热门课程）</td>
+</tr>
+<tr>
+<td><code>/login</code></td>
+<td>登录</td>
+<td style="text-align: center;">否</td>
+<td>账号登录，登录后跳回原目标页</td>
+<td><code>POST /api/auth/login</code></td>
+</tr>
+<tr>
+<td><code>/register</code></td>
+<td>注册</td>
+<td style="text-align: center;">否</td>
+<td>注册账号（含密码强度实时校验）</td>
+<td><code>POST /api/auth/register</code></td>
+</tr>
+<tr>
+<td><code>/courses</code></td>
+<td>课程中心</td>
+<td style="text-align: center;">否</td>
+<td>课程列表、分类筛选、关键词搜索、排序</td>
+<td><code>GET /api/courses/</code></td>
+</tr>
+<tr>
+<td><code>/course/:id</code></td>
+<td>课程详情</td>
+<td style="text-align: center;">否</td>
+<td>课程信息、章节目录、小节播放、报名、免费试看</td>
+<td><code>GET /api/courses/{id}</code>、<code>/chapters</code>、<code>/sections/{id}</code>、<code>POST /enroll</code></td>
+</tr>
+<tr>
+<td><code>/learning-path</code></td>
+<td>学习路径</td>
+<td style="text-align: center;"><strong>是</strong></td>
+<td>生成路径、查看我的路径列表</td>
+<td><code>POST /api/learning-path/</code>、<code>GET /user/{id}</code></td>
+</tr>
+<tr>
+<td><code>/learning-path/:id</code></td>
+<td>路径详情</td>
+<td style="text-align: center;"><strong>是</strong></td>
+<td>今日任务、阶段节点、完成/跳过、关联课程跳转</td>
+<td><code>GET /detail</code>、<code>POST /nodes/{id}/complete</code>、<code>/skip</code></td>
+</tr>
+<tr>
+<td><code>/homework</code></td>
+<td>作业中心</td>
+<td style="text-align: center;"><strong>是</strong></td>
+<td>作业列表、状态筛选</td>
+<td><code>GET /api/homework/</code>、<code>/submissions/user/{id}</code></td>
+</tr>
+<tr>
+<td><code>/homework/:id</code></td>
+<td>作业详情</td>
+<td style="text-align: center;"><strong>是</strong></td>
+<td>题目要求、评分标准、提交答案</td>
+<td><code>GET /{id}</code>、<code>POST /submit</code></td>
+</tr>
+<tr>
+<td><code>/interview</code></td>
+<td>AI 面试</td>
+<td style="text-align: center;"><strong>是</strong></td>
+<td>面试官选择、面试记录列表</td>
+<td><code>GET /interviewers</code>、<code>/user-sessions</code>、<code>POST /sessions</code></td>
+</tr>
+<tr>
+<td><code>/interview/session/:id</code></td>
+<td>面试进行中</td>
+<td style="text-align: center;"><strong>是</strong></td>
+<td>多轮对话、语音输入/播报、摄像头模拟、沉浸模式、计时、结束面试</td>
+<td><code>POST /sessions/{id}/answer</code>、<code>/chat</code></td>
+</tr>
+<tr>
+<td><code>/interview/report/:id</code></td>
+<td>面试报告</td>
+<td style="text-align: center;"><strong>是</strong></td>
+<td>综合评分、五维评估、优缺点建议、对话回放</td>
+<td><code>GET /full-report</code></td>
+</tr>
+<tr>
+<td><code>/ai-chat</code></td>
+<td>AI 助手</td>
+<td style="text-align: center;"><strong>是</strong></td>
+<td>多会话问答、历史消息、语音输入</td>
+<td><code>POST /api/chat/message</code></td>
+</tr>
+<tr>
+<td><code>/ai-resume</code></td>
+<td>AI 简历</td>
+<td style="text-align: center;"><strong>是</strong></td>
+<td>提示词生成、在线编辑、DOCX 导出</td>
+<td><code>POST /api/resume/generate</code>、<code>/export-docx</code></td>
+</tr>
+<tr>
+<td><code>/profile</code></td>
+<td>个人中心</td>
+<td style="text-align: center;"><strong>是</strong></td>
+<td>查看与编辑个人资料</td>
+<td><code>GET/PUT /api/users/{id}</code>、<code>GET/PUT /{id}/profile</code></td>
+</tr>
+<tr>
+<td><code>/dashboard</code></td>
+<td>学习仪表盘</td>
+<td style="text-align: center;"><strong>是</strong></td>
+<td>概览卡片、进度图、成绩分布、最近活动</td>
+<td><code>GET /api/users/{id}/dashboard</code></td>
+</tr>
+</tbody>
+</table>
+<h4>后台（AdminLayout）</h4>
+<table>
+<thead>
+<tr>
+<th>路由</th>
+<th>页面</th>
+<th>核心功能</th>
+<th>主要接口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/admin/login</code></td>
+<td>后台登录</td>
+<td>管理员登录</td>
+<td><code>POST /api/admin/login</code></td>
+</tr>
+<tr>
+<td><code>/admin/dashboard</code></td>
+<td>后台首页</td>
+<td>平台统计概览、最近登录记录</td>
+<td><code>GET /api/admin/stats</code>、<code>/recent-logins</code></td>
+</tr>
+<tr>
+<td><code>/admin/users</code></td>
+<td>管理员管理</td>
+<td>管理员 CRUD、重置密码</td>
+<td><code>GET/POST/PUT/DELETE /api/admin/users</code></td>
+</tr>
+<tr>
+<td><code>/admin/roles</code></td>
+<td>角色管理</td>
+<td>角色 CRUD、分配权限</td>
+<td><code>/api/admin/roles</code>、<code>/{id}/permissions</code></td>
+</tr>
+<tr>
+<td><code>/admin/menus</code></td>
+<td>菜单管理</td>
+<td>菜单与子菜单 CRUD</td>
+<td><code>/api/admin/menus</code>、<code>/submenus</code>、<code>/permissions</code></td>
+</tr>
+<tr>
+<td><code>/admin/courses</code></td>
+<td>课程管理</td>
+<td>课程 CRUD、上下架</td>
+<td><code>/api/admin/courses</code>、<code>/{id}/status</code></td>
+</tr>
+<tr>
+<td><code>/admin/students</code></td>
+<td>学生管理</td>
+<td>学生列表、编辑、重置密码</td>
+<td><code>/api/admin/students</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-56">10.2 核心用户旅程</h3>
+<p><strong>旅程一：学习闭环</strong></p>
+<pre><code>首页 → 注册 → 课程中心（浏览/搜索）→ 课程详情（试看）→ 报名
+  → 学习路径（输入目标技能 → AI 生成）→ 路径详情（今日任务 → 完成节点）
+  → 作业中心（查看作业 → 提交）→ 等待 AI 批改 → 查看成绩与反馈
+  → 学习仪表盘（查看统计）
+</code></pre>
+<p><strong>旅程二：AI 模拟面试（核心）</strong></p>
+<pre><code>AI 面试页 → 选择面试官（岗位/难度/风格）→ 创建会话
+  → 面试进行中：AI 开场提问 → 用户作答（文字/语音）→ AI 追问 → 多轮循环
+  → 点击&quot;结束面试&quot;
+  → 面试报告：综合评分 + 五维评估 + 优缺点 + 建议 + 对话回放
+  → 返回列表查看历史记录
+</code></pre>
+<p><strong>旅程三：AI 简历</strong></p>
+<pre><code>AI 简历页 → 输入提示词（目标岗位 + 个人背景）→ AI 生成结构化简历
+  → 页面内编辑各模块 → 导出 DOCX → 下载
+</code></pre>
+<p><strong>旅程四：管理员运营</strong></p>
+<pre><code>后台登录 → 数据首页（看统计）→ 课程管理（新增/上架课程）
+  → 学生管理（查看/编辑/重置密码）
+  → 系统管理（新增管理员 → 配置角色 → 分配权限）
+</code></pre>
+<h3 id="sec-57">10.3 界面设计要点</h3>
+<table>
+<thead>
+<tr>
+<th>页面</th>
+<th>设计要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>首页</td>
+<td>营销型落地页，强调"学—练—评—面"闭环；含核心功能区、路径示意图、课程展示、后台入口</td>
+</tr>
+<tr>
+<td>面试进行中</td>
+<td>强临场感：面试官形象卡、候选人与面试官双画面、摄像头开关、沉浸模式、计时器、网络状态指示、语音播报开关</td>
+</tr>
+<tr>
+<td>面试报告</td>
+<td>突出综合评分与五维雷达；优缺点与建议分栏；对话记录可折叠回放</td>
+</tr>
+<tr>
+<td>学习路径详情</td>
+<td>突出"下一个节点"与"今日任务"；节点按阶段纵向排列，已完成/跳过有视觉区分</td>
+</tr>
+<tr>
+<td>作业详情</td>
+<td>左侧题目要求与评分标准，右侧作答区；提交后展示 AI/教师批改结果与分数</td>
+</tr>
+<tr>
+<td>后台</td>
+<td>左侧两级菜单（系统管理/课程管理/用户管理），顶部管理员信息与修改密码入口</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sec-58">11. 版本规划与优先级</h2>
+<h3 id="sec-59">V1.0 —— 可用闭环</h3>
+<p>目标：跑通"学—练—评—面"核心链路</p>
+<ul>
+<li>账户体系（注册 / 登录 / 资料 / 等级 / 成就 / 学习报告）</li>
+<li>课程浏览、报名、学习、进度跟踪</li>
+<li>作业发布、提交、批改结果查看</li>
+<li>学习路径创建与节点跟进</li>
+<li><strong>AI 模拟面试完整链路</strong>（选面试官 → 多轮对话 → 报告）</li>
+<li>简历在线编辑与 DOCX 导出</li>
+<li>后台基础管理（课程 / 学生 / 统计）</li>
+</ul>
+<h3 id="sec-60">V1.1 —— 体验与安全补齐</h3>
+<p>目标：补齐核心链路中的体验缺口，并满足安全基线</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>事项</th>
+<th>对应需求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>C 端业务接口补齐登录鉴权，用户身份从 Token 解析</td>
+<td>3.3、8.2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>实现 Refresh Token，避免长流程（面试）中途掉线</td>
+<td>FR-111</td>
+</tr>
+<tr>
+<td>3</td>
+<td>学习仪表盘接入后端统计接口</td>
+<td>FR-110</td>
+</tr>
+<tr>
+<td>4</td>
+<td>作业 AI 批改落地，失败须明确提示</td>
+<td>FR-305</td>
+</tr>
+<tr>
+<td>5</td>
+<td>学习路径 AI 生成落地，失败须明确提示</td>
+<td>FR-401</td>
+</tr>
+<tr>
+<td>6</td>
+<td>面试单题评分与综合评估：五维独立计算，失败不返回默认分</td>
+<td>FR-504、FR-505</td>
+</tr>
+<tr>
+<td>7</td>
+<td>AI 助手问答能力落地</td>
+<td>FR-701</td>
+</tr>
+<tr>
+<td>8</td>
+<td>AI 简历生成落地，并落实内容真实性约束</td>
+<td>FR-601</td>
+</tr>
+<tr>
+<td>9</td>
+<td>登录接口补充限流，限流改由 Redis 承载</td>
+<td>8.2</td>
+</tr>
+<tr>
+<td>10</td>
+<td>业务阈值提取为系统配置项</td>
+<td>7.6</td>
+</tr>
+<tr>
+<td>11</td>
+<td>健康检查接入数据库与缓存探测</td>
+<td>8.3</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-61">V1.2 —— 能力增强与工程化</h3>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>后台角色权限在接口层强制校验</td>
+</tr>
+<tr>
+<td>2</td>
+<td>操作日志与登录日志落库</td>
+</tr>
+<tr>
+<td>3</td>
+<td>语音能力落地（ASR / TTS）</td>
+</tr>
+<tr>
+<td>4</td>
+<td>教师端作业批改入口</td>
+</tr>
+<tr>
+<td>5</td>
+<td>学习路径节点与课程的语义关联</td>
+</tr>
+<tr>
+<td>6</td>
+<td>引入 Redis 缓存与分布式限流</td>
+</tr>
+<tr>
+<td>7</td>
+<td>AI 长耗时任务改为异步队列</td>
+</tr>
+<tr>
+<td>8</td>
+<td>接入 Alembic 数据库迁移</td>
+</tr>
+<tr>
+<td>9</td>
+<td>用户行为埋点与推荐效果追踪</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-62">V2.0 —— 平台化</h3>
+<ul>
+<li>课程评价与评分体系</li>
+<li>基于行为埋点的个性化推荐</li>
+<li>站内通知系统</li>
+<li>订单与支付（视商业化决策）</li>
+<li>教师独立工作台</li>
+<li>全文检索（ES）</li>
+</ul>
+<hr />
+<h2 id="sec-63">12. 风险、约束与待确认项</h2>
+<h3 id="sec-64">12.1 风险清单</h3>
+<table>
+<thead>
+<tr>
+<th>风险</th>
+<th>等级</th>
+<th>影响</th>
+<th>应对</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI 服务可用性</td>
+<td><strong>高</strong></td>
+<td>大模型服务不可用将导致面试、批改等核心功能中断</td>
+<td>设计显式降级提示；评估多供应商互备</td>
+</tr>
+<tr>
+<td>AI 内容可信度</td>
+<td><strong>高</strong></td>
+<td>评分与反馈若被用户判定为不可信，将直接损害产品价值</td>
+<td>五维独立评估；失败不返回默认分数</td>
+</tr>
+<tr>
+<td>简历内容真实性</td>
+<td><strong>高</strong></td>
+<td>编造经历会给用户带来实际求职风险</td>
+<td>强制约束模型提示词；生成结果附免责提示</td>
+</tr>
+<tr>
+<td>越权访问</td>
+<td><strong>高</strong></td>
+<td>用户数据泄露</td>
+<td>身份一律从 Token 解析；上线前做越权专项测试</td>
+</tr>
+<tr>
+<td>大模型调用成本</td>
+<td>中</td>
+<td>按量计费，高频面试场景成本不可控</td>
+<td>设定单用户调用配额与全局限流</td>
+</tr>
+<tr>
+<td>长流程登录态</td>
+<td>中</td>
+<td>面试过程中 Token 过期导致中断</td>
+<td>Refresh Token + 作答内容本地暂存</td>
+</tr>
+<tr>
+<td>AI 长耗时请求阻塞</td>
+<td>中</td>
+<td>批改与生成请求占用连接资源</td>
+<td>异步任务队列（V1.2）</td>
+</tr>
+<tr>
+<td>课程内容版权</td>
+<td>中</td>
+<td>课程视频引用外部资源</td>
+<td>明确内容来源授权</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-65">12.2 约束</h3>
+<table>
+<thead>
+<tr>
+<th>约束</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>技术栈约束</td>
+<td>FastAPI + Vue3 已定，不更换</td>
+</tr>
+<tr>
+<td>内容来源约束</td>
+<td>课程视频依赖外部 URL 引用，平台不做视频托管</td>
+</tr>
+<tr>
+<td>成本约束</td>
+<td>大模型按量计费，需评估面试/批改的成本上限与限流策略</td>
+</tr>
+<tr>
+<td>数据约束</td>
+<td>单库单租户，无分库分表</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-66">12.3 待确认项（需产品/业务方拍板）</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>待确认项</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>AI 供应商：统一到讯飞星火，还是保留 Dify 并补齐部署与密钥？</td>
+<td>决定 V1.1 工作量</td>
+</tr>
+<tr>
+<td>2</td>
+<td>是否商业化（课程付费）？</td>
+<td>决定订单/支付模块是否投入</td>
+</tr>
+<tr>
+<td>3</td>
+<td>学习路径 <code>status=2</code> 是"已暂停"还是"已放弃"？</td>
+<td>数据语义与文案</td>
+</tr>
+<tr>
+<td>4</td>
+<td>教师角色是否需要独立工作台？</td>
+<td>决定是否开发教师端</td>
+</tr>
+<tr>
+<td>5</td>
+<td>语音能力是自研后端还是明确定位为浏览器能力？</td>
+<td>决定是否投入腾讯云</td>
+</tr>
+<tr>
+<td>6</td>
+<td>多租户是否纳入规划？</td>
+<td>决定 <code>tenant</code> 表去留</td>
+</tr>
+<tr>
+<td>7</td>
+<td>课程评价是否开放？</td>
+<td>决定 <code>course_review</code> 落地范围</td>
+</tr>
+<tr>
+<td>8</td>
+<td>面试报告五维是否都需要？还是精简为三维？</td>
+<td>报告设计与 AI 提示词</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sec-67">附录 A：接口需求清单</h2>
+<blockquote>
+<p>统一前缀 <code>/api</code>。鉴权列标注：— 公开接口 / 🔒 需登录 / 👑 需管理员</p>
+</blockquote>
+<h3 id="sec-68">A.1 系统与认证</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>用途</th>
+<th style="text-align: center;">鉴权</th>
+<th style="text-align: center;">交付版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/</code></td>
+<td>欢迎信息</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/health</code></td>
+<td>健康检查</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">V1.1</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/auth/register</code></td>
+<td>用户注册</td>
+<td style="text-align: center;">—（限流 3/300s）</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/auth/login</code></td>
+<td>用户登录</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/auth/me</code></td>
+<td>当前用户信息</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-69">A.2 用户模块 <code>/api/users</code></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>用途</th>
+<th style="text-align: center;">鉴权</th>
+<th style="text-align: center;">交付版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/{user_id}</code></td>
+<td>用户详情</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/{user_id}</code></td>
+<td>更新用户</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/{user_id}/profile</code></td>
+<td>扩展资料</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/{user_id}/profile</code></td>
+<td>更新扩展资料</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/{user_id}/stats</code></td>
+<td>学习统计</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/{user_id}/learning-report</code></td>
+<td>学习报告（period: week/month/year）</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/{user_id}/achievements</code></td>
+<td>成就列表</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/{user_id}/level-up</code></td>
+<td>升级</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/{user_id}/dashboard</code></td>
+<td>学习仪表盘</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-70">A.3 课程模块 <code>/api/courses</code></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>用途</th>
+<th style="text-align: center;">鉴权</th>
+<th style="text-align: center;">交付版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/categories</code></td>
+<td>课程分类</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/</code></td>
+<td>课程列表（分页/筛选/搜索）</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/</code></td>
+<td>创建课程</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/{course_id}</code></td>
+<td>课程详情</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/{course_id}</code></td>
+<td>更新课程</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/{course_id}</code></td>
+<td>删除课程</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/{course_id}/enroll</code></td>
+<td>选课报名</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/{course_id}/chapters</code></td>
+<td>章节列表</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/sections/{section_id}</code></td>
+<td>小节详情</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/sections/{section_id}/progress</code></td>
+<td>更新学习进度</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/user/{user_id}/enrolled</code></td>
+<td>已选课程</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-71">A.4 作业模块 <code>/api/homework</code></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>用途</th>
+<th style="text-align: center;">鉴权</th>
+<th style="text-align: center;">交付版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/</code></td>
+<td>作业列表</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/</code></td>
+<td>创建作业</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/course/{course_id}</code></td>
+<td>课程作业列表</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/{homework_id}</code></td>
+<td>作业详情</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/submit</code></td>
+<td>提交作业</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.1</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/submissions/user/{user_id}</code></td>
+<td>我的提交</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/submission/{submission_id}</code></td>
+<td>提交详情</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/submission/{id}/regrade</code></td>
+<td>重新批改</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-72">A.5 学习路径 <code>/api/learning-path</code></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>用途</th>
+<th style="text-align: center;">鉴权</th>
+<th style="text-align: center;">交付版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/</code></td>
+<td>AI 生成学习路径</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.1</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/user/{user_id}</code></td>
+<td>我的路径列表</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/{path_id}</code></td>
+<td>路径详情</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/detail</code></td>
+<td>路径详情（含节点）</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/nodes</code></td>
+<td>节点列表</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/nodes/{id}/complete</code></td>
+<td>完成节点</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/nodes/{id}/skip</code></td>
+<td>跳过节点</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-73">A.6 AI 面试 <code>/api/interview</code></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>用途</th>
+<th style="text-align: center;">鉴权</th>
+<th style="text-align: center;">交付版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/interviewers</code></td>
+<td>面试官列表</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/questions</code></td>
+<td>新增题目</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/questions</code></td>
+<td>题目列表</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/user-sessions</code></td>
+<td>我的面试记录</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/sessions</code></td>
+<td>创建会话</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/sessions/{id}</code></td>
+<td>会话详情</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/sessions/{id}/answer</code></td>
+<td>提交答案</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.1</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/sessions/{id}/chat</code></td>
+<td>多轮对话</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/sessions/{id}/dialogues</code></td>
+<td>对话历史</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/sessions/{id}/complete</code></td>
+<td>结束面试</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/sessions/{id}/evaluate</code></td>
+<td>综合评估</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.1</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/sessions/{id}/report</code></td>
+<td>面试报告</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/sessions/{id}/full-report</code></td>
+<td>完整报告</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/voice/capabilities</code></td>
+<td>语音能力查询</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.2</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/voice/transcribe</code></td>
+<td>语音转文字</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.2</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/voice/synthesize</code></td>
+<td>语音合成</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-74">A.7 AI 助手 <code>/api/chat</code></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>用途</th>
+<th style="text-align: center;">鉴权</th>
+<th style="text-align: center;">交付版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/sessions</code></td>
+<td>会话列表</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/user-sessions</code></td>
+<td>我的会话</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/sessions/{id}</code></td>
+<td>重命名会话</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/sessions/{id}</code></td>
+<td>删除会话</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/history</code></td>
+<td>历史消息</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/history/{id}</code></td>
+<td>指定会话历史</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/message</code></td>
+<td>发送消息</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-75">A.8 AI 简历 <code>/api/resume</code></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>用途</th>
+<th style="text-align: center;">鉴权</th>
+<th style="text-align: center;">交付版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/generate</code></td>
+<td>AI 生成简历</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.1</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/export-docx</code></td>
+<td>导出 DOCX</td>
+<td style="text-align: center;">🔒</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-76">A.9 后台管理 <code>/api/admin</code></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>用途</th>
+<th style="text-align: center;">鉴权</th>
+<th style="text-align: center;">交付版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/login</code></td>
+<td>管理员登录</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/change-password</code></td>
+<td>修改自己密码</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET/POST</td>
+<td><code>/users</code></td>
+<td>管理员列表/新增</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET/PUT/DELETE</td>
+<td><code>/users/{id}</code></td>
+<td>管理员详情/改/删</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/users/{id}/reset-password</code></td>
+<td>重置密码</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET/POST</td>
+<td><code>/roles</code></td>
+<td>角色列表/新增</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET/PUT/DELETE</td>
+<td><code>/roles/{id}</code></td>
+<td>角色详情/改/删</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET/PUT</td>
+<td><code>/roles/{id}/permissions</code></td>
+<td>角色权限查看/分配</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.2</td>
+</tr>
+<tr>
+<td>GET/POST</td>
+<td><code>/menus</code></td>
+<td>菜单列表/新增</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET/PUT/DELETE</td>
+<td><code>/menus/{id}</code></td>
+<td>菜单详情/改/删</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET/POST</td>
+<td><code>/submenus</code></td>
+<td>子菜单列表/新增</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET/PUT/DELETE</td>
+<td><code>/submenus/{id}</code></td>
+<td>子菜单详情/改/删</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET/POST</td>
+<td><code>/permissions</code></td>
+<td>权限点列表/新增</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET/PUT/DELETE</td>
+<td><code>/permissions/{id}</code></td>
+<td>权限点详情/改/删</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET/POST</td>
+<td><code>/students</code></td>
+<td>学生列表/新增</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET/PUT/DELETE</td>
+<td><code>/students/{id}</code></td>
+<td>学生详情/改/删</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/students/{id}/reset-password</code></td>
+<td>重置学生密码</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET/POST</td>
+<td><code>/courses</code></td>
+<td>课程列表/新增</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET/PUT/DELETE</td>
+<td><code>/courses/{id}</code></td>
+<td>课程详情/改/删</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/courses/{id}/status</code></td>
+<td>课程上下架</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/stats</code></td>
+<td>平台统计</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/recent-logins</code></td>
+<td>最近登录记录</td>
+<td style="text-align: center;">👑</td>
+<td style="text-align: center;">V1.0</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-77">A.10 接口统计</h3>
+<blockquote>
+<p>统计口径：按上表的<strong>接口条目</strong>计数，一行包含多个 HTTP 方法的按一个条目计（如 <code>GET/PUT/DELETE /users/{id}</code> 记为 1 条）。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>业务域</th>
+<th style="text-align: center;">接口条目</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>系统与认证</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr>
+<td>用户</td>
+<td style="text-align: center;">9</td>
+</tr>
+<tr>
+<td>课程</td>
+<td style="text-align: center;">11</td>
+</tr>
+<tr>
+<td>作业</td>
+<td style="text-align: center;">8</td>
+</tr>
+<tr>
+<td>学习路径</td>
+<td style="text-align: center;">7</td>
+</tr>
+<tr>
+<td>AI 面试</td>
+<td style="text-align: center;">16</td>
+</tr>
+<tr>
+<td>AI 助手</td>
+<td style="text-align: center;">7</td>
+</tr>
+<tr>
+<td>AI 简历</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr>
+<td>后台管理</td>
+<td style="text-align: center;">22</td>
+</tr>
+<tr>
+<td><strong>合计</strong></td>
+<td style="text-align: center;"><strong>87</strong></td>
+</tr>
+</tbody>
+</table>
+    </article>
+  </div>
+</div>
+<script>
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('#nav a'));
+  var targets = links.map(function(a){
+    return document.getElementById(a.getAttribute('data-target'));
+  }).filter(Boolean);
+
+  /* ---- 滚动锁：程序化跳转期间暂停 onScroll 的自动高亮切换 ---- */
+  var scrollLock = false;
+  var lockTimer = null;
+
+  function setActive(idx){
+    links.forEach(function(a){ a.classList.remove('active'); });
+    if (links[idx]) {
+      links[idx].classList.add('active');
+      var r = links[idx].getBoundingClientRect();
+      if (r.top < 60 || r.bottom > window.innerHeight - 40){
+        links[idx].scrollIntoView({block:'center', behavior:'instant'});
+      }
+    }
+  }
+
+  function onScroll(){
+    if (scrollLock) return;
+    var idx = 0, top = window.scrollY + 120;
+    for (var i = 0; i < targets.length; i++){
+      if (targets[i].offsetTop <= top) idx = i; else break;
+    }
+    setActive(idx);
+  }
+
+  /* ---- 点击导航：显式滚动到目标 + 锁定自动高亮 ---- */
+  links.forEach(function(a, i){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      var target = targets[i];
+      if (!target) return;
+
+      setActive(i);
+
+      scrollLock = true;
+      clearTimeout(lockTimer);
+
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+
+      lockTimer = setTimeout(function(){
+        scrollLock = false;
+        onScroll();
+      }, 800);
+    });
+  });
+
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>

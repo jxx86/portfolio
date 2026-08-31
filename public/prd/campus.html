@@ -1,0 +1,3317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>校园二手交易智能系统 · 产品需求规格说明书</title>
+<style>
+:root{
+  --brand:#6366F1;
+  --brand-deep:#4F46E5;
+  --brand-soft:#EEF0FF;
+  --accent:#EF4444;
+  --ink:#1A1A1A;
+  --ink-2:#4B5563;
+  --ink-3:#6B7280;
+  --ink-4:#9CA3AF;
+  --line:#E8E8EF;
+  --line-2:#F1F1F6;
+  --bg:#FFFFFF;
+  --bg-soft:#FAFAFC;
+  --ok:#10B981;
+  --warn:#F59E0B;
+  --radius:10px;
+  --sidebar-w:280px;
+}
+
+*{box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  margin:0;
+  background:var(--bg-soft);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:15px;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- 布局 ---------- */
+.layout{display:flex;min-height:100vh;}
+
+.sidebar{
+  width:var(--sidebar-w);
+  flex:0 0 var(--sidebar-w);
+  height:100vh;
+  position:sticky;
+  top:0;
+  overflow-y:auto;
+  background:#fff;
+  border-right:1px solid var(--line);
+  padding:22px 0 60px;
+}
+.sidebar::-webkit-scrollbar{width:6px;}
+.sidebar::-webkit-scrollbar-thumb{background:#DDDDE6;border-radius:3px;}
+
+.sb-brand{
+  padding:0 22px 16px;
+  border-bottom:1px solid var(--line-2);
+  margin-bottom:12px;
+}
+.sb-brand .t{
+  font-size:14px;font-weight:800;letter-spacing:.02em;
+  background:linear-gradient(135deg,#6366F1,#8B5CF6);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  line-height:1.5;
+}
+.sb-brand .s{font-size:11px;color:var(--ink-4);margin-top:4px;letter-spacing:.04em;}
+
+.sb-nav{padding:0 12px;}
+.sb-nav a{
+  display:block;
+  padding:7px 12px;
+  margin:1px 0;
+  border-radius:7px;
+  color:var(--ink-2);
+  text-decoration:none;
+  font-size:13px;
+  line-height:1.5;
+  transition:background .15s,color .15s;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.sb-nav a:hover{background:var(--brand-soft);color:var(--brand-deep);}
+.sb-nav a.lv1{font-weight:700;color:var(--ink);margin-top:10px;}
+.sb-nav a.lv2{padding-left:22px;font-size:12.5px;}
+.sb-nav a.lv3{padding-left:34px;font-size:12px;color:var(--ink-3);}
+.sb-nav a.active{background:var(--brand-soft);color:var(--brand-deep);font-weight:600;}
+
+.main{flex:1;min-width:0;padding:0 0 80px;}
+
+.doc{
+  max-width:940px;
+  margin:0 auto;
+  background:#fff;
+  padding:52px 62px 72px;
+  min-height:100vh;
+  box-shadow:0 0 0 1px var(--line);
+}
+
+/* ---------- 标题 ---------- */
+.doc h1{
+  font-size:29px;font-weight:800;line-height:1.4;
+  margin:0 0 6px;letter-spacing:-.01em;
+}
+.doc h1 + p{margin-top:0;}
+.doc h2{
+  font-size:21px;font-weight:800;margin:52px 0 18px;
+  padding-bottom:11px;border-bottom:2px solid var(--line-2);
+  scroll-margin-top:20px;
+  position:relative;
+}
+.doc h2::before{
+  content:"";position:absolute;left:-62px;top:2px;bottom:12px;width:4px;
+  background:linear-gradient(180deg,#6366F1,#8B5CF6);border-radius:0 3px 3px 0;
+}
+.doc h3{
+  font-size:17px;font-weight:700;margin:32px 0 12px;color:#24242E;
+  scroll-margin-top:20px;
+}
+.doc h3::before{
+  content:"";display:inline-block;width:5px;height:15px;
+  background:#6366F1;border-radius:2px;margin-right:8px;
+  vertical-align:-2px;
+}
+.doc h4{
+  font-size:15px;font-weight:700;margin:22px 0 10px;color:var(--ink-2);
+}
+
+/* ---------- 文本 ---------- */
+.doc p{margin:11px 0;color:var(--ink-2);}
+.doc strong{color:var(--ink);font-weight:700;}
+.doc a{color:var(--brand-deep);text-decoration:none;border-bottom:1px solid rgba(99,102,241,.3);}
+.doc a:hover{background:var(--brand-soft);}
+
+.doc ul,.doc ol{padding-left:22px;margin:11px 0;color:var(--ink-2);}
+.doc li{margin:5px 0;}
+.doc li::marker{color:var(--brand);}
+
+.doc hr{border:0;border-top:1px solid var(--line-2);margin:36px 0;}
+
+.doc blockquote{
+  margin:16px 0;padding:14px 18px;
+  background:#FFFBF0;border-left:3px solid var(--warn);
+  border-radius:0 8px 8px 0;color:#7A5A1E;
+}
+.doc blockquote p{margin:6px 0;color:#7A5A1E;}
+.doc blockquote strong{color:#5C4212;}
+
+/* ---------- 代码 ---------- */
+.doc code{
+  background:var(--brand-soft);color:var(--brand-deep);
+  padding:2px 6px;border-radius:4px;font-size:13px;
+  font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+}
+.doc pre{
+  background:#F8F8FC;border:1px solid var(--line-2);
+  border-radius:var(--radius);padding:16px 18px;overflow-x:auto;
+  margin:16px 0;line-height:1.6;
+}
+.doc pre code{
+  background:none;padding:0;color:#3A3A48;font-size:12.5px;
+  font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+}
+
+/* ---------- 表格 ---------- */
+.doc table{
+  width:100%;border-collapse:separate;border-spacing:0;
+  margin:18px 0;font-size:13.5px;
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+}
+.doc th{
+  background:linear-gradient(180deg,#F7F7FC,#F2F2F8);
+  color:var(--ink);font-weight:700;text-align:left;
+  padding:11px 14px;border-bottom:1px solid var(--line);
+  white-space:nowrap;font-size:13px;
+}
+.doc td{
+  padding:10px 14px;border-bottom:1px solid var(--line-2);
+  color:var(--ink-2);vertical-align:top;line-height:1.6;
+}
+.doc tr:last-child td{border-bottom:0;}
+.doc tbody tr:hover{background:#FCFCFE;}
+.doc td code{font-size:12px;}
+
+/* ---------- 状态标签 ---------- */
+.doc td,.doc p{font-variant-numeric:tabular-nums;}
+
+/* ---------- 顶部工具条 ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  height:46px;display:flex;align-items:center;gap:12px;
+  padding:0 24px;background:rgba(255,255,255,.92);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+}
+.topbar .tag{
+  font-size:11px;font-weight:700;letter-spacing:.06em;
+  color:var(--brand-deep);background:var(--brand-soft);
+  padding:3px 9px;border-radius:20px;
+}
+.topbar .meta{font-size:12px;color:var(--ink-4);margin-left:auto;}
+
+/* ---------- 打印 ---------- */
+@media print{
+  .sidebar,.topbar{display:none;}
+  .doc{box-shadow:none;padding:0;max-width:100%;}
+  .doc h2{page-break-after:avoid;}
+  .doc table{page-break-inside:avoid;}
+}
+@media (max-width:1080px){
+  .sidebar{display:none;}
+  .doc{padding:32px 22px;}
+}
+
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sb-brand">
+      <div class="t">校园二手交易智能系统</div>
+      <div class="s">PRD / SRS · V1.0</div>
+    </div>
+    <nav class="sb-nav" id="nav">
+<a class="lv1" href="#sec-2" data-target="sec-2">产品需求规格说明书（PRD / SRS）</a>
+<a class="lv1" href="#sec-3" data-target="sec-3">1. 项目背景与问题定义</a>
+<a class="lv2" href="#sec-4" data-target="sec-4">1.1 业务背景</a>
+<a class="lv2" href="#sec-5" data-target="sec-5">1.2 问题定义（Problem Statement）</a>
+<a class="lv2" href="#sec-6" data-target="sec-6">1.3 产品机会点</a>
+<a class="lv1" href="#sec-7" data-target="sec-7">2. 产品定位与目标</a>
+<a class="lv2" href="#sec-8" data-target="sec-8">2.1 产品定位（一句话）</a>
+<a class="lv2" href="#sec-9" data-target="sec-9">2.2 产品边界</a>
+<a class="lv2" href="#sec-10" data-target="sec-10">2.3 产品目标（可度量）</a>
+<a class="lv1" href="#sec-11" data-target="sec-11">3. 目标用户与角色定义</a>
+<a class="lv2" href="#sec-12" data-target="sec-12">3.1 系统角色</a>
+<a class="lv2" href="#sec-13" data-target="sec-13">3.2 用户画像</a>
+<a class="lv1" href="#sec-14" data-target="sec-14">4. 核心使用场景与用户故事</a>
+<a class="lv2" href="#sec-15" data-target="sec-15">4.1 场景一：毕业季快速甩卖（供给主场景）</a>
+<a class="lv2" href="#sec-16" data-target="sec-16">4.2 场景二：开学季淘教材（需求主场景）</a>
+<a class="lv2" href="#sec-17" data-target="sec-17">4.3 场景三：高价值数码交易（信任敏感场景）</a>
+<a class="lv2" href="#sec-18" data-target="sec-18">4.4 场景四：卖家管理在售商品（履约场景）</a>
+<a class="lv1" href="#sec-19" data-target="sec-19">5. 功能需求总览</a>
+<a class="lv2" href="#sec-20" data-target="sec-20">5.1 功能模块地图</a>
+<a class="lv2" href="#sec-21" data-target="sec-21">5.2 需求清单</a>
+<a class="lv1" href="#sec-22" data-target="sec-22">6. 功能需求详述</a>
+<a class="lv2" href="#sec-23" data-target="sec-23">6.1 用户与认证模块</a>
+<a class="lv2" href="#sec-24" data-target="sec-24">6.2 商品管理模块</a>
+<a class="lv2" href="#sec-25" data-target="sec-25">6.3 交易履约模块</a>
+<a class="lv2" href="#sec-26" data-target="sec-26">6.4 购物车与收藏</a>
+<a class="lv2" href="#sec-27" data-target="sec-27">6.5 沟通模块</a>
+<a class="lv2" href="#sec-28" data-target="sec-28">6.6 智能与推荐模块</a>
+<a class="lv2" href="#sec-29" data-target="sec-29">6.7 社区模块</a>
+<a class="lv2" href="#sec-30" data-target="sec-30">6.8 管理后台模块</a>
+<a class="lv1" href="#sec-31" data-target="sec-31">7. 关键业务规则与状态机</a>
+<a class="lv2" href="#sec-32" data-target="sec-32">7.1 商品状态机</a>
+<a class="lv2" href="#sec-33" data-target="sec-33">7.2 订单状态机</a>
+<a class="lv2" href="#sec-34" data-target="sec-34">7.3 权限规则</a>
+<a class="lv2" href="#sec-35" data-target="sec-35">7.4 数值与边界规则</a>
+<a class="lv1" href="#sec-36" data-target="sec-36">8. 非功能需求</a>
+<a class="lv2" href="#sec-37" data-target="sec-37">8.1 性能需求</a>
+<a class="lv2" href="#sec-38" data-target="sec-38">8.2 安全需求</a>
+<a class="lv2" href="#sec-39" data-target="sec-39">8.3 可用性与体验需求</a>
+<a class="lv2" href="#sec-40" data-target="sec-40">8.4 兼容性与环境需求</a>
+<a class="lv2" href="#sec-41" data-target="sec-41">8.5 可维护性与数据需求</a>
+<a class="lv1" href="#sec-42" data-target="sec-42">9. 数据需求</a>
+<a class="lv2" href="#sec-43" data-target="sec-43">9.1 核心实体关系</a>
+<a class="lv2" href="#sec-44" data-target="sec-44">9.2 实体清单</a>
+<a class="lv2" href="#sec-45" data-target="sec-45">9.3 关键字段字典（商品）</a>
+<a class="lv1" href="#sec-46" data-target="sec-46">10. 界面与交互需求</a>
+<a class="lv2" href="#sec-47" data-target="sec-47">10.1 页面清单（PC Web 端）</a>
+<a class="lv2" href="#sec-48" data-target="sec-48">10.2 核心交互约定</a>
+<a class="lv2" href="#sec-49" data-target="sec-49">10.3 移动端（微信小程序）设计需求</a>
+<a class="lv1" href="#sec-50" data-target="sec-50">11. 版本规划</a>
+<a class="lv2" href="#sec-51" data-target="sec-51">11.1 版本路线图</a>
+<a class="lv2" href="#sec-52" data-target="sec-52">11.2 范围界定原则</a>
+<a class="lv1" href="#sec-53" data-target="sec-53">12. 风险、约束与待确认项</a>
+<a class="lv2" href="#sec-54" data-target="sec-54">12.1 产品风险</a>
+<a class="lv2" href="#sec-55" data-target="sec-55">12.2 技术约束</a>
+<a class="lv2" href="#sec-56" data-target="sec-56">12.3 待确认项（Open Questions）</a>
+<a class="lv1" href="#sec-57" data-target="sec-57">附录 A：核心接口需求清单</a>
+<a class="lv2" href="#sec-58" data-target="sec-58">A.1 用户模块 /user</a>
+<a class="lv2" href="#sec-59" data-target="sec-59">A.2 商品模块 /goods</a>
+<a class="lv2" href="#sec-60" data-target="sec-60">A.3 智能识别 /smart</a>
+<a class="lv2" href="#sec-61" data-target="sec-61">A.4 购物车 /cart</a>
+<a class="lv2" href="#sec-62" data-target="sec-62">A.5 收藏 /favorite</a>
+<a class="lv2" href="#sec-63" data-target="sec-63">A.6 订单 /order</a>
+<a class="lv2" href="#sec-64" data-target="sec-64">A.7 消息 /message</a>
+<a class="lv2" href="#sec-65" data-target="sec-65">A.8 推荐 /recommend</a>
+<a class="lv2" href="#sec-66" data-target="sec-66">A.9 社区 /community</a>
+<a class="lv2" href="#sec-67" data-target="sec-67">A.10 分类 /category</a>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <span class="tag">PRD</span>
+      <span style="font-size:13px;color:var(--ink-3)">产品需求规格说明书 · V1.0 需求基线</span>
+      <span class="meta">48 条需求 · V1.0 交付 35 条</span>
+    </div>
+    <article class="doc">
+<h1 id="sec-1">校园二手交易智能系统</h1>
+<h2 id="sec-2">产品需求规格说明书（PRD / SRS）</h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>产品名称</td>
+<td>校园二手交易智能系统（Campus Trade）</td>
+</tr>
+<tr>
+<td>文档版本</td>
+<td>V1.0</td>
+</tr>
+<tr>
+<td>文档类型</td>
+<td>产品需求规格说明书</td>
+</tr>
+<tr>
+<td>编写日期</td>
+<td>2026-08-31</td>
+</tr>
+<tr>
+<td>目标读者</td>
+<td>产品经理、UI 设计师、前后端开发、测试、项目评审</td>
+</tr>
+<tr>
+<td>文档状态</td>
+<td>已评审，作为 V1.0 开发基线</td>
+</tr>
+</tbody>
+</table>
+<p><strong>修订记录</strong></p>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>修订内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V1.0</td>
+<td>2026-08-31</td>
+<td>首次发布，定义 V1.0 需求基线</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sec-3">1. 项目背景与问题定义</h2>
+<h3 id="sec-4">1.1 业务背景</h3>
+<p>高校学生在校期间存在大量闲置物品流转需求，集中在几个典型时间节点：<strong>开学季</strong>（购置教材、宿舍用品）、<strong>毕业季</strong>（批量处置带不走的物品）、<strong>学期中</strong>（数码产品迭代、教材换代）。</p>
+<p>目前校园二手交易的现实形态：</p>
+<table>
+<thead>
+<tr>
+<th>现有渠道</th>
+<th>具体问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>微信群 / QQ 群</td>
+<td>信息刷屏即消失，无检索能力；陌生人直接加好友，隐私暴露</td>
+</tr>
+<tr>
+<td>校园贴吧 / 表白墙</td>
+<td>图文分离，无结构化商品信息（价格、成色、实拍图）</td>
+</tr>
+<tr>
+<td>综合二手平台（闲鱼等）</td>
+<td>面向全国，供需双方不在同一校区，交易依赖快递，<strong>丧失校园场景"当面交易"的核心优势</strong></td>
+</tr>
+<tr>
+<td>线下跳蚤市场</td>
+<td>一年仅 1~2 次，时间窗口极短，覆盖品类有限</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-5">1.2 问题定义（Problem Statement）</h3>
+<blockquote>
+<p>校园内存在高频、周期性的闲置物品流转需求，但现有渠道普遍存在<strong>信息不可检索、买卖双方身份不可信、商品信息描述成本高、交易履约依赖校外物流</strong>四大问题，导致校园二手交易撮合效率低下、成交率低。</p>
+</blockquote>
+<h3 id="sec-6">1.3 产品机会点</h3>
+<ol>
+<li><strong>地理闭环</strong>：所有用户同属一个校区，"线下面交"可行且成本最低 → 交易设计应围绕<strong>自提</strong>而非快递。</li>
+<li><strong>身份闭环</strong>：用户以学号注册，天然具备校园身份属性 → 可建立比陌生人平台更高的信任基线。</li>
+<li><strong>发布门槛</strong>：学生发布二手物品时最不愿写标题和描述 → 引入 <strong>AI 图像识别自动填充商品信息</strong>，显著降低发布成本（本产品名中"智能"的来源）。</li>
+<li><strong>品类集中</strong>：校园二手高度集中在教材、数码、宿舍用品、代步车等少数品类 → 分类体系可精简，无需大而全的电商分类树。</li>
+</ol>
+<hr />
+<h2 id="sec-7">2. 产品定位与目标</h2>
+<h3 id="sec-8">2.1 产品定位（一句话）</h3>
+<blockquote>
+<p>面向<strong>单一高校校区</strong>学生的 C2C 二手闲置交易平台，以"<strong>AI 一键发布 + 校内自提</strong>"为核心，提供从发布、浏览、沟通到线下履约的轻量交易闭环。</p>
+</blockquote>
+<h3 id="sec-9">2.2 产品边界</h3>
+<p><strong>产品做（In Scope）</strong></p>
+<ul>
+<li>商品发布（含 AI 智能识别辅助）、浏览、搜索、分类筛选、排序</li>
+<li>买卖双方一对一私聊（商品维度会话）</li>
+<li>购物车、收藏、订单流转、线下自提履约</li>
+<li>基于浏览/搜索行为的个性化推荐</li>
+<li>校园社区（帖子 + 评论）</li>
+<li>管理员后台基础数据管理</li>
+</ul>
+<p><strong>产品不做（Out of Scope）</strong></p>
+<ul>
+<li><strong>不介入资金流</strong>：无在线支付、无钱包、无平台担保交易。付款动作在系统中仅做状态标记，实际资金由买卖双方面付。</li>
+<li><strong>不做物流配送</strong>：无快递、无运费模板，统一为线下自提。</li>
+<li><strong>不做跨校 / 跨城交易</strong>：用户范围限定单一校区。</li>
+<li><strong>不做售后维权体系</strong>：无退款、退货、申诉、仲裁流程。</li>
+</ul>
+<blockquote>
+<p><strong>关键产品决策说明</strong>
+平台选择"<strong>信息撮合 + 线下自提</strong>"而非"在线支付 + 担保交易"，是刻意的轻量化取舍：
+校内面交场景下，买家可当场验货，天然规避远程交易的信息不对称问题；
+同时规避支付牌照、资金结算、纠纷仲裁等合规与研发成本。
+该决策的代价是<strong>平台对交易的掌控力较弱</strong>，需通过信用积分、实名认证、评价体系等软性机制补偿。</p>
+</blockquote>
+<h3 id="sec-10">2.3 产品目标（可度量）</h3>
+<table>
+<thead>
+<tr>
+<th>目标维度</th>
+<th>指标</th>
+<th>目标值</th>
+<th>度量方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>发布效率</td>
+<td>单件商品平均发布耗时</td>
+<td>≤ 60 秒（使用 AI 识别时 ≤ 30 秒）</td>
+<td>埋点计时</td>
+</tr>
+<tr>
+<td>发布效率</td>
+<td>AI 识别信息采纳率</td>
+<td>≥ 60%（用户未大幅修改识别结果即提交）</td>
+<td>提交时对比识别值与最终值</td>
+</tr>
+<tr>
+<td>撮合效率</td>
+<td>商品发布到产生首个咨询的时长</td>
+<td>≤ 24 小时</td>
+<td>首次消息时间 − 商品创建时间</td>
+</tr>
+<tr>
+<td>撮合效率</td>
+<td>商品成交率（完成订单 / 上架商品）</td>
+<td>≥ 25%</td>
+<td>订单与商品统计</td>
+</tr>
+<tr>
+<td>活跃度</td>
+<td>日活用户（DAU）占注册用户比</td>
+<td>≥ 15%</td>
+<td>登录统计</td>
+</tr>
+<tr>
+<td>内容供给</td>
+<td>人均在架商品数</td>
+<td>≥ 1.5 件</td>
+<td>商品统计</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sec-11">3. 目标用户与角色定义</h2>
+<h3 id="sec-12">3.1 系统角色</h3>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>角色标识</th>
+<th>权限范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>普通用户</td>
+<td><code>role = 1</code></td>
+<td>商品发布/浏览/交易、购物车、收藏、私聊、社区发帖、个人中心</td>
+</tr>
+<tr>
+<td>管理员</td>
+<td><code>role = 2</code></td>
+<td>全部普通用户权限 + 用户管理、商品审核与下架、订单管理、数据概览</td>
+</tr>
+<tr>
+<td>游客</td>
+<td>未登录</td>
+<td>仅可访问登录/注册页，不可浏览任何业务页面</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-13">3.2 用户画像</h3>
+<p><strong>画像 A：毕业季甩卖的学长（供给方主力）</strong></p>
+<ul>
+<li>身份：大四学生，6 月毕业</li>
+<li>痛点：带不走的东西多（自行车、台灯、教材、小家电），时间紧，嫌拍照写描述麻烦</li>
+<li>诉求：<strong>批量、快速发布</strong>；希望一口价尽快出掉，不想反复议价</li>
+<li>关键需求：AI 识别一键填充、自提地址固定几个点、商品可一键下架</li>
+</ul>
+<p><strong>画像 B：开学季省钱的新生（需求方主力）</strong></p>
+<ul>
+<li>身份：大一新生，9 月入学</li>
+<li>痛点：教材、宿舍用品全新购买贵；不了解校内行情；担心被坑</li>
+<li>诉求：<strong>低价、可信、就在校内</strong>；想先看货再决定</li>
+<li>关键需求：分类浏览、价格排序、卖家信用/实名标识、私聊议价、收藏比价</li>
+</ul>
+<p><strong>画像 C：数码爱好者（高频双向用户）</strong></p>
+<ul>
+<li>身份：大二/大三，频繁更换手机、显卡、平板</li>
+<li>痛点：数码产品价值高、成色描述专业度要求高、买家疑虑多</li>
+<li>诉求：<strong>精确描述成色</strong>；多图展示；充分沟通后成交</li>
+<li>关键需求：新旧程度五档细分、多图上传、商品详情完整字段、私聊</li>
+</ul>
+<p><strong>画像 D：校园社区活跃者（内容供给）</strong></p>
+<ul>
+<li>身份：各年级，爱分享</li>
+<li>痛点：交易之外有交流需求（求购、经验分享）</li>
+<li>诉求：有个能发帖讨论的地方</li>
+<li>关键需求：社区发帖、评论互动</li>
+</ul>
+<hr />
+<h2 id="sec-14">4. 核心使用场景与用户故事</h2>
+<h3 id="sec-15">4.1 场景一：毕业季快速甩卖（供给主场景）</h3>
+<p><strong>用户故事</strong></p>
+<blockquote>
+<p>作为一个即将毕业的大四学生，我希望<strong>拍张照片就能自动填好商品信息</strong>，这样我能在半小时内把十几件东西全部挂出去，而不是一个个敲字。</p>
+</blockquote>
+<p><strong>流程</strong></p>
+<ol>
+<li>用户在发布页上传商品照片</li>
+<li>系统自动识别图片内容，返回：商品名称、建议分类、建议价格区间、生成描述</li>
+<li>用户确认/微调后，选择自提地址、成色、价格</li>
+<li>提交发布 → 商品上架，对全校可见</li>
+</ol>
+<p><strong>验收要点</strong>：AI 识别结果应可直接采纳，用户仅需补充价格与成色。</p>
+<h3 id="sec-16">4.2 场景二：开学季淘教材（需求主场景）</h3>
+<p><strong>用户故事</strong></p>
+<blockquote>
+<p>作为大一新生，我希望能<strong>按分类找到本学期的二手教材，并按价格从低到高排序</strong>，这样我不用在几百条群消息里翻找。</p>
+</blockquote>
+<p><strong>流程</strong></p>
+<ol>
+<li>首页选择"书籍资料"分类</li>
+<li>输入课程名/教材名关键词搜索</li>
+<li>按价格升序排序，浏览结果</li>
+<li>对候选商品收藏（比价）或直接联系卖家</li>
+<li>私聊确认库存与自提地点 → 下单 → 线下面交</li>
+</ol>
+<h3 id="sec-17">4.3 场景三：高价值数码交易（信任敏感场景）</h3>
+<p><strong>用户故事</strong></p>
+<blockquote>
+<p>作为想买二手笔记本的学生，我希望<strong>在下单前能和卖家充分沟通、看到尽可能多的实物图</strong>，因为几千块的交易我不能只看一张图就决定。</p>
+</blockquote>
+<p><strong>流程</strong></p>
+<ol>
+<li>商品详情页查看多图、成色描述、原价/现价对比、卖家信息</li>
+<li>点击"联系卖家"进入商品维度会话</li>
+<li>私聊议价、索取更多实拍图</li>
+<li>达成一致 → 加入购物车/立即购买 → 创建订单</li>
+<li>线下自提当场验货 → 确认收货</li>
+</ol>
+<h3 id="sec-18">4.4 场景四：卖家管理在售商品（履约场景）</h3>
+<p><strong>用户故事</strong></p>
+<blockquote>
+<p>作为卖家，我希望<strong>能看到所有与我相关的订单并按状态分类</strong>，这样我知道哪些要催付款、哪些要准备交付。</p>
+</blockquote>
+<p><strong>流程</strong></p>
+<ol>
+<li>订单页查看"我买到的 / 我卖出的"订单列表</li>
+<li>按状态筛选（待付款/待自提/已完成/已取消）</li>
+<li>待自提订单：线下交付后等待买家确认</li>
+<li>商品售罄后系统自动标记为"已售出"</li>
+</ol>
+<hr />
+<h2 id="sec-19">5. 功能需求总览</h2>
+<h3 id="sec-20">5.1 功能模块地图</h3>
+<pre><code>校园二手交易智能系统
+│
+├── 01 用户与认证
+│   ├── 注册（学号唯一）
+│   ├── 登录（JWT）
+│   ├── 个人信息查看/编辑
+│   ├── 修改密码
+│   └── 默认自提地址设置
+│
+├── 02 商品管理
+│   ├── 商品发布（含 AI 智能识别）
+│   ├── 商品图片上传
+│   ├── 商品列表（分页/分类/关键词/成色/排序）
+│   ├── 商品详情（浏览量统计）
+│   ├── 商品编辑 / 上下架 / 删除
+│   └── 我的商品列表
+│
+├── 03 交易履约
+│   ├── 购物车（增/删/清空）
+│   ├── 收藏（增/删/查/列表）
+│   ├── 订单创建（库存校验）
+│   ├── 订单支付
+│   ├── 订单取消（库存回滚）
+│   ├── 订单确认收货
+│   └── 订单列表（买/卖视角）
+│
+├── 04 沟通
+│   ├── 私聊消息发送
+│   ├── 会话详情（历史消息）
+│   ├── 会话列表
+│   └── 未读消息计数
+│
+├── 05 智能与推荐
+│   ├── AI 图像识别填充商品信息
+│   ├── 浏览行为采集
+│   ├── 搜索行为采集
+│   └── 个性化推荐商品
+│
+├── 06 社区
+│   ├── 发布帖子
+│   ├── 帖子列表 / 详情
+│   ├── 删除帖子
+│   ├── 发表评论 / 评论列表
+│   └── 删除评论
+│
+└── 07 管理后台
+    ├── 数据概览
+    ├── 用户管理
+    ├── 商品管理
+    └── 订单管理
+</code></pre>
+<h3 id="sec-21">5.2 需求清单</h3>
+<p>优先级：<strong>P0</strong> 核心必须 / <strong>P1</strong> 重要 / <strong>P2</strong> 增值 / <strong>P3</strong> 远期
+交付版本：<strong>V1.0</strong> 本期 / <strong>V1.1</strong> 稳定性补齐 / <strong>V1.2</strong> 交易治理 / <strong>V2.0</strong> 生态扩展</p>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求名称</th>
+<th>优先级</th>
+<th>版本</th>
+<th>所属模块</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-U-01</td>
+<td>学号注册</td>
+<td>P0</td>
+<td>V1.0</td>
+<td>用户与认证</td>
+</tr>
+<tr>
+<td>FR-U-02</td>
+<td>登录与身份保持</td>
+<td>P0</td>
+<td>V1.0</td>
+<td>用户与认证</td>
+</tr>
+<tr>
+<td>FR-U-03</td>
+<td>个人信息查看与编辑</td>
+<td>P0</td>
+<td>V1.0</td>
+<td>用户与认证</td>
+</tr>
+<tr>
+<td>FR-U-04</td>
+<td>修改密码</td>
+<td>P1</td>
+<td>V1.0</td>
+<td>用户与认证</td>
+</tr>
+<tr>
+<td>FR-U-05</td>
+<td>默认自提地址设置</td>
+<td>P1</td>
+<td>V1.0</td>
+<td>用户与认证</td>
+</tr>
+<tr>
+<td>FR-U-06</td>
+<td>学生证实名认证</td>
+<td>P1</td>
+<td>V1.2</td>
+<td>用户与认证</td>
+</tr>
+<tr>
+<td>FR-G-01</td>
+<td>商品发布</td>
+<td>P0</td>
+<td>V1.0</td>
+<td>商品管理</td>
+</tr>
+<tr>
+<td>FR-G-02</td>
+<td>商品图片上传</td>
+<td>P0</td>
+<td>V1.0</td>
+<td>商品管理</td>
+</tr>
+<tr>
+<td>FR-G-03</td>
+<td><strong>AI 智能识别填充</strong></td>
+<td>P0</td>
+<td>V1.0</td>
+<td>商品管理</td>
+</tr>
+<tr>
+<td>FR-G-04</td>
+<td>商品列表多条件检索</td>
+<td>P0</td>
+<td>V1.0</td>
+<td>商品管理</td>
+</tr>
+<tr>
+<td>FR-G-05</td>
+<td>商品详情与浏览量统计</td>
+<td>P0</td>
+<td>V1.0</td>
+<td>商品管理</td>
+</tr>
+<tr>
+<td>FR-G-06</td>
+<td>商品编辑</td>
+<td>P1</td>
+<td>V1.0</td>
+<td>商品管理</td>
+</tr>
+<tr>
+<td>FR-G-07</td>
+<td>商品上下架</td>
+<td>P1</td>
+<td>V1.0</td>
+<td>商品管理</td>
+</tr>
+<tr>
+<td>FR-G-08</td>
+<td>商品删除</td>
+<td>P1</td>
+<td>V1.0</td>
+<td>商品管理</td>
+</tr>
+<tr>
+<td>FR-G-09</td>
+<td>我的商品列表</td>
+<td>P1</td>
+<td>V1.0</td>
+<td>商品管理</td>
+</tr>
+<tr>
+<td>FR-G-10</td>
+<td>发布违规内容拦截</td>
+<td>P1</td>
+<td>V1.1</td>
+<td>商品管理</td>
+</tr>
+<tr>
+<td>FR-G-11</td>
+<td>重复发布检测</td>
+<td>P2</td>
+<td>V1.2</td>
+<td>商品管理</td>
+</tr>
+<tr>
+<td>FR-C-01</td>
+<td>购物车增删改清空</td>
+<td>P1</td>
+<td>V1.0</td>
+<td>交易履约</td>
+</tr>
+<tr>
+<td>FR-F-01</td>
+<td>收藏增删改查</td>
+<td>P1</td>
+<td>V1.0</td>
+<td>交易履约</td>
+</tr>
+<tr>
+<td>FR-O-01</td>
+<td>订单创建（含库存校验）</td>
+<td>P0</td>
+<td>V1.0</td>
+<td>交易履约</td>
+</tr>
+<tr>
+<td>FR-O-02</td>
+<td>订单支付</td>
+<td>P0</td>
+<td>V1.0</td>
+<td>交易履约</td>
+</tr>
+<tr>
+<td>FR-O-03</td>
+<td>订单取消与库存回滚</td>
+<td>P0</td>
+<td>V1.0</td>
+<td>交易履约</td>
+</tr>
+<tr>
+<td>FR-O-04</td>
+<td>订单确认收货</td>
+<td>P0</td>
+<td>V1.0</td>
+<td>交易履约</td>
+</tr>
+<tr>
+<td>FR-O-05</td>
+<td>订单列表（买卖双视角）</td>
+<td>P0</td>
+<td>V1.0</td>
+<td>交易履约</td>
+</tr>
+<tr>
+<td>FR-O-06</td>
+<td>订单删除</td>
+<td>P1</td>
+<td>V1.0</td>
+<td>交易履约</td>
+</tr>
+<tr>
+<td>FR-O-07</td>
+<td>交易超时自动处理</td>
+<td>P1</td>
+<td>V1.2</td>
+<td>交易履约</td>
+</tr>
+<tr>
+<td>FR-O-08</td>
+<td>在线支付接入</td>
+<td>P2</td>
+<td>V2.0</td>
+<td>交易履约</td>
+</tr>
+<tr>
+<td>FR-M-01</td>
+<td>私聊消息发送</td>
+<td>P0</td>
+<td>V1.0</td>
+<td>沟通</td>
+</tr>
+<tr>
+<td>FR-M-02</td>
+<td>会话历史消息</td>
+<td>P0</td>
+<td>V1.0</td>
+<td>沟通</td>
+</tr>
+<tr>
+<td>FR-M-03</td>
+<td>会话列表</td>
+<td>P0</td>
+<td>V1.0</td>
+<td>沟通</td>
+</tr>
+<tr>
+<td>FR-M-04</td>
+<td>未读消息计数</td>
+<td>P1</td>
+<td>V1.0</td>
+<td>沟通</td>
+</tr>
+<tr>
+<td>FR-M-05</td>
+<td>消息实时推送</td>
+<td>P1</td>
+<td>V1.1</td>
+<td>沟通</td>
+</tr>
+<tr>
+<td>FR-R-01</td>
+<td>浏览行为采集</td>
+<td>P1</td>
+<td>V1.0</td>
+<td>智能与推荐</td>
+</tr>
+<tr>
+<td>FR-R-02</td>
+<td>搜索行为采集</td>
+<td>P1</td>
+<td>V1.0</td>
+<td>智能与推荐</td>
+</tr>
+<tr>
+<td>FR-R-03</td>
+<td>个性化推荐商品</td>
+<td>P1</td>
+<td>V1.0</td>
+<td>智能与推荐</td>
+</tr>
+<tr>
+<td>FR-R-04</td>
+<td>行为数据定期清理</td>
+<td>P2</td>
+<td>V1.0</td>
+<td>智能与推荐</td>
+</tr>
+<tr>
+<td>FR-S-01</td>
+<td>社区发帖</td>
+<td>P2</td>
+<td>V1.0</td>
+<td>社区</td>
+</tr>
+<tr>
+<td>FR-S-02</td>
+<td>帖子列表与详情</td>
+<td>P2</td>
+<td>V1.0</td>
+<td>社区</td>
+</tr>
+<tr>
+<td>FR-S-03</td>
+<td>帖子删除</td>
+<td>P2</td>
+<td>V1.0</td>
+<td>社区</td>
+</tr>
+<tr>
+<td>FR-S-04</td>
+<td>评论发布与列表</td>
+<td>P2</td>
+<td>V1.0</td>
+<td>社区</td>
+</tr>
+<tr>
+<td>FR-S-05</td>
+<td>评论删除</td>
+<td>P2</td>
+<td>V1.0</td>
+<td>社区</td>
+</tr>
+<tr>
+<td>FR-A-01</td>
+<td>后台数据概览</td>
+<td>P1</td>
+<td>V1.1</td>
+<td>管理后台</td>
+</tr>
+<tr>
+<td>FR-A-02</td>
+<td>用户管理</td>
+<td>P1</td>
+<td>V1.1</td>
+<td>管理后台</td>
+</tr>
+<tr>
+<td>FR-A-03</td>
+<td>商品审核与管理</td>
+<td>P1</td>
+<td>V1.1</td>
+<td>管理后台</td>
+</tr>
+<tr>
+<td>FR-A-04</td>
+<td>订单管理</td>
+<td>P1</td>
+<td>V1.1</td>
+<td>管理后台</td>
+</tr>
+<tr>
+<td>FR-E-01</td>
+<td>订单评价与信用评分</td>
+<td>P1</td>
+<td>V1.2</td>
+<td>增值功能</td>
+</tr>
+<tr>
+<td>FR-E-02</td>
+<td>每日签到与积分</td>
+<td>P3</td>
+<td>V2.0</td>
+<td>增值功能</td>
+</tr>
+<tr>
+<td>FR-E-03</td>
+<td>余额钱包与充值</td>
+<td>P3</td>
+<td>V2.0</td>
+<td>增值功能</td>
+</tr>
+<tr>
+<td>FR-N-01</td>
+<td>平台公告</td>
+<td>P3</td>
+<td>V1.2</td>
+<td>增值功能</td>
+</tr>
+</tbody>
+</table>
+<p><strong>规模</strong>：共 48 条需求，V1.0 交付 35 条（核心交易闭环），后续迭代 13 条。</p>
+<hr />
+<h2 id="sec-22">6. 功能需求详述</h2>
+<h3 id="sec-23">6.1 用户与认证模块</h3>
+<h4>FR-U-01 学号注册 <code>P0</code></h4>
+<p><strong>需求描述</strong>
+新用户通过学号完成注册，学号作为校内身份的唯一凭证。</p>
+<p><strong>输入字段与规则</strong></p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>必填</th>
+<th>规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>学号 <code>student_id</code></td>
+<td>是</td>
+<td>唯一，长度 ≤ 32，全库唯一索引</td>
+</tr>
+<tr>
+<td>用户名 <code>username</code></td>
+<td>是</td>
+<td>长度 ≤ 64，展示用昵称</td>
+</tr>
+<tr>
+<td>密码 <code>password</code></td>
+<td>是</td>
+<td>后端加密存储（BCrypt），不明文返回</td>
+</tr>
+<tr>
+<td>邮箱 <code>email</code></td>
+<td>否</td>
+<td>唯一（若填写），格式校验</td>
+</tr>
+<tr>
+<td>手机号 <code>phone</code></td>
+<td>否</td>
+<td>≤ 16 位</td>
+</tr>
+</tbody>
+</table>
+<p><strong>业务规则</strong>
+- RU-1：学号不可重复注册
+- RU-2：注册成功后默认赋予普通用户角色、正常状态
+- RU-3：注册成功后默认信用积分 100 分
+- RU-4：注册成功后默认未实名认证（<code>is_verified = 0</code>）</p>
+<p><strong>异常场景</strong></p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>学号已存在</td>
+<td>提示"该学号已注册"，阻止提交</td>
+</tr>
+<tr>
+<td>邮箱已存在</td>
+<td>提示"邮箱已被使用"</td>
+</tr>
+<tr>
+<td>必填项为空</td>
+<td>前端表单校验拦截</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4>FR-U-02 登录与身份保持 <code>P0</code></h4>
+<p><strong>需求描述</strong>
+用户通过账号密码登录，服务端签发 JWT，前端持久化并在后续请求中携带。</p>
+<p><strong>业务规则</strong>
+- RU-1：登录成功后返回 token 与用户基本信息
+- RU-2：所有业务接口通过请求头携带 token 鉴权
+- RU-3：token 失效时跳转登录页
+- RU-4：已登录用户访问登录页时自动跳转首页</p>
+<p><strong>验收标准</strong>
+- 登录后刷新页面保持登录态
+- token 过期后访问受保护路由自动跳转 <code>/login</code></p>
+<hr />
+<h4>FR-U-03 ~ FR-U-05 个人信息管理 <code>P0/P1</code></h4>
+<p><strong>需求描述</strong>
+用户可查看与修改个人资料（用户名、邮箱、手机号、头像）、修改密码、设置默认自提地址。</p>
+<p><strong>业务规则</strong>
+- RU-1：用户可查看自己的完整信息；查看他人信息时仅返回公开字段（不含密码、邮箱等敏感信息）
+- RU-2：修改密码需校验原密码
+- RU-3：默认自提地址用于发布商品时自动回填</p>
+<hr />
+<h4>FR-U-06 学生证实名认证 <code>P1</code> · V1.2</h4>
+<p><strong>需求描述</strong>
+用户上传学生证照片，经管理员审核后获得"已认证"标识，提升交易可信度。</p>
+<p><strong>业务规则</strong>
+- RU-1：提交真实姓名 + 学生证图片 → 状态置为"审核中"
+- RU-2：管理员后台审核通过 → <code>is_verified = 1</code>，前台展示认证徽章
+- RU-3：审核拒绝 → 返回拒绝理由，允许用户重新提交</p>
+<hr />
+<h3 id="sec-24">6.2 商品管理模块</h3>
+<h4>FR-G-01 商品发布 <code>P0</code></h4>
+<p><strong>需求描述</strong>
+卖家填写商品信息并发布，商品上架后对全校可见。</p>
+<p><strong>输入字段与规则</strong></p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>必填</th>
+<th>规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>商品标题 <code>title</code></td>
+<td>是</td>
+<td>≤ 255 字符</td>
+</tr>
+<tr>
+<td>商品分类 <code>category_id</code></td>
+<td>是</td>
+<td>从预设分类中选择</td>
+</tr>
+<tr>
+<td>商品价格 <code>price</code></td>
+<td>是</td>
+<td>Decimal(10,2)，&gt; 0</td>
+</tr>
+<tr>
+<td>商品原价 <code>original_price</code></td>
+<td>否</td>
+<td>用于展示折扣对比</td>
+</tr>
+<tr>
+<td>商品数量 <code>stock</code></td>
+<td>是</td>
+<td>默认 1，上限 999（前后端均需校验）</td>
+</tr>
+<tr>
+<td>新旧程度 <code>condition</code></td>
+<td>是</td>
+<td>五档枚举</td>
+</tr>
+<tr>
+<td>商品图片 <code>images</code></td>
+<td>是</td>
+<td>多图，JSON 数组；首图作为封面</td>
+</tr>
+<tr>
+<td>商品描述 <code>description</code></td>
+<td>是</td>
+<td>文本域，前后端均需校验</td>
+</tr>
+<tr>
+<td>自提地址 <code>address</code></td>
+<td>是</td>
+<td>预设选项 + "其他（请在商品描述中注明）"</td>
+</tr>
+</tbody>
+</table>
+<p><strong>新旧程度枚举</strong></p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>含义</th>
+<th>业务解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>全新</td>
+<td>未拆封 / 未使用</td>
+</tr>
+<tr>
+<td>2</td>
+<td>几乎全新</td>
+<td>短暂使用，无明显痕迹</td>
+</tr>
+<tr>
+<td>3</td>
+<td>轻微使用痕迹</td>
+<td>正常使用痕迹</td>
+</tr>
+<tr>
+<td>4</td>
+<td>明显使用痕迹</td>
+<td>有可见磨损，功能正常</td>
+</tr>
+<tr>
+<td>5</td>
+<td>有瑕疵</td>
+<td>存在功能或外观缺陷，需在描述中说明</td>
+</tr>
+</tbody>
+</table>
+<p><strong>自提地址预设选项</strong></p>
+<ul>
+<li>张家界学院（主校区）</li>
+<li>张家界学院（西校区）</li>
+<li>张家界学院图书馆</li>
+<li>张家界学院食堂门口</li>
+<li>张家界学院快递点</li>
+<li>其他（请在商品描述中注明）</li>
+</ul>
+<p><strong>业务规则</strong>
+- RU-1：发布成功后商品状态置为"已上架"，对全校可见
+- RU-2：卖家 ID 从登录 token 中解析，不接受前端传入（防越权）
+- RU-3：初始浏览量、收藏数、销量均为 0
+- RU-4：库存未填写时默认为 1
+- RU-5：库存上限 999，前端限制输入、后端做硬校验，防止绕过</p>
+<p><strong>异常场景</strong></p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>未登录</td>
+<td>拦截，跳转登录页</td>
+</tr>
+<tr>
+<td>必填字段缺失</td>
+<td>前端校验拦截，后端二次校验并返回具体字段</td>
+</tr>
+<tr>
+<td>图片上传失败</td>
+<td>提示"图片上传失败，请重试"</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4>FR-G-02 商品图片上传 <code>P0</code></h4>
+<p><strong>需求描述</strong>
+用户在发布/编辑商品时上传实物图片，系统保存并返回可访问 URL。</p>
+<p><strong>业务规则</strong>
+- RU-1：支持多图上传，返回 URL 列表
+- RU-2：文件重命名（UUID）避免重名覆盖
+- RU-3：仅允许 jpg / png / webp 格式，单张 ≤ 5 MB
+- RU-4：上传前做客户端压缩，避免高分辨率原图影响加载性能
+- RU-5：存储目录通过静态资源映射对外提供访问</p>
+<p><strong>异常场景</strong></p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文件格式不符</td>
+<td>提示"仅支持 jpg/png/webp 格式"</td>
+</tr>
+<tr>
+<td>文件超过 5 MB</td>
+<td>提示"图片不能超过 5MB"</td>
+</tr>
+<tr>
+<td>上传失败</td>
+<td>提示重试，不影响已填写的表单内容</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4>FR-G-03 AI 智能识别填充商品信息 <code>P0</code> ⭐ 核心差异化需求</h4>
+<p><strong>需求描述</strong>
+用户上传商品图片后，系统调用第三方 AI 图像识别服务识别物品类别，匹配内置商品模板，自动填充<strong>商品名称、分类、建议价格、商品描述</strong>，用户确认或微调后提交。</p>
+<p><strong>业务流程</strong></p>
+<pre><code>用户上传图片
+    ↓
+图片转 Base64 → 调用 AI 图像识别服务
+    ↓
+获取识别关键词列表（按置信度排序）
+    ↓
+关键词与内置商品模板库匹配（11 大类）
+    ↓
+匹配成功 → 返回：商品名称 / 建议分类 / 价格区间 / 生成描述
+匹配失败 → 兜底为「其他」分类，不填充价格
+    ↓
+前端展示&quot;识别结果&quot;卡片 → 用户一键采纳或手动修改
+</code></pre>
+<p><strong>内置商品模板库（11 类）</strong></p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>图书教材</td>
+<td>教材、课外书、考研资料</td>
+</tr>
+<tr>
+<td>文具</td>
+<td>笔、笔记本、文具套装</td>
+</tr>
+<tr>
+<td>电子设备</td>
+<td>手机、电脑、平板、耳机</td>
+</tr>
+<tr>
+<td>生活用品</td>
+<td>台灯、收纳、小家电</td>
+</tr>
+<tr>
+<td>服装鞋包</td>
+<td>衣服、鞋、箱包</td>
+</tr>
+<tr>
+<td>运动器材</td>
+<td>球类、健身器材、自行车</td>
+</tr>
+<tr>
+<td>美妆个人护理</td>
+<td>护肤品、化妆品</td>
+</tr>
+<tr>
+<td>零食饮品</td>
+<td>食品、饮料</td>
+</tr>
+<tr>
+<td>装饰品礼品</td>
+<td>摆件、手办、礼品</td>
+</tr>
+<tr>
+<td>交通工具</td>
+<td>电动车、滑板车</td>
+</tr>
+<tr>
+<td>其他</td>
+<td>兜底分类</td>
+</tr>
+</tbody>
+</table>
+<p><strong>业务规则</strong>
+- RU-1：仅取置信度达标的识别结果参与匹配
+- RU-2：模板返回的建议价格是一个<strong>区间</strong>，最终价格由用户决定
+- RU-3：AI 服务调用失败时降级为手动填写，不阻塞发布流程
+- RU-4：用户可传入原价参数辅助价格建议
+- RU-5：同一张图片的识别结果需缓存复用，避免重复调用产生费用</p>
+<p><strong>验收标准</strong>
+- 上传一张数码产品图片，能正确返回商品名称与电子设备分类
+- AI 服务不可用时，用户仍能正常手动发布
+- 识别结果卡片可一键填充到表单对应字段
+- 识别响应时间 ≤ 5 秒</p>
+<p><strong>风险与应对</strong></p>
+<table>
+<thead>
+<tr>
+<th>风险</th>
+<th>应对</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第三方 API 调用频次与费用限制</td>
+<td>设计调用限流 + 结果缓存策略</td>
+</tr>
+<tr>
+<td>通用模型对校园特定品类（教材封面等）识别效果有限</td>
+<td>兜底降级；长期可积累校内数据做微调</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4>FR-G-04 商品列表多条件检索 <code>P0</code></h4>
+<p><strong>需求描述</strong>
+买家在首页按分页、分类、关键词、成色筛选，并按不同维度排序浏览商品。</p>
+<p><strong>查询条件</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pageNum</code></td>
+<td>页码</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>pageSize</code></td>
+<td>每页条数</td>
+<td>10</td>
+</tr>
+<tr>
+<td><code>categoryId</code></td>
+<td>分类筛选</td>
+<td>空（全部）</td>
+</tr>
+<tr>
+<td><code>keyword</code></td>
+<td>关键词（匹配标题与描述）</td>
+<td>空</td>
+</tr>
+<tr>
+<td><code>condition</code></td>
+<td>新旧程度筛选</td>
+<td>空</td>
+</tr>
+<tr>
+<td><code>sortBy</code></td>
+<td>排序维度</td>
+<td>空（按创建时间）</td>
+</tr>
+<tr>
+<td><code>sortOrder</code></td>
+<td>排序方向</td>
+<td>desc</td>
+</tr>
+</tbody>
+</table>
+<p><strong>排序方式</strong></p>
+<table>
+<thead>
+<tr>
+<th>排序项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>最新</td>
+<td>按创建时间倒序（默认）</td>
+</tr>
+<tr>
+<td>最热</td>
+<td>按浏览量倒序</td>
+</tr>
+<tr>
+<td>价格</td>
+<td>升序 / 降序切换</td>
+</tr>
+</tbody>
+</table>
+<p><strong>业务规则</strong>
+- RU-1：列表仅返回"已上架"状态的商品
+- RU-2：关键词同时匹配<strong>商品标题与描述</strong>，采用全文检索
+- RU-3：分页返回总条数，前端渲染分页器</p>
+<hr />
+<h4>FR-G-05 商品详情与浏览量统计 <code>P0</code></h4>
+<p><strong>需求描述</strong>
+展示商品完整信息，并在访问时累加浏览量。</p>
+<p><strong>展示内容</strong>
+商品标题、分类、价格、原价、新旧程度、库存、图片集、描述、自提地址、浏览量、收藏数、卖家信息（昵称/头像）、当前用户收藏状态</p>
+<p><strong>业务规则</strong>
+- RU-1：浏览量按"用户 + 商品"维度去重，同一用户 24 小时内多次访问只计一次
+- RU-2：详情页提供"收藏 / 加入购物车 / 立即购买 / 联系卖家"四个操作入口
+- RU-3：详情接口直接返回当前用户的收藏状态，减少额外请求</p>
+<hr />
+<h4>FR-G-06 ~ FR-G-09 商品编辑 / 上下架 / 删除 / 我的商品 <code>P1</code></h4>
+<p><strong>需求描述</strong>
+卖家可管理自己发布的商品。</p>
+<p><strong>业务规则</strong>
+- RU-1：仅商品卖家本人可编辑/上下架/删除自己的商品
+- RU-2："我的商品"列表按分页返回当前用户的全部商品（含已下架）
+- RU-3：下架后商品不在公开列表中展示，但卖家可见</p>
+<hr />
+<h4>FR-G-10 发布违规内容拦截 <code>P1</code> · V1.1</h4>
+<p><strong>需求描述</strong>
+发布时对违规内容进行检测与拦截，维护平台内容安全。</p>
+<p><strong>规则设计</strong>
+- RU-1：违禁品检测（管制刀具、药品、烟草、野生动物制品等）→ 直接拦截发布
+- RU-2：敏感内容检测（涉黄、涉政、暴恐）→ 拦截并提示
+- RU-3：虚假信息检测（价格明显偏离合理区间，如 iPhone 标价 1 元）→ 风险提示
+- RU-4：广告引流检测（含微信/QQ 号、二维码、"加V"等）→ 拦截并提示
+- RU-5：命中拦截的记录进入人工审核队列</p>
+<p><strong>实现建议</strong>：一期接关键词黑名单（成本最低、见效最快），后续叠加第三方内容安全服务。</p>
+<hr />
+<h4>FR-G-11 重复发布检测 <code>P2</code> · V1.2</h4>
+<p><strong>需求描述</strong>
+防止用户短时间内重复发布同一件商品，避免信息流被刷屏。</p>
+<p><strong>规则设计</strong>
+- RU-1：判定条件 —— 同一用户在 <strong>24 小时内</strong>发布标题相似度 <strong>≥ 80%</strong> 的商品
+- RU-2：相似度算法 —— 编辑距离（Levenshtein）或余弦相似度
+- RU-3：命中后拦截发布，提示"该商品已发布，请勿重复发布"
+- RU-4：例外 —— 不同分类、不同价格区间的商品不判定为重复</p>
+<hr />
+<h3 id="sec-25">6.3 交易履约模块</h3>
+<h4>FR-O-01 订单创建 <code>P0</code></h4>
+<p><strong>需求描述</strong>
+买家对商品下单，生成待付款订单。</p>
+<p><strong>业务规则</strong>
+- RU-1：下单前校验库存，库存不足时提示"库存不足，当前库存：X 件"
+- RU-2：订单创建后状态为"待付款"
+- RU-3：订单号全局唯一（时间戳 + 随机序列）
+- RU-4：冗余保存自提地址快照，避免商品地址变更后订单地址丢失
+- RU-5：<strong>下单即预占库存</strong>（扣减），防止超卖；超时未付或主动取消则释放</p>
+<p><strong>待确认项</strong>
+V1.0 订单结构为"一单一品"。若后续支持购物车批量下单，需引入订单明细表。</p>
+<hr />
+<h4>FR-O-02 订单支付 <code>P0</code></h4>
+<p><strong>需求描述</strong>
+买家完成付款，订单进入"待自提"。</p>
+<p><strong>业务规则</strong>
+- RU-1：仅"待付款"状态订单可执行支付
+- RU-2：支付成功后订单状态置为"待自提"，记录付款时间
+- RU-3：库存已在下单时预占，支付动作不重复扣减
+- RU-4：若库存扣减后为 0，商品自动置为"已售出"
+- RU-5：V1.0 采用<strong>线下支付</strong>方式，平台不介入资金流，付款在系统中仅作状态标记；实际资金由买卖双方面付</p>
+<p><strong>升级路径</strong>
+在线支付接入（FR-O-08，V2.0）需配套资金托管、退款、对账能力，属重大范围变更，需重新评估产品边界。</p>
+<hr />
+<h4>FR-O-03 订单取消与库存回滚 <code>P0</code></h4>
+<p><strong>需求描述</strong>
+买家在付款前可取消订单，系统释放被预占的库存。</p>
+<p><strong>业务规则</strong>
+- RU-1：仅"待付款"状态订单可取消
+- RU-2：取消后订单状态置为"已取消"，记录取消时间与取消原因
+- RU-3：取消时回滚库存
+- RU-4：库存回滚后若商品原为"已售出"状态且库存 &gt; 0，自动恢复为"已上架"</p>
+<hr />
+<h4>FR-O-04 订单确认收货 <code>P0</code></h4>
+<p><strong>需求描述</strong>
+买家线下自提验货后确认收货，订单完成。</p>
+<p><strong>业务规则</strong>
+- RU-1：仅"待自提"状态订单可确认收货
+- RU-2：确认后订单状态置为"已完成"，记录完成时间</p>
+<hr />
+<h4>FR-O-05 / FR-O-06 订单列表与删除 <code>P0/P1</code></h4>
+<p><strong>需求描述</strong>
+用户查看与自己相关的订单（买到的 / 卖出的），并可删除已完成或已取消的订单。</p>
+<p><strong>业务规则</strong>
+- RU-1：订单列表同时包含"我作为买家"和"我作为卖家"的订单
+- RU-2：订单列表冗余返回商品信息（标题、封面、价格）便于展示
+- RU-3：仅"已完成"或"已取消"状态订单可删除，进行中订单不可删除
+- RU-4：订单删除采用<strong>软删除</strong>，保留交易凭证用于后续对账与纠纷追溯</p>
+<hr />
+<h4>FR-O-07 交易超时自动处理 <code>P1</code> · V1.2</h4>
+<p><strong>需求描述</strong>
+通过定时任务自动处理超时订单，避免订单长期悬挂占用库存。</p>
+<p><strong>规则设计</strong></p>
+<table>
+<thead>
+<tr>
+<th>超时类型</th>
+<th>触发条件</th>
+<th>自动处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>待付款超时</td>
+<td>订单创建后 <strong>30 分钟</strong>未付款</td>
+<td>自动取消订单，释放库存</td>
+</tr>
+<tr>
+<td>待自提超时</td>
+<td>付款后 <strong>48 小时</strong>未确认自提</td>
+<td>系统提醒卖家，可申请平台介入</td>
+</tr>
+<tr>
+<td>确认收货超时</td>
+<td>买家确认自提后 <strong>7 天</strong>未确认收货</td>
+<td>自动完成订单</td>
+</tr>
+</tbody>
+</table>
+<p><strong>实现要求</strong>：定时任务扫描超时订单 → 执行状态变更 → 释放库存 → 发送站内通知。</p>
+<hr />
+<h3 id="sec-26">6.4 购物车与收藏</h3>
+<h4>FR-C-01 购物车 <code>P1</code></h4>
+<p><strong>业务规则</strong>
+- RU-1：同一用户对同一商品仅可加入购物车一次（唯一索引 <code>user_id + goods_id</code>）
+- RU-2：购物车列表返回商品完整信息（标题、封面、价格、库存、卖家）
+- RU-3：可单条删除、可清空
+- RU-4：加入购物车时校验库存充足
+- RU-5：V1.0 购物车不支持调整数量（二手商品多为单件），加购即 1 件</p>
+<hr />
+<h4>FR-F-01 收藏 <code>P1</code></h4>
+<p><strong>业务规则</strong>
+- RU-1：同一用户对同一商品仅可收藏一次
+- RU-2：支持收藏、取消收藏、查询是否已收藏、查看收藏列表
+- RU-3：收藏时商品表的收藏计数同步增减</p>
+<hr />
+<h3 id="sec-27">6.5 沟通模块</h3>
+<h4>FR-M-01 ~ FR-M-04 私聊 <code>P0/P1</code></h4>
+<p><strong>需求描述</strong>
+买卖双方就某一商品进行一对一沟通。</p>
+<p><strong>业务规则</strong>
+- RU-1：消息包含发送方、接收方、内容、类型（1-文字 / 2-图片）、已读状态
+- RU-2：消息关联商品 ID，保留沟通上下文
+- RU-3：会话详情按双方 ID 拉取双向完整消息记录
+- RU-4：会话列表按最近消息聚合，返回对方用户信息、最后一条消息、未读条数
+- RU-5：提供全局未读消息总数，用于导航角标
+- RU-6：消息内容需经过敏感词过滤</p>
+<p><strong>V1.1 增强（FR-M-05）</strong>：引入 WebSocket 实现消息实时推送，替代轮询刷新。</p>
+<hr />
+<h3 id="sec-28">6.6 智能与推荐模块</h3>
+<h4>FR-R-01 ~ FR-R-03 行为采集与个性化推荐 <code>P1</code></h4>
+<p><strong>需求描述</strong>
+采集用户浏览与搜索行为，在首页"猜你喜欢"位置返回个性化推荐商品。</p>
+<p><strong>业务规则</strong>
+- RU-1：用户进入商品详情时记录浏览行为（用户 + 商品 + 时间）
+- RU-2：用户执行搜索时记录搜索关键词
+- RU-3：推荐接口基于用户历史行为（浏览/搜索）计算推荐结果
+- RU-4：未登录或行为数据不足时，降级返回热门/最新商品（冷启动策略）</p>
+<p><strong>FR-R-04 行为数据定期清理</strong> <code>P2</code>
+- 定时任务清理过期行为数据，避免无限膨胀
+- 保留窗口：浏览记录 90 天，搜索记录 30 天</p>
+<p><strong>待明确项</strong>：推荐算法的具体策略（协同过滤 / 基于内容相似度 / 热度加权）在技术设计阶段确定。</p>
+<hr />
+<h3 id="sec-29">6.7 社区模块</h3>
+<h4>FR-S-01 ~ FR-S-05 校园社区 <code>P2</code></h4>
+<p><strong>需求描述</strong>
+提供校园范围内的轻社区，支持发布帖子、评论互动。</p>
+<p><strong>业务规则</strong>
+- RU-1：登录用户可发布帖子（标题/正文/图片）
+- RU-2：帖子列表按时间倒序返回，含作者信息
+- RU-3：用户可在帖子下发表评论，按帖子维度拉取评论列表
+- RU-4：仅作者本人可删除自己的帖子/评论
+- RU-5：帖子与评论内容需经过敏感词过滤</p>
+<hr />
+<h3 id="sec-30">6.8 管理后台模块</h3>
+<h4>FR-A-01 ~ FR-A-04 管理后台 <code>P1</code> · V1.1</h4>
+<p><strong>需求描述</strong>
+管理员通过后台进行平台治理：查看经营数据、管理用户、审核商品、管理订单。</p>
+<p><strong>功能规划</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>需求要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据概览</td>
+<td>用户总数、商品总数、订单总数、交易额趋势图（<strong>真实统计值</strong>）</td>
+</tr>
+<tr>
+<td>用户管理</td>
+<td>用户列表、启用/禁用、查看认证材料、审核实名</td>
+</tr>
+<tr>
+<td>商品管理</td>
+<td>商品列表、审核（通过/拒绝）、强制下架、删除</td>
+</tr>
+<tr>
+<td>订单管理</td>
+<td>订单列表、按状态筛选、查看订单详情、异常订单介入</td>
+</tr>
+</tbody>
+</table>
+<p><strong>业务规则</strong>
+- RU-1：管理员角色判断统一使用 <code>role = 2</code>，前后端保持一致
+- RU-2：商品审核拒绝时需填写审核备注，供卖家查看
+- RU-3：禁用用户后该用户不可登录，其商品从列表中隐藏</p>
+<hr />
+<h2 id="sec-31">7. 关键业务规则与状态机</h2>
+<h3 id="sec-32">7.1 商品状态机</h3>
+<pre><code>                    ┌──────────────┐
+                    │  0 待审核    │
+                    └──────┬───────┘
+                           │ 审核通过
+                           ▼
+  发布 ──────▶ ┌──────────────────────────┐
+               │      1 已上架（在售）     │◀────────┐
+               └───┬───────┬───────┬──────┘         │
+      卖家主动下架  │       │       │ 库存扣减至 0    │ 库存回滚（&gt;0）
+                   ▼       │       ▼                │
+        ┌──────────────┐   │  ┌──────────────┐      │
+        │  2 已下架     │   │  │  4 已售出     │──────┘
+        └──────┬───────┘   │  └──────────────┘
+               │ 重新上架   │
+               └───────────┘
+
+      审核拒绝 ──▶ ┌──────────────┐
+                  │  3 审核拒绝   │
+                  └──────────────┘
+
+      任意状态 ──▶ 删除（卖家本人）
+</code></pre>
+<p><strong>状态流转规则表</strong></p>
+<table>
+<thead>
+<tr>
+<th>当前状态</th>
+<th>动作</th>
+<th>目标状态</th>
+<th>触发方</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>—</td>
+<td>发布</td>
+<td>1 已上架</td>
+<td>卖家</td>
+</tr>
+<tr>
+<td>1 已上架</td>
+<td>下架</td>
+<td>2 已下架</td>
+<td>卖家</td>
+</tr>
+<tr>
+<td>1 已上架</td>
+<td>库存扣至 0</td>
+<td>4 已售出</td>
+<td>系统（自动）</td>
+</tr>
+<tr>
+<td>1 已上架</td>
+<td>审核拒绝</td>
+<td>3 审核拒绝</td>
+<td>管理员</td>
+</tr>
+<tr>
+<td>2 已下架</td>
+<td>重新上架</td>
+<td>1 已上架</td>
+<td>卖家</td>
+</tr>
+<tr>
+<td>4 已售出</td>
+<td>库存回滚且 &gt; 0</td>
+<td>1 已上架</td>
+<td>系统（自动）</td>
+</tr>
+<tr>
+<td>任意</td>
+<td>删除</td>
+<td>记录移除</td>
+<td>卖家</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>说明</strong>：V1.0 采用"发布即上架"的免审核模式，快速验证供给；商品审核流程随管理后台在 V1.1 启用。</p>
+</blockquote>
+<h3 id="sec-33">7.2 订单状态机</h3>
+<pre><code>  下单 ──▶ ┌──────────────┐   支付   ┌──────────────┐  确认收货  ┌──────────────┐
+           │  0 待付款     │────────▶│  1 待自提     │──────────▶│  2 已完成     │
+           └───────┬──────┘（预占）  └──────┬───────┘            └──────┬───────┘
+                   │                        │                           │
+              取消  │                   超时提醒                     删除 │
+                   ▼                        │                           ▼
+           ┌──────────────┐                 │                      （软删除）
+           │  3 已取消     │◀────────────────┘
+           └──────┬───────┘   超时自动取消
+                  │ 删除
+                  ▼
+             （软删除）
+</code></pre>
+<p><strong>状态流转规则表</strong></p>
+<table>
+<thead>
+<tr>
+<th>当前状态</th>
+<th>动作</th>
+<th>目标状态</th>
+<th>库存影响</th>
+<th>触发方</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>—</td>
+<td>创建订单</td>
+<td>0 待付款</td>
+<td>预占（扣减）</td>
+<td>买家</td>
+</tr>
+<tr>
+<td>0 待付款</td>
+<td>支付</td>
+<td>1 待自提</td>
+<td>无（已预占）</td>
+<td>买家</td>
+</tr>
+<tr>
+<td>0 待付款</td>
+<td>取消</td>
+<td>3 已取消</td>
+<td>释放</td>
+<td>买家 / 系统超时</td>
+</tr>
+<tr>
+<td>1 待自提</td>
+<td>确认收货</td>
+<td>2 已完成</td>
+<td>无</td>
+<td>买家</td>
+</tr>
+<tr>
+<td>1 待自提</td>
+<td>超时未自提</td>
+<td>提醒卖家（不自动变更）</td>
+<td>无</td>
+<td>系统</td>
+</tr>
+<tr>
+<td>2 已完成 / 3 已取消</td>
+<td>删除</td>
+<td>软删除</td>
+<td>无</td>
+<td>用户</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>设计原则</strong>：库存采用<strong>预占模式</strong>（下单即锁），可有效防止超卖；代价是必须依赖超时机制释放被悬挂订单占用的库存，因此 FR-O-07 为必配套需求。</p>
+</blockquote>
+<h3 id="sec-34">7.3 权限规则</h3>
+<table>
+<thead>
+<tr>
+<th>资源</th>
+<th>权限规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>商品</td>
+<td>所有人可读（仅已上架）；仅卖家可改/删/上下架</td>
+</tr>
+<tr>
+<td>订单</td>
+<td>仅买家与卖家可见；仅买家可执行支付/取消/确认；双方均可删除终态订单</td>
+</tr>
+<tr>
+<td>购物车/收藏</td>
+<td>仅本人可读写</td>
+</tr>
+<tr>
+<td>消息</td>
+<td>仅收发双方可见</td>
+</tr>
+<tr>
+<td>社区帖子/评论</td>
+<td>所有人可读；仅作者可删</td>
+</tr>
+<tr>
+<td>后台功能</td>
+<td>仅管理员（<code>role = 2</code>）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-35">7.4 数值与边界规则</h3>
+<table>
+<thead>
+<tr>
+<th>规则项</th>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>商品库存上限</td>
+<td>999</td>
+<td>前端限制输入 + 后端硬校验</td>
+</tr>
+<tr>
+<td>商品库存默认值</td>
+<td>1</td>
+<td>二手商品多为单件</td>
+</tr>
+<tr>
+<td>商品价格精度</td>
+<td>Decimal(10,2)</td>
+<td>支持到分</td>
+</tr>
+<tr>
+<td>信用积分初始值</td>
+<td>100</td>
+<td>扣分规则随评价体系（V1.2）定义</td>
+</tr>
+<tr>
+<td>分页每页默认条数</td>
+<td>10</td>
+<td></td>
+</tr>
+<tr>
+<td>新旧程度档位</td>
+<td>1~5</td>
+<td>五档枚举</td>
+</tr>
+<tr>
+<td>单张图片大小上限</td>
+<td>5 MB</td>
+<td>格式限 jpg/png/webp</td>
+</tr>
+<tr>
+<td>消息类型</td>
+<td>1-文字 / 2-图片</td>
+<td></td>
+</tr>
+<tr>
+<td>待付款超时</td>
+<td>30 分钟</td>
+<td>V1.2</td>
+</tr>
+<tr>
+<td>待自提超时提醒</td>
+<td>48 小时</td>
+<td>V1.2</td>
+</tr>
+<tr>
+<td>自动确认收货</td>
+<td>7 天</td>
+<td>V1.2</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sec-36">8. 非功能需求</h2>
+<h3 id="sec-37">8.1 性能需求</h3>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+<th>指标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NFR-P-01</td>
+<td>首页商品列表加载</td>
+<td>1000 条数据量下 ≤ 1.5 秒</td>
+</tr>
+<tr>
+<td>NFR-P-02</td>
+<td>商品详情页打开</td>
+<td>≤ 1 秒</td>
+</tr>
+<tr>
+<td>NFR-P-03</td>
+<td>图片上传（单张 2MB）</td>
+<td>≤ 3 秒</td>
+</tr>
+<tr>
+<td>NFR-P-04</td>
+<td>AI 智能识别响应</td>
+<td>≤ 5 秒（含第三方 API 调用）</td>
+</tr>
+<tr>
+<td>NFR-P-05</td>
+<td>消息发送送达</td>
+<td>≤ 1 秒</td>
+</tr>
+<tr>
+<td>NFR-P-06</td>
+<td>系统并发支撑</td>
+<td>支持 500 人同时在线，核心接口 QPS ≥ 100</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-38">8.2 安全需求</h3>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NFR-S-01</td>
+<td>用户密码加密存储（BCrypt），传输过程 HTTPS，不明文返回</td>
+</tr>
+<tr>
+<td>NFR-S-02</td>
+<td>接口鉴权：所有业务接口校验 JWT，未登录返回 401</td>
+</tr>
+<tr>
+<td>NFR-S-03</td>
+<td><strong>越权防护</strong>：资源操作需校验归属（如仅卖家可改自己商品），防止水平越权</td>
+</tr>
+<tr>
+<td>NFR-S-04</td>
+<td>敏感信息脱敏：对外接口不返回密码等敏感字段</td>
+</tr>
+<tr>
+<td>NFR-S-05</td>
+<td>文件上传安全：校验类型白名单、限制大小、重命名存储，禁止脚本文件</td>
+</tr>
+<tr>
+<td>NFR-S-06</td>
+<td>SQL 注入防护：使用参数化查询</td>
+</tr>
+<tr>
+<td>NFR-S-07</td>
+<td>XSS 防护：用户输入的商品描述、帖子内容在前端渲染时转义</td>
+</tr>
+<tr>
+<td>NFR-S-08</td>
+<td>管理员接口需独立鉴权，普通用户访问后台接口返回 403</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-39">8.3 可用性与体验需求</h3>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NFR-U-01</td>
+<td>表单校验前置，错误提示精确到字段</td>
+</tr>
+<tr>
+<td>NFR-U-02</td>
+<td>所有异步操作需有 loading 状态，禁止无反馈的重复提交</td>
+</tr>
+<tr>
+<td>NFR-U-03</td>
+<td>关键操作（删除、取消订单、清空购物车）需二次确认</td>
+</tr>
+<tr>
+<td>NFR-U-04</td>
+<td>空数据场景需有空状态引导（空购物车、空订单、无搜索结果）</td>
+</tr>
+<tr>
+<td>NFR-U-05</td>
+<td>网络异常/接口失败需有统一错误提示与重试入口</td>
+</tr>
+<tr>
+<td>NFR-U-06</td>
+<td>适配主流分辨率（PC 端 1280~1920 宽）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-40">8.4 兼容性与环境需求</h3>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NFR-C-01</td>
+<td>前端兼容 Chrome / Edge 最新两个大版本</td>
+</tr>
+<tr>
+<td>NFR-C-02</td>
+<td>服务端环境：JDK 8+、MySQL 5.7+</td>
+</tr>
+<tr>
+<td>NFR-C-03</td>
+<td>前端构建：Node 16+、Vite</td>
+</tr>
+<tr>
+<td>NFR-C-04</td>
+<td>移动端形态为微信小程序，见 10.3</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-41">8.5 可维护性与数据需求</h3>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NFR-M-01</td>
+<td>前后端分离部署，前端 5173 端口，后端 8080 端口</td>
+</tr>
+<tr>
+<td>NFR-M-02</td>
+<td>统一接口响应格式（<code>{code, message, data}</code>）</td>
+</tr>
+<tr>
+<td>NFR-M-03</td>
+<td>全局异常处理，避免裸异常堆栈暴露给用户</td>
+</tr>
+<tr>
+<td>NFR-M-04</td>
+<td>关键操作留痕：订单状态变更记录时间戳</td>
+</tr>
+<tr>
+<td>NFR-M-05</td>
+<td>数据库结构变更纳入版本管理，脚本与实体定义保持同步</td>
+</tr>
+<tr>
+<td>NFR-M-06</td>
+<td>静态资源（图片）存储需具备可扩展性，便于后续迁移至对象存储</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sec-42">9. 数据需求</h2>
+<h3 id="sec-43">9.1 核心实体关系</h3>
+<pre><code>        ┌──────────┐          ┌──────────┐
+        │   user   │          │ category │
+        └────┬─────┘          └────┬─────┘
+             │                     │
+        ┌────┴──────────┐          │ 1:N
+        │   seller      │          │
+        │   buyer       │          ▼
+        │               │     ┌──────────┐
+        │               │────▶│  goods   │
+        │               │ 1:N └────┬─────┘
+        │               │          │ 1:N
+        │               │          │
+        │               │◀─────────┘
+        │               │  order (buyer_id / seller_id / goods_id)
+        │               │
+        │               │────▶ cart      (user_id, goods_id)
+        │               │────▶ favorite  (user_id, goods_id)
+        │               │────▶ chat      (from_user_id, to_user_id, goods_id)
+        │               │────▶ comment   (from_user_id, to_user_id, order_id, goods_id)
+        │               │────▶ browse_history / search_history
+        └───────────────┘
+</code></pre>
+<h3 id="sec-44">9.2 实体清单</h3>
+<table>
+<thead>
+<tr>
+<th>实体</th>
+<th>表名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用户</td>
+<td><code>user</code></td>
+<td>学号、认证信息、信用积分、默认地址</td>
+</tr>
+<tr>
+<td>分类</td>
+<td><code>category</code></td>
+<td>商品分类，支持排序与启停</td>
+</tr>
+<tr>
+<td>商品</td>
+<td><code>goods</code></td>
+<td>商品主体，含价格、成色、图片、状态、统计计数</td>
+</tr>
+<tr>
+<td>订单</td>
+<td><code>order</code></td>
+<td>交易主体，含买卖双方、金额、状态流转时间戳</td>
+</tr>
+<tr>
+<td>评价</td>
+<td><code>comment</code></td>
+<td>订单评价（V1.2 启用）</td>
+</tr>
+<tr>
+<td>购物车</td>
+<td><code>cart</code></td>
+<td>用户 + 商品唯一约束</td>
+</tr>
+<tr>
+<td>收藏</td>
+<td><code>favorite</code></td>
+<td>用户 + 商品唯一约束</td>
+</tr>
+<tr>
+<td>聊天</td>
+<td><code>chat</code></td>
+<td>消息记录，关联商品</td>
+</tr>
+<tr>
+<td>浏览历史</td>
+<td><code>browse_history</code></td>
+<td>推荐系统输入</td>
+</tr>
+<tr>
+<td>搜索历史</td>
+<td><code>search_history</code></td>
+<td>推荐系统输入</td>
+</tr>
+<tr>
+<td>社区帖子</td>
+<td><code>community_post</code></td>
+<td>帖子主体</td>
+</tr>
+<tr>
+<td>社区评论</td>
+<td><code>community_comment</code></td>
+<td>帖子评论</td>
+</tr>
+<tr>
+<td>公告</td>
+<td><code>notice</code></td>
+<td>平台公告（V1.2 启用）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-45">9.3 关键字段字典（商品）</h3>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>类型</th>
+<th>必填</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>goods_id</code></td>
+<td>Long</td>
+<td>是</td>
+<td>商品唯一标识</td>
+<td>1001</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>String</td>
+<td>是</td>
+<td>商品标题</td>
+<td>iPhone 14 Pro 256G</td>
+</tr>
+<tr>
+<td><code>category_id</code></td>
+<td>Long</td>
+<td>是</td>
+<td>分类 ID</td>
+<td>2（数码电子）</td>
+</tr>
+<tr>
+<td><code>category_name</code></td>
+<td>String</td>
+<td>否</td>
+<td>分类名称（展示用）</td>
+<td>数码电子</td>
+</tr>
+<tr>
+<td><code>price</code></td>
+<td>Decimal(10,2)</td>
+<td>是</td>
+<td>售价</td>
+<td>4500.00</td>
+</tr>
+<tr>
+<td><code>original_price</code></td>
+<td>Decimal(10,2)</td>
+<td>否</td>
+<td>原价，用于折扣展示</td>
+<td>8999.00</td>
+</tr>
+<tr>
+<td><code>condition</code></td>
+<td>Integer</td>
+<td>是</td>
+<td>新旧程度 1~5</td>
+<td>2（几乎全新）</td>
+</tr>
+<tr>
+<td><code>stock</code></td>
+<td>Integer</td>
+<td>是</td>
+<td>库存数量</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>sold_count</code></td>
+<td>Integer</td>
+<td>否</td>
+<td>已售数量</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>Integer</td>
+<td>是</td>
+<td>状态 0~4</td>
+<td>1（已上架）</td>
+</tr>
+<tr>
+<td><code>seller_id</code></td>
+<td>Long</td>
+<td>是</td>
+<td>卖家 ID</td>
+<td>5</td>
+</tr>
+<tr>
+<td><code>seller_name</code></td>
+<td>String</td>
+<td>否</td>
+<td>卖家昵称</td>
+<td>张三</td>
+</tr>
+<tr>
+<td><code>address</code></td>
+<td>String</td>
+<td>是</td>
+<td>自提地址</td>
+<td>张家界学院主校区</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>String</td>
+<td>是</td>
+<td>商品描述</td>
+<td>自用一年，电池健康 92%</td>
+</tr>
+<tr>
+<td><code>cover</code></td>
+<td>String</td>
+<td>否</td>
+<td>封面图 URL</td>
+<td>/uploads/xxx.jpg</td>
+</tr>
+<tr>
+<td><code>images</code></td>
+<td>String</td>
+<td>否</td>
+<td>图片列表（JSON）</td>
+<td>["url1","url2"]</td>
+</tr>
+<tr>
+<td><code>view_count</code></td>
+<td>Integer</td>
+<td>否</td>
+<td>浏览次数</td>
+<td>128</td>
+</tr>
+<tr>
+<td><code>favorite_count</code></td>
+<td>Integer</td>
+<td>否</td>
+<td>收藏次数</td>
+<td>15</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sec-46">10. 界面与交互需求</h2>
+<h3 id="sec-47">10.1 页面清单（PC Web 端）</h3>
+<table>
+<thead>
+<tr>
+<th>页面</th>
+<th>路由</th>
+<th>核心内容</th>
+<th>权限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>登录/注册</td>
+<td><code>/login</code></td>
+<td>账号密码登录、学号注册</td>
+<td>游客</td>
+</tr>
+<tr>
+<td>首页</td>
+<td><code>/home</code></td>
+<td>分类导航、搜索、排序、商品瀑布流、猜你喜欢</td>
+<td>登录</td>
+</tr>
+<tr>
+<td>商品详情</td>
+<td><code>/goods/:id</code></td>
+<td>图片、价格、成色、描述、卖家、操作栏</td>
+<td>登录</td>
+</tr>
+<tr>
+<td>发布商品</td>
+<td><code>/publish</code></td>
+<td>表单 + AI 识别结果卡片</td>
+<td>登录</td>
+</tr>
+<tr>
+<td>购物车</td>
+<td><code>/cart</code></td>
+<td>购物车列表、批量操作</td>
+<td>登录</td>
+</tr>
+<tr>
+<td>我的订单</td>
+<td><code>/orders</code></td>
+<td>买的/卖的订单，按状态筛选</td>
+<td>登录</td>
+</tr>
+<tr>
+<td>我的收藏</td>
+<td><code>/favorites</code></td>
+<td>收藏商品列表</td>
+<td>登录</td>
+</tr>
+<tr>
+<td>校园社区</td>
+<td><code>/community</code></td>
+<td>帖子列表、发布、评论</td>
+<td>登录</td>
+</tr>
+<tr>
+<td>消息中心</td>
+<td><code>/message</code></td>
+<td>会话列表、未读角标</td>
+<td>登录</td>
+</tr>
+<tr>
+<td>聊天</td>
+<td><code>/chat</code></td>
+<td>一对一会话</td>
+<td>登录</td>
+</tr>
+<tr>
+<td>个人中心</td>
+<td><code>/profile</code></td>
+<td>资料、密码、地址、我的商品</td>
+<td>登录</td>
+</tr>
+<tr>
+<td>管理后台</td>
+<td><code>/admin</code></td>
+<td>数据概览、用户/商品/订单管理</td>
+<td>管理员</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-48">10.2 核心交互约定</h3>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>交互约定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>商品卡片</td>
+<td>封面图 + 标题 + 成色标签 + 价格（红色高亮）+ 卖家信息</td>
+</tr>
+<tr>
+<td>价格展示</td>
+<td>全站价格统一使用红色系强调</td>
+</tr>
+<tr>
+<td>商品列表</td>
+<td>双列卡片布局，支持无限滚动或分页器</td>
+</tr>
+<tr>
+<td>发布页</td>
+<td>AI 识别结果以卡片形式展示，支持"一键填充"</td>
+</tr>
+<tr>
+<td>下单流程</td>
+<td>立即购买 → 确认订单 → 创建（待付款）→ 支付 → 待自提</td>
+</tr>
+<tr>
+<td>消息未读</td>
+<td>导航入口展示红点 + 未读总数</td>
+</tr>
+<tr>
+<td>删除操作</td>
+<td>二次确认弹窗</td>
+</tr>
+<tr>
+<td>空状态</td>
+<td>插画 + 文案 + 引导按钮</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-49">10.3 移动端（微信小程序）设计需求</h3>
+<p>移动端以微信小程序形态承载，共用同一套后端服务。</p>
+<p><strong>设计调性</strong>：活泼校园 C 端风（Live Campus · C-End Vibe）
+- 浅紫渐变背景 + 3D 立体彩色图标 + 鲜红价格 + 渐变紫主按钮 + 圆角彩色色块分类
+- 对标参考：闲鱼（双列信息流、一键发布）、转转（信任徽章）、得物（3D 立体图标）、小红书（圆角彩色色块）</p>
+<p><strong>设计 Token</strong></p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>名称</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>强调色</td>
+<td>主色</td>
+<td><code>#6366F1</code>（电光紫）</td>
+</tr>
+<tr>
+<td>强调色</td>
+<td>辅色渐变</td>
+<td><code>#8B5CF6</code></td>
+</tr>
+<tr>
+<td>按钮</td>
+<td>渐变</td>
+<td><code>linear-gradient(135deg, #6366F1, #8B5CF6)</code></td>
+</tr>
+<tr>
+<td>价格</td>
+<td>价格红</td>
+<td><code>#EF4444</code>（<strong>全站价格强制使用</strong>）</td>
+</tr>
+<tr>
+<td>文字</td>
+<td>主/次/弱</td>
+<td><code>#1A1A1A</code> / <code>#6B7280</code> / <code>#9CA3AF</code></td>
+</tr>
+<tr>
+<td>状态</td>
+<td>成功 / 警告 / 危险</td>
+<td><code>#10B981</code> / <code>#F59E0B</code> / <code>#EF4444</code></td>
+</tr>
+<tr>
+<td>页面</td>
+<td>背景渐变</td>
+<td><code>linear-gradient(180deg, #F0EAFF, #F7F4FF 60%, #FFFFFF)</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>画布规范</strong>
+- 宽度 375px，状态栏 44px，底部导航栏 60px
+- 底部导航：首页 / 分类 / <strong>悬浮发布按钮（52×52 圆形，上浮 20px）</strong> / 消息 / 我的
+- 左右边距 14px，卡片圆角 14~22</p>
+<p><strong>小程序首页结构（自上而下）</strong></p>
+<ol>
+<li>状态栏（44px）</li>
+<li>定位 + 通知栏（56px）：「主校区 · 张家界学院」+ 铃铛（红点）</li>
+<li>搜索栏（48px）：胶囊输入框 + 蓝紫「搜索」按钮</li>
+<li>顶部横幅（128px）：紫色渐变卡 + 「发布闲置」黑色胶囊</li>
+<li>分类入口（108px）：5 列彩色圆角图标</li>
+<li>「猜你喜欢」标题区</li>
+<li>商品卡（双列）：图片 + 置顶角标 + 收藏心 + 名称 + 成色标签 + 价格 + 卖家</li>
+<li>底部导航栏（60px）</li>
+</ol>
+<p><strong>小程序覆盖模块（8 个）</strong>：用户认证、商品、订单、购物车、收藏、即时聊天、个性化推荐、社区帖子</p>
+<hr />
+<h2 id="sec-50">11. 版本规划</h2>
+<h3 id="sec-51">11.1 版本路线图</h3>
+<h4>V1.0 —— 交易闭环跑通（本期）</h4>
+<p><strong>目标</strong>：验证"校内二手交易 + AI 发布"核心链路可行。</p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>交付内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用户</td>
+<td>注册、登录、个人信息、密码、默认地址</td>
+</tr>
+<tr>
+<td>商品</td>
+<td>发布（含 AI 识别）、列表检索、详情、编辑、上下架、删除、我的商品</td>
+</tr>
+<tr>
+<td>交易</td>
+<td>购物车、收藏、订单全流程（创建/支付/取消/确认/删除）</td>
+</tr>
+<tr>
+<td>沟通</td>
+<td>私聊、会话列表、未读计数</td>
+</tr>
+<tr>
+<td>推荐</td>
+<td>浏览/搜索采集 + 个性化推荐 + 数据清理</td>
+</tr>
+<tr>
+<td>社区</td>
+<td>发帖、评论</td>
+</tr>
+</tbody>
+</table>
+<h4>V1.1 —— 稳定性与体验补齐</h4>
+<p><strong>目标</strong>：补齐安全、体验与运营治理能力。</p>
+<table>
+<thead>
+<tr>
+<th>优先级</th>
+<th>需求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>高</td>
+<td>后台数据概览（真实统计值）</td>
+</tr>
+<tr>
+<td>高</td>
+<td>用户管理、商品审核与管理、订单管理</td>
+</tr>
+<tr>
+<td>高</td>
+<td>商品发布内容安全检测（关键词黑名单）</td>
+</tr>
+<tr>
+<td>中</td>
+<td>消息实时推送（WebSocket）</td>
+</tr>
+<tr>
+<td>中</td>
+<td>图片上传格式/大小校验 + 客户端压缩</td>
+</tr>
+<tr>
+<td>中</td>
+<td>浏览量去重</td>
+</tr>
+<tr>
+<td>中</td>
+<td>全文检索（标题 + 描述）</td>
+</tr>
+<tr>
+<td>低</td>
+<td>价格区间筛选</td>
+</tr>
+</tbody>
+</table>
+<h4>V1.2 —— 交易深度与治理</h4>
+<table>
+<thead>
+<tr>
+<th>优先级</th>
+<th>需求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>高</td>
+<td>交易超时自动处理（定时任务）</td>
+</tr>
+<tr>
+<td>高</td>
+<td>订单评价与信用评分体系</td>
+</tr>
+<tr>
+<td>中</td>
+<td>商品审核流程（发布 → 待审核 → 上架）</td>
+</tr>
+<tr>
+<td>中</td>
+<td>学生证实名认证</td>
+</tr>
+<tr>
+<td>中</td>
+<td>重复发布检测</td>
+</tr>
+<tr>
+<td>低</td>
+<td>平台公告</td>
+</tr>
+</tbody>
+</table>
+<h4>V2.0 —— 生态扩展</h4>
+<table>
+<thead>
+<tr>
+<th>需求</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>在线支付接入</td>
+<td>微信/支付宝，<strong>需重新评估产品边界</strong>（涉及资金托管、退款、对账）</td>
+</tr>
+<tr>
+<td>多校区扩展</td>
+<td>引入校区维度，支持跨校区筛选</td>
+</tr>
+<tr>
+<td>求购广场</td>
+<td>反向需求（买家发布求购，卖家响应）</td>
+</tr>
+<tr>
+<td>微信小程序上线</td>
+<td>将设计稿正式开发为小程序端</td>
+</tr>
+<tr>
+<td>签到积分体系</td>
+<td>每日签到、连续奖励、积分兑换</td>
+</tr>
+<tr>
+<td>智能定价建议</td>
+<td>基于历史成交数据给出价格建议</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-52">11.2 范围界定原则</h3>
+<p>需求评审时的取舍依据：</p>
+<ol>
+<li><strong>能线下解决的，不做线上</strong> —— 支付、物流、售后全部线下化，平台只做信息撮合</li>
+<li><strong>能用第三方能力的，不自研</strong> —— AI 识别调用第三方 API，不训练自有模型</li>
+<li><strong>能后置的校验，先不上</strong> —— 审核、风控在用户量起来后再补，先用信用积分过渡</li>
+<li><strong>单校区做深，不跨校做广</strong> —— 地理密度决定撮合效率</li>
+</ol>
+<hr />
+<h2 id="sec-53">12. 风险、约束与待确认项</h2>
+<h3 id="sec-54">12.1 产品风险</h3>
+<table>
+<thead>
+<tr>
+<th>风险</th>
+<th>等级</th>
+<th>说明</th>
+<th>应对</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>无在线支付导致交易体外循环</td>
+<td>高</td>
+<td>用户可在私聊中直接线下交易，平台无法统计真实 GMV，也无法管控纠纷</td>
+<td>短期接受（面交场景天然可信）；中期通过信用积分 + 评价体系引导站内成交</td>
+</tr>
+<tr>
+<td>无评价与信用约束，劣币驱逐良币</td>
+<td>中</td>
+<td>卖家发布虚假商品成本低</td>
+<td>V1.2 前置评价体系</td>
+</tr>
+<tr>
+<td>AI 识别准确率不足</td>
+<td>中</td>
+<td>第三方通用模型对校园品类（教材、宿舍用品）识别效果可能不佳</td>
+<td>设计兜底（识别失败降级手动）；长期可积累校内数据微调</td>
+</tr>
+<tr>
+<td>第三方 AI API 成本与限流</td>
+<td>中</td>
+<td>调用量增长后费用上升，且有限流风险</td>
+<td>调用限流、结果缓存、失败降级</td>
+</tr>
+<tr>
+<td>单校区用户规模天花板</td>
+<td>中</td>
+<td>用户量受限于单一校区在校人数</td>
+<td>验证单校模型后再考虑多校区扩展</td>
+</tr>
+<tr>
+<td>静态资源本地存储不可扩展</td>
+<td>低</td>
+<td>图片存于服务器本地，无法水平扩展、无备份</td>
+<td>规划迁移至对象存储</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-55">12.2 技术约束</h3>
+<table>
+<thead>
+<tr>
+<th>约束</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>支付能力缺失</td>
+<td>V1.0 不具备在线支付，任何涉及资金的需求需延至 V2.0</td>
+</tr>
+<tr>
+<td>第三方 AI 依赖</td>
+<td>识别能力受制于第三方服务可用性与准确率</td>
+</tr>
+<tr>
+<td>一单一品结构</td>
+<td>V1.0 订单不支持多商品合并，购物车无法批量结算</td>
+</tr>
+<tr>
+<td>单校区部署</td>
+<td>数据模型未预留校区维度，多校区扩展需改造</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-56">12.3 待确认项（Open Questions）</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>问题</th>
+<th>需确认方</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>商品发布是否启用人工审核？</td>
+<td>产品 + 运营</td>
+<td>决定"待审核"状态是否在 V1.1 启用</td>
+</tr>
+<tr>
+<td>2</td>
+<td>订单是否支持多商品合并下单？</td>
+<td>产品 + 技术</td>
+<td>决定订单表是否需要引入明细表</td>
+</tr>
+<tr>
+<td>3</td>
+<td>是否接入真实支付？若接入是否做资金托管？</td>
+<td>产品 + 业务方</td>
+<td>重大范围变更，影响合规与研发量级</td>
+</tr>
+<tr>
+<td>4</td>
+<td>推荐算法策略如何设计？冷启动如何处理？</td>
+<td>产品 + 算法</td>
+<td>影响推荐效果</td>
+</tr>
+<tr>
+<td>5</td>
+<td>是否需要"求购"功能（反向需求）？</td>
+<td>产品</td>
+<td>决定 V2.0 范围</td>
+</tr>
+<tr>
+<td>6</td>
+<td>信用积分的增减规则是什么？</td>
+<td>产品 + 运营</td>
+<td>当前字段已规划但无业务规则</td>
+</tr>
+<tr>
+<td>7</td>
+<td>小程序端是否纳入 V1.x 交付范围？</td>
+<td>业务方</td>
+<td>当前仅完成设计，未开发</td>
+</tr>
+<tr>
+<td>8</td>
+<td>商品描述是否必填？</td>
+<td>产品</td>
+<td>影响前后端校验规则一致性</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sec-57">附录 A：核心接口需求清单</h2>
+<blockquote>
+<p>以下为需求侧梳理的接口清单，供技术设计阶段参考，具体字段以接口文档为准。</p>
+</blockquote>
+<h3 id="sec-58">A.1 用户模块 <code>/user</code></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>说明</th>
+<th>需求编号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/user/register</code></td>
+<td>用户注册</td>
+<td>FR-U-01</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/user/login</code></td>
+<td>用户登录</td>
+<td>FR-U-02</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/user/info</code></td>
+<td>获取当前用户信息</td>
+<td>FR-U-03</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/user/info/{id}</code></td>
+<td>获取指定用户公开信息</td>
+<td>FR-U-03</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/user/info</code></td>
+<td>更新个人信息</td>
+<td>FR-U-03</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/user/password</code></td>
+<td>修改密码</td>
+<td>FR-U-04</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/user/default-address</code></td>
+<td>设置默认自提地址</td>
+<td>FR-U-05</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-59">A.2 商品模块 <code>/goods</code></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>说明</th>
+<th>需求编号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/goods/list</code></td>
+<td>商品列表（分页/筛选/排序）</td>
+<td>FR-G-04</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/goods/{id}</code></td>
+<td>商品详情</td>
+<td>FR-G-05</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/goods/create</code></td>
+<td>发布商品</td>
+<td>FR-G-01</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/goods/update/{id}</code></td>
+<td>编辑商品</td>
+<td>FR-G-06</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/goods/online/{id}</code></td>
+<td>上架商品</td>
+<td>FR-G-07</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/goods/offline/{id}</code></td>
+<td>下架商品</td>
+<td>FR-G-07</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/goods/{id}</code></td>
+<td>删除商品</td>
+<td>FR-G-08</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/goods/my</code></td>
+<td>我的商品列表</td>
+<td>FR-G-09</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/upload/image</code></td>
+<td>上传图片</td>
+<td>FR-G-02</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-60">A.3 智能识别 <code>/smart</code></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>说明</th>
+<th>需求编号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/smart/identify</code></td>
+<td>AI 识别商品图片</td>
+<td>FR-G-03</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-61">A.4 购物车 <code>/cart</code></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>说明</th>
+<th>需求编号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/cart/list</code></td>
+<td>购物车列表</td>
+<td>FR-C-01</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/cart/add</code></td>
+<td>加入购物车</td>
+<td>FR-C-01</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/cart/{id}</code></td>
+<td>删除购物车项</td>
+<td>FR-C-01</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/cart/clear</code></td>
+<td>清空购物车</td>
+<td>FR-C-01</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-62">A.5 收藏 <code>/favorite</code></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>说明</th>
+<th>需求编号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/favorite/add</code></td>
+<td>添加收藏</td>
+<td>FR-F-01</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/favorite/remove</code></td>
+<td>取消收藏</td>
+<td>FR-F-01</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/favorite/check/{goodsId}</code></td>
+<td>查询是否已收藏</td>
+<td>FR-F-01</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/favorite/list</code></td>
+<td>收藏列表</td>
+<td>FR-F-01</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-63">A.6 订单 <code>/order</code></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>说明</th>
+<th>需求编号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/order/list</code></td>
+<td>订单列表</td>
+<td>FR-O-05</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/order/create</code></td>
+<td>创建订单</td>
+<td>FR-O-01</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/order/pay/{id}</code></td>
+<td>支付订单</td>
+<td>FR-O-02</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/order/cancel/{id}</code></td>
+<td>取消订单</td>
+<td>FR-O-03</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/order/confirm/{id}</code></td>
+<td>确认收货</td>
+<td>FR-O-04</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/order/delete/{id}</code></td>
+<td>删除订单</td>
+<td>FR-O-06</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-64">A.7 消息 <code>/message</code></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>说明</th>
+<th>需求编号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/message/send</code></td>
+<td>发送消息</td>
+<td>FR-M-01</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/message/conversation/{otherId}</code></td>
+<td>会话历史</td>
+<td>FR-M-02</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/message/conversations</code></td>
+<td>会话列表</td>
+<td>FR-M-03</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/message/unread-count</code></td>
+<td>未读消息数</td>
+<td>FR-M-04</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-65">A.8 推荐 <code>/recommend</code></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>说明</th>
+<th>需求编号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/recommend/browse</code></td>
+<td>记录浏览行为</td>
+<td>FR-R-01</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/recommend/search</code></td>
+<td>记录搜索行为</td>
+<td>FR-R-02</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/recommend/goods</code></td>
+<td>获取推荐商品</td>
+<td>FR-R-03</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-66">A.9 社区 <code>/community</code></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>说明</th>
+<th>需求编号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/community/post</code></td>
+<td>发布帖子</td>
+<td>FR-S-01</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/community/post/{id}</code></td>
+<td>帖子详情</td>
+<td>FR-S-02</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/community/posts</code></td>
+<td>帖子列表</td>
+<td>FR-S-02</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/community/post/{id}</code></td>
+<td>删除帖子</td>
+<td>FR-S-03</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/community/comment</code></td>
+<td>发表评论</td>
+<td>FR-S-04</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/community/comments/{postId}</code></td>
+<td>评论列表</td>
+<td>FR-S-04</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/community/comment/{id}</code></td>
+<td>删除评论</td>
+<td>FR-S-05</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-67">A.10 分类 <code>/category</code></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>说明</th>
+<th>需求编号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/category/list</code></td>
+<td>分类列表</td>
+<td>FR-G-04</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>文档结束</strong></p>
+    </article>
+  </div>
+</div>
+<script>
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('#nav a'));
+  var targets = links.map(function(a){
+    return document.getElementById(a.getAttribute('data-target'));
+  }).filter(Boolean);
+
+  /* ---- 滚动锁：程序化跳转期间暂停 onScroll 的自动高亮切换 ---- */
+  var scrollLock = false;
+  var lockTimer = null;
+
+  function setActive(idx){
+    links.forEach(function(a){ a.classList.remove('active'); });
+    if (links[idx]) {
+      links[idx].classList.add('active');
+      var r = links[idx].getBoundingClientRect();
+      if (r.top < 60 || r.bottom > window.innerHeight - 40){
+        links[idx].scrollIntoView({block:'center', behavior:'instant'});
+      }
+    }
+  }
+
+  function onScroll(){
+    if (scrollLock) return;
+    var idx = 0, top = window.scrollY + 120;
+    for (var i = 0; i < targets.length; i++){
+      if (targets[i].offsetTop <= top) idx = i; else break;
+    }
+    setActive(idx);
+  }
+
+  /* ---- 点击导航：显式滚动到目标 + 锁定自动高亮 ---- */
+  links.forEach(function(a, i){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      var target = targets[i];
+      if (!target) return;
+
+      /* 立即高亮当前点击项 */
+      setActive(i);
+
+      /* 加锁，防止 smooth 动画过程中 onScroll 把高亮抢走 */
+      scrollLock = true;
+      clearTimeout(lockTimer);
+
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+
+      /* smooth 动画通常 400~600ms，800ms 后解锁足够覆盖各种情况 */
+      lockTimer = setTimeout(function(){
+        scrollLock = false;
+        onScroll();
+      }, 800);
+    });
+  });
+
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>
