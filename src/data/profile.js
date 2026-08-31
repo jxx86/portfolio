@@ -14,13 +14,14 @@ const profile = {
   linkedin: '',
 
   resumeUrl: '/resume.pdf',
-  portrait: '/josh.webp',
-  portraitHover: '/josh_wave.webp',
+  portrait: '/portrait.webp',
+  portraitHover: '/portrait.webp',
 
   about: [
     '计算机专业背景的产品经理实习生，可稳定长期实习，能顺畅对接研发、降低沟通成本。',
     '擅长从 0 到 1 的产品全流程：独立覆盖用户调研、需求拆解、竞品分析、PRD 撰写与高保真原型。',
     '熟悉大语言模型（LLM）应用与 Prompt / Dify，能快速搭建可交互 AI 应用 Demo，缩短需求验证周期。',
+    '具备 MySQL 查询与 Excel 深度数据分析能力，支持数据驱动决策。',
   ],
 
   abilities: [
@@ -32,7 +33,7 @@ const profile = {
     { name: '数据分析', level: 82 },
   ],
 
-  tools: ['Axure', '墨刀', 'XMind', 'MySQL', 'Excel', 'Dify', 'Prompt 工程', 'Codex', 'Claude Code'],
+  tools: ['Axure', 'Figma', '墨刀', 'XMind', 'MySQL', 'Excel', 'Dify', 'Prompt 工程', 'Codex', 'Claude Code'],
 
   experience: [
     {
@@ -59,6 +60,7 @@ const profile = {
     {
       id: 'campus-trade',
       name: '校园二手交易智能系统（个人项目）',
+      figmaUrl: 'https://www.figma.com/design/O0a9xykuI38BqI7AGepVTT/%E6%A0%A1%E5%9B%AD%E4%BA%8C%E6%89%8B%E4%BA%A4%E6%98%93%E6%99%BA%E8%83%BD%E7%B3%BB%E7%BB%9F?m=auto&t=Vn68XJIMIbqssl0m-1',
       prdUrl: '/prd/campus.html',
       prdToc: [
         { n: '1', title: '项目背景与问题定义' },
@@ -169,10 +171,17 @@ const profile = {
   P --> Q[等待自提]
   Q --> K`,
       screens: [
-        { title: '首页', note: '推荐商品 + 搜索/分类入口', image: '/projects/campus/home.png' },
-        { title: '发布商品', note: 'AI 识图自动填充，拍图即发布', image: '/projects/campus/publish.png' },
-        { title: '商品详情', note: '收藏 / 购物车 / 立即购买 / 联系卖家', image: '/projects/campus/detail.png' },
-        { title: '实时聊天', note: '会话列表 + 未读计数', image: '/projects/campus/chat.png' },
+        { title: '首页', note: '推荐商品 + 搜索 / 分类筛选', image: '/projects/campus/home.png', platform: 'pc' },
+        { title: '发布商品', note: 'AI 智能识别自动填充，拍图即发布', image: '/projects/campus/publish.png', platform: 'pc' },
+        { title: '商品详情', note: '收藏 / 购物车 / 立即购买 / 联系卖家', image: '/projects/campus/detail.png', platform: 'pc' },
+        { title: '购物车', note: '多选、删除与结算', image: '/projects/campus/cart.png', platform: 'pc' },
+        { title: '校园社区', note: '发布帖子与评论互动', image: '/projects/campus/community.png', platform: 'pc' },
+        { title: '消息中心 / 聊天', note: '会话列表 + 未读 + 1v1 聊天', image: '/projects/campus/chat.png', platform: 'pc' },
+        { title: '小程序首页', note: '定位 + 搜索 + 猜你喜欢商品流', image: '/projects/campus/m-home.png', platform: 'mobile' },
+        { title: '小程序分类页', note: '全部分类 + 子分类导航', image: '/projects/campus/m-category.png', platform: 'mobile' },
+        { title: '小程序我的页', note: '同校认证 + 数据概览 + 功能入口', image: '/projects/campus/m-profile.png', platform: 'mobile' },
+        { title: '小程序发布页', note: '发布闲置 + AI 智能识别填充', image: '/projects/campus/m-publish.png', platform: 'mobile' },
+        { title: '小程序订单页', note: '订单状态筛选 + 交易保障', image: '/projects/campus/m-orders.png', platform: 'mobile' },
       ],
       iteration: [
         '统筹 3 人协作、独立完成前后端全链路，8 大功能模块落地',
@@ -183,6 +192,7 @@ const profile = {
     {
       id: 'smart-edu',
       name: 'Smart 智能教育平台',
+      figmaUrl: 'https://www.figma.com/design/2nnKR4KYlPYaa5tjz9wMuT/Smart%E6%99%BA%E8%83%BD%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0?m=auto&t=Vn68XJIMIbqssl0m-1',
       prdUrl: '/prd/smartedu.html',
       prdToc: [
         { n: '1', title: '项目背景与问题定义' },
@@ -202,8 +212,8 @@ const profile = {
       role: '产品负责人（0 到 1）· 4 人小组',
       period: '2026.02 – 2026.04',
       summary: '面向大学生求职的智能教育平台，用 AI 拉平求职信息差，覆盖课程学习、AI 模拟面试、学习路径与简历优化。',
-      metrics: ['上线访问上万', 'Docker 一键部署', '从 0 到 1', '4 人小组'],
-      tags: ['从 0 到 1', 'AI 面试', 'MoSCoW', '竞品分析'],
+      metrics: ['Docker 一键部署', '从 0 到 1', '4 人小组'],
+      tags: ['AI 面试', '竞品分析'],
       tech: ['FastAPI', 'SQLAlchemy', 'MySQL', 'Redis', 'JWT', 'Vue 3 + TS', 'Element Plus', 'Pinia', 'Docker Compose'],
       background: '大学生就业市场竞争加剧，2025 届高校毕业生规模达 1222 万，大量学生因缺乏面试训练与简历优化渠道在求职第一步即被淘汰；尤其三四线城市学生接触模拟面试与 AI 工具的机会远少于一线名校生。SmartEdu 的初衷是用 AI 拉平信息差，让任何学生无论学校层次与地域都能免费获得模拟面试、简历优化和个性化学习路径服务。',
       goals: [
@@ -271,12 +281,12 @@ const profile = {
   N --> P[课程 / 章节管理]
   N --> Q[数据仪表盘]`,
       screens: [
-        { title: '平台首页', note: '从选课到面试的核心功能与课程体系', image: '/projects/smartedu/home.png' },
-        { title: 'AI 模拟面试', note: '3 位数字人面试官 · 支持切换与面试报告', image: '/projects/smartedu/interview.png' },
-        { title: '学习仪表盘', note: '学习进度、成绩分布与最近活动', image: '/projects/smartedu/dashboard.png' },
-        { title: 'AI 简历', note: '提示词生成，可导出 PDF / DOCX / Markdown', image: '/projects/smartedu/resume.png' },
-        { title: 'AI 助手', note: '全部知识问答空间与语音交互', image: '/projects/smartedu/assistant.png' },
-        { title: '课程详情', note: '课程视频 + 章节目录与学习进度', image: '/projects/smartedu/course.png' },
+        { title: '平台首页', note: '从选课到面试的核心功能与课程体系', image: '/projects/smartedu/home.webp' },
+        { title: 'AI 模拟面试', note: '3 位数字人面试官 · 支持切换与面试报告', image: '/projects/smartedu/interview.webp' },
+        { title: '学习仪表盘', note: '学习进度、成绩分布与最近活动', image: '/projects/smartedu/dashboard.webp' },
+        { title: 'AI 简历', note: '提示词生成，可导出 PDF / DOCX / Markdown', image: '/projects/smartedu/resume.webp' },
+        { title: 'AI 助手', note: '全部知识问答空间与语音交互', image: '/projects/smartedu/assistant.webp' },
+        { title: '课程详情', note: '课程视频 + 章节目录与学习进度', image: '/projects/smartedu/course.webp' },
       ],
       iteration: [
         '从 0 到 1 架构，完成 PRD、交互原型、API 接口文档、部署方案全套交付',

@@ -41,8 +41,8 @@ export default function Contact() {
             </div>
             <div className="contact__cv">
               <a className="btn btn--solid" href={profile.resumeUrl} download>下载 PDF 简历</a>
-              <p className="contact__hint">也可扫码查看本站（占位二维码）</p>
-              <div className="contact__qr">QR</div>
+              <p className="contact__hint">扫码加微信</p>
+              <img className="contact__qr" src="/wechat-qr.webp" alt="微信二维码" />
             </div>
           </div>
         </div>

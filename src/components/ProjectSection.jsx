@@ -34,6 +34,9 @@ export default function ProjectSection({ project, section }) {
 
   const active = SECTIONS.find((s) => s.key === section)?.key ?? 'intro';
   const current = SECTIONS.find((s) => s.key === active);
+  const pcScreens = (project.screens || []).filter((s) => s.platform !== 'mobile');
+  const mobScreens = (project.screens || []).filter((s) => s.platform === 'mobile');
+  const groupedScreens = pcScreens.length > 0 && mobScreens.length > 0;
 
   return (
     <article className="case case--section">
@@ -93,19 +96,31 @@ export default function ProjectSection({ project, section }) {
 
         {active === 'proto' && (
           <div className="case__body">
+            {project.figmaUrl && (
+              <a className="case-figma" href={project.figmaUrl} target="_blank" rel="noreferrer" title="在 Figma 中在线预览原型">
+                <span className="case-figma__logo">Figma</span>
+                <span className="case-figma__text">在线预览原型 →</span>
+              </a>
+            )}
             <Block index="05" title="关键页面与原型">
+              {groupedScreens && <p className="case__group-title">PC 端</p>}
               <div className="screens">
-                {project.screens.map((s) => (
-                  <button
-                    type="button"
-                    className="screen"
-                    key={s.title}
-                    onClick={() => setViewer(s)}
-                  >
+                {pcScreens.map((s) => (
+                  <button type="button" className="screen" key={s.title} onClick={() => setViewer(s)}>
                     <div className="screen__img">
-                      {s.image
-                        ? <img src={s.image} alt={s.title} loading="lazy" />
-                        : '原型占位'}
+                      {s.image ? <img src={s.image} alt={s.title} loading="lazy" /> : '原型占位'}
+                    </div>
+                    <p className="screen__title">{s.title}</p>
+                    <p className="screen__note">{s.note}</p>
+                  </button>
+                ))}
+              </div>
+              {groupedScreens && <p className="case__group-title">移动端</p>}
+              <div className="screens">
+                {mobScreens.map((s) => (
+                  <button type="button" className="screen" key={s.title} onClick={() => setViewer(s)}>
+                    <div className="screen__img">
+                      {s.image ? <img src={s.image} alt={s.title} loading="lazy" /> : '原型占位'}
                     </div>
                     <p className="screen__title">{s.title}</p>
                     <p className="screen__note">{s.note}</p>
